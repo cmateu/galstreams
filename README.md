@@ -1,2 +1,2 @@
 # mwstreams
-Milky Way Streams Toolkit for Python
+Milky Way Streams Plotting Toolkit for Python
