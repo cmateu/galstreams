@@ -125,8 +125,8 @@ def plot_globular_clusters(ax,plot_colorbar=False,scat_kwargs=None,galactic=True
        
 #------------------------------------------
 
-def plot_grillmair_carlin_streams(ax,Rstat='median',scat_kwargs=None,text_kwargs=None,sym_kwargs=None,
-                                  galactic=True,plot_stream_type='all',plot_names=True,Nran=2000):
+def plot_grillmair_carlin_streams(ax,Rstat='median',Rrange=[0.,9e9],scat_kwargs=None,text_kwargs=None,sym_kwargs=None,
+                                  galactic=True,plot_stream_type='all',plot_names=True,Nran=2000,verbose=False):
 
  #Validate options for Rstat
  stat_types = ['min', 'max', 'mean', 'median']
@@ -168,6 +168,11 @@ def plot_grillmair_carlin_streams(ax,Rstat='median',scat_kwargs=None,text_kwargs
    #Parse corners   
    azo,azf,lato,latf,ro,rf=azo_l[i],azf_l[i],lato_l[i],latf_l[i],ro_l[i],rf_l[i]    
     
+   #Skip if stream does not have a part overlapping Rrange
+   if not (ro<=Rrange[1] and rf>=Rrange[0]): 
+      if verbose: print 'Skipping %s [%.1f,%.1f], outside selected Rrange [%.1f,%.1f]' % (name[i],ro,rf,Rrange[0],Rrange[1])
+      continue
+
    #Random realization of coords-polygon    
    Rs,azs,lats=mylib.get_random_spherical_coords(Nran,rad=[ro,rf],az=[azo,azf],lat=[lato,latf],degree=True)  
    #Center coords   
@@ -175,26 +180,72 @@ def plot_grillmair_carlin_streams(ax,Rstat='median',scat_kwargs=None,text_kwargs
         
    
    if 'gal' in cootype[i] and galactic:       #If coords given are galactic and plotting mode is galactic
-     lons,lats=azs,lats
+     lons,latts=azs,lats
      loncenter,latcenter=az_center,lat_center
    elif 'gal' in cootype[i] and not galactic: #If coords given are galactic and plotting mode is equatorial
-     lons,lats=bovyc.lb_to_radec(azs,lats,degree=True).T 
+     lons,latts=bovyc.lb_to_radec(azs,lats,degree=True).T 
      loncenter,latcenter=bovyc.lb_to_radec(az_center,lat_center,degree=True)           
    elif 'eq' in cootype[i] and galactic:     #If coords given are equatorial and plotting mode is galactic
-     lons,lats=bovyc.radec_to_lb(azs,lats,degree=True).T 
+     lons,latts=bovyc.radec_to_lb(azs,lats,degree=True).T 
      loncenter,latcenter=bovyc.radec_to_lb(az_center,lat_center,degree=True)           
    #else:                                  #If coords given are equatorial and plotting mode is equatorial
    elif 'eq' in cootype[i] and not galactic:
-     lons,lats=azs,lats
+     lons,latts=azs,lats
      loncenter,latcenter=az_center,lat_center           
  
    #------------------------------PLOT----------------------------------------------------------------------  
-   ax.scatter(lons,lats,c=R_selected*np.ones_like(lons),**scatter_kwargs)  
+   ax.scatter(lons,latts,c=R_selected*np.ones_like(lons),**scatter_kwargs)  
    if plot_names:
     ax.plot(loncenter,latcenter,**textsym_kwargs)
     ax.text(loncenter,latcenter,name[i],**textlab_kwargs)   
 
 #----------------------------------------------
 
+def plot_streams_defined_by_pairs(ax,Rstat='mean',plot_colorbar=False,scat_kwargs=None,text_kwargs=None,sym_kwargs=None,galactic=True,gcstep=0.05,plot_names=True):
 
+ lono,lato,lonf,latf,ro,rf=scipy.genfromtxt('lib_streams.pair_def.dat',usecols=(3-1,4-1,5-1,6-1,8-1,9-1),unpack=True)
+ name,sname,cootype=scipy.genfromtxt('lib_streams.pair_def.dat',usecols=(1-1,2-1,7-1),unpack=True,dtype='S')
+
+ #Validate options for Rstat
+ stat_types = ['min', 'max', 'mean', 'median']
+ if Rstat not in stat_types:
+        raise ValueError("Invalid stat type. Expected one of: %s" % stat_types)
+ Rstat_func=getattr(np,Rstat)
+
+ #set a few plotting and labelling defaults  
+ scatter_kwargs=dict(s=10,vmin=0.,edgecolor='none')
+ textlab_kwargs=dict(horizontalalignment='center',verticalalignment='bottom',zorder=99)
+ textsym_kwargs=dict(marker='+',color='k',ms=5,zorder=textlab_kwargs['zorder'])
+
+ #but override whichever are user-supplied (doing it this way I ensure using my own defaults and not matplotlib's
+ #if user supplies values for some (but not all) keywords
+ if scat_kwargs is not None:
+        for key in scat_kwargs.keys(): scatter_kwargs[key]=scat_kwargs[key]
+ if text_kwargs is not None:
+        for key in text_kwargs.keys(): textlab_kwargs[key]=text_kwargs[key]
+ if sym_kwargs is not None:
+        for key in sym_kwargs.keys(): textsym_kwargs[key]=sym_kwargs[key]
+
+ for i in range(len(lono)):
+   if ('gal' in cootype[i] and galactic) or ('eq' in cootype[i] and not galactic): 
+       azo,latto=lono[i],lato[i]
+       azf,lattf=lonf[i],latf[i]
+   elif 'gal' in cootype[i] and not galactic: #If coords given are galactic and plotting mode is equatorial
+       azo,latto=bovyc.lb_to_radec(lono[i],lato[i],degree=True).T
+       azf,lattf=bovyc.lb_to_radec(lonf[i],latf[i],degree=True).T
+   elif 'eq' in cootype[i] and galactic:     #If coords given are equatorial and plotting mode is galactic
+       azo,latto=bovyc.radec_to_lb(lono[i],lato[i],degree=True)
+       azf,lattf=bovyc.radec_to_lb(lonf[i],latf[i],degree=True)
+
+   #Get great circle connecting pair of coords
+   azs,lats,azcenter,latcenter=gcutils.get_gc_for_pair(azo,latto,azf,lattf,degree=True,step=gcstep)
+
+   #Create random realization of distances in given [ro,rf] range
+   if ro[i]>0. and rf[i]>0.: Rselected=Rstat_func([ro[i],rf[i]])
+   else: Rselected=-1.
+   #------------------------------PLOT----------------------------------------------------------------------  
+   ax.scatter(azs,lats,c=Rselected*np.ones_like(azs),**scatter_kwargs)
+   if plot_names:
+    ax.plot(azcenter,latcenter,**textsym_kwargs)
+    ax.text(azcenter,latcenter,name[i],**textlab_kwargs)
 

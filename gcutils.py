@@ -1,6 +1,13 @@
 import numpy as np
 import bovy_coords as bovyc
 
+def great_circle_distance(lono,lato,lonf,latf,degree=False):
+
+    if degree: f=np.pi/180.
+    else: f=1.
+
+    return (1./f)*np.arccos(np.sin(latf*f)*np.sin(lato*f) + np.cos(latf*f)*np.cos(lato*f)*np.cos(f*(lonf-lono))) 
+
 def get_gc_for_pole(_lon,_lat,degree=True,step=0.01,dlat=0.,center=None,dlon=None):
     if degree: f=np.pi/180.
     else: f=1.
@@ -8,7 +15,7 @@ def get_gc_for_pole(_lon,_lat,degree=True,step=0.01,dlat=0.,center=None,dlon=Non
 
     #Generate great circle with pole = u_z
     azs,thetas=np.array([]),np.array([])
-    if dlat>0:
+    if dlat and dlat>0:
      for lato in np.radians(np.arange(-dlat/2.,dlat/2.,step)):
         aux=np.radians(np.arange(0.,360.,step))
         azs=np.append(azs,aux)
@@ -41,3 +48,30 @@ def get_gc_for_pole(_lon,_lat,degree=True,step=0.01,dlat=0.,center=None,dlon=Non
         phi2,theta2=phi2[mask],theta2[mask]
     
     return (phi2,theta2)
+
+
+def get_gc_for_pair(lono,lato,lonf,latf,step=0.01,degree=True,dlat=None):
+
+   #Find pole cartesian coords
+   u_ini=bovyc.lbd_to_XYZ(lono,lato,1.,degree=degree)
+   u_end=bovyc.lbd_to_XYZ(lonf,latf,1.,degree=degree)
+   u_ini,u_end=np.array(u_ini),np.array(u_end)
+
+   #Do cross product to find great-circle pole
+   pX,pY,pZ=np.cross(u_ini,u_end)
+
+   #Convert pole coords back to spherical
+   pole_lon,pole_lat=bovyc.XYZ_to_lbd(pX,pY,pZ,degree=degree)[:2]
+
+   #Find center as average of the two vectors
+   cX,cY,cZ=u_ini+u_end   #these are cartesian, so we're good
+   clon,clat=bovyc.XYZ_to_lbd(cX,cY,cZ,degree=degree)[:2]
+  
+   #Length equals great circle distance between end-points
+   dlon=great_circle_distance(lono,lato,lonf,latf,degree=degree)
+ 
+   #Get great circle arc connecting the given end-points
+   gc_lons,gc_lats=get_gc_for_pole(pole_lon,pole_lat,degree=degree,step=step,dlat=dlat,dlon=dlon,center=[clon,clat])
+
+   return gc_lons,gc_lats,clon,clat
+
