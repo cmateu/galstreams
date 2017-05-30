@@ -1,0 +1,18 @@
+# column numbers are F-style, starting from 1
+# Interp==1 means points are given as reference for linear interpolation. Interp=0 no interpolation required
+# Progenitor type 1=globular cluster, 2=dwarf galaxy, 0=unknown/ambiguous
+# Cntcol is the col number of CenterFlg, a 0/1 flag to indicate a specific point to be used 
+# as the 'center' of the stream/feature. If no such col exists, set Centercol=0
+#--Col Ns----        ---Col Ns---
+#lon lat Rhel Interp ProgType Cnt coo_type StreamName   FileName                              References
+ 3   4   14   0      2        0   gal      Sgr-L00      lib_by_star.sgr.law10_spherical.dat   Law2010
+ 1   2   3    1      2        0   gal      Orphan       lib_by_star.orphan.newberg10.dat      Newberg2010
+ 1   2   3    0      0        0   equ      Tri/Pis      lib_by_star.tripisces.bonaca2012.dat  Bonaca2012
+ 1   2   3    1      1        4   equ      NGC5466      lib_by_star.ngc5466.grillmair06.dat   GrillmairJohnson2006
+#1   2   3    1      2        0   equ      ACS          lib_by_star.acs.grillmair2008.dat     Grillmair2008
+ 1   2   3    1      1        0   equ      Alpheus      lib_by_star.alpheus.grillmair2013.dat Grillmair2013
+ 1   2   3    1      1        0   equ      Hermus       lib_by_star.hermus.grillmair2014.dat  Grillmair2014
+ 1   2   3    1      1        0   equ      Hyllus       lib_by_star.hyllus.grillmair2014.dat  Grillmair2014
+ 1   2   3    1      0        0   gal      Cetus        lib_by_star.cetus.newberg2009.dat     Newberg2009
+# 1   2   3    1      0        0   gal      Cetus2       lib_by_star.cetus.yam2013.dat         Yam2013
+

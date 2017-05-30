@@ -1,0 +1,14 @@
+#Streams defined by end points
+#Name     ShortName    lono   lato    lonf   latf  coo(equ/gal) Ro    Rf    Reference
+Phoenix   Phe          20.    -57.    27.   -45.   equ          17.5  17.5  Balbinot2016
+WG1       WG1          64.16  -23.2   97.2  -55.5  equ          ''    ''    Agnello2017          
+WG2       WG2          70.5   -51.4   95.7  -47.1  equ          ''    ''    Agnello2017          
+WG3       WG3          304.1  -47.7  351.3  -44.8  equ          ''    ''    Agnello2017
+WG4       WG4          300.0  -49.4  333.5  -66.0  equ          ''    ''    Agnello2017          
+Acheron   Ach          230.   -2.    259.   +21.   equ          3.5   3.8   Grillmair2009
+Cocytos   Coc          186.   -3.    259.   +20.   equ          11.   11.   Grillmair2009
+Lethe     Let          258.   +20.   171.   +18.   equ          13.   13.   Grillmair2009
+Styx      Sty          259.   +21.   194.   +20.   equ          45.   45.   Grillmair2009
+Pal5      Pal5         226.3  -2.9   246.   +7.9   equ         23.2   23.2  Grillmair2006,Odenkirchen2003
+GD-1      GD-1         220.   58.5   141.  +24.0   equ          8.5    8.5  Grillmair2006
+ACS       ACS          126.4  -0.7   133.9 +64.2   equ          8.9    8.9  Grillmair2006
