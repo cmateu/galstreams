@@ -39,9 +39,6 @@ class Footprint:
                 if is_pml_star: self.pmrastar,self.pmra=pmlon,pmlon/np.cos(_f*self.dec)
                 else: self.pmrastar,self.pmra=pmlon*np.cos(_f*self.dec),pmlon
             if pmlat is not None: self.pmdec=pmlat
-         
-        #Set center attributes
-        self.compute_sky_center()
 
         #Bovy's library assumes Sun's position is positive. Flip X-axis if xsun<0
         if xyz_sun[0]<0.: sign=-1
@@ -54,17 +51,24 @@ class Footprint:
 
         #Set galactocentric attributes
         if hasattr(self,'Rhel') : self.compute_galactocentric_coords(degree=degree)
+         
+        #Set center attributes
+        self.compute_sky_center()
         
     def compute_sky_center(self):           
                 
-        #Need to get cartesian coords to do vector-average
+        #Need to get cartesian coords to do vector-average (this works wether or not Rhel exists)
         mm=bovyc.lbd_to_XYZ(self.l,self.b,np.ones_like(self.l),degree=True)
         if self.l.size>1: _xx,_yy,_zz=mm.T
         else: _xx,_yy,_zz=mm    
         _xc,_yc,_zc=_xx.sum(),_yy.sum(),_zz.sum()
         self.cl,self.cb=bovyc.XYZ_to_lbd(_xc,_yc,_zc,degree=True)[:2]
         self.cra,self.cdec=bovyc.lb_to_radec(self.cl,self.cb,degree=True)
-        
+
+        if hasattr(self,'phi') and hasattr(self,'theta'):
+          _xgc,_ygc,_zgc=self.x.sum(),self.y.sum(),self.z.sum()
+          self.cphi,self.ctheta=bovyc.XYZ_to_lbd(_xgc,_ygc,_zgc,degree=True)[:2]
+
     def mask_footprint(self,mask):
         
         #Apply mask to all array attributes of object
@@ -275,7 +279,7 @@ class MWStreams(dict):
                               exclude_streams=[]): 
 
    #Validate options for cootype
-   coo_types = ['gal', 'equ']
+   coo_types = ['gal', 'equ', 'GC']
    if cootype not in coo_types:
         raise ValueError("Invalid coo type. Expected one of: %s" % coo_types)
         
@@ -292,7 +296,10 @@ class MWStreams(dict):
 
    #Set a few plotting and labelling defaults  
    Rmax=0.
-   for i in self.keys(): Rmax=np.max([Rmax,np.max(self[i].Rhel)]) 
+   if 'GC' in cootype: 
+      for i in self.keys(): Rmax=np.max([Rmax,np.max(self[i].Rgal)]) 
+   else: 
+      for i in self.keys(): Rmax=np.max([Rmax,np.max(self[i].Rhel)]) 
    scatter_kwargs=dict(marker='o',s=8.,edgecolor='none',vmin=0.,vmax=Rmax,alpha=0.5)
    textlab_kwargs=dict(horizontalalignment='center',verticalalignment='bottom',zorder=99)
    textsym_kwargs=dict(marker='+',color='k',ms=5,zorder=textlab_kwargs['zorder'])
@@ -315,10 +322,16 @@ class MWStreams(dict):
    #------------------------------PLOT---------------------------------------------------------------------- 
    for i in self.keys(): 
         
-    ro,rf=np.min(self[i].Rhel),np.max(self[i].Rhel)    
+    if 'GC' in cootype:
+      ro,rf,Rs=np.min(self[i].Rgal),np.max(self[i].Rgal),self[i].Rgal    
+    else:
+      ro,rf,Rs=np.min(self[i].Rhel),np.max(self[i].Rhel),self[i].Rhel    
+
     if 'gal' in cootype: lons,latts,loncenter,latcenter=self[i].l,self[i].b,self[i].cl,self[i].cb
-    else: lons,latts,loncenter,latcenter=self[i].ra,self[i].dec,self[i].cra,self[i].cdec      
+    elif 'equ' in cootype: lons,latts,loncenter,latcenter=self[i].ra,self[i].dec,self[i].cra,self[i].cdec      
+    else: lons,latts,loncenter,latcenter=self[i].phi,self[i].theta,self[i].cphi,self[i].ctheta 
     
+
     #Skip if stream does not have any part overlapping Rrange
     if (ro>0) and not (ro<=Rrange[1] and rf>=Rrange[0]):
       if verbose: 
@@ -329,7 +342,7 @@ class MWStreams(dict):
         print 'Skipping excluded stream: %s' % (self[i].name)
         continue
 
-    cc=ax.scatter(lons,latts,c=self[i].Rhel,**scatter_kwargs)
+    cc=ax.scatter(lons,latts,c=Rs,**scatter_kwargs)
     if plot_names:
      ax.plot(loncenter,latcenter,**textsym_kwargs)
      ax.text(loncenter,latcenter,self[i].name,**textlab_kwargs)
