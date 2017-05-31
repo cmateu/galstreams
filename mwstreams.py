@@ -8,7 +8,8 @@ import gcutils
 
 #Footprint class definition
 class Footprint:
-    def __init__(self,lon,lat,name,Rhel=None,vrad=None,pmlon=None,pmlat=None,cootype='gal',degree=True,is_pml_star=True):
+    def __init__(self,lon,lat,name,Rhel=None,vrad=None,pmlon=None,pmlat=None,cootype='gal',degree=True,is_pml_star=True,
+                 xyz_sun=[-8.5,0.,0.],vel_sun=[10.3,232.6,5.9]):
         
         self.deg=degree 
         self._f=np.pi/180.  
@@ -41,6 +42,18 @@ class Footprint:
          
         #Set center attributes
         self.compute_sky_center()
+
+        #Bovy's library assumes Sun's position is positive. Flip X-axis if xsun<0
+        if xyz_sun[0]<0.: sign=-1
+        else: sign=+1
+    
+        #Save Sun's position
+        self.xsun, self.ysun, self.zsun= xyz_sun
+        self.vxsun, self.vysun, self.vzsun= vel_sun
+        self.xsun, self.vxsun = sign*self.xsun, sign*self.vxsun
+
+        #Set galactocentric attributes
+        if hasattr(self,'Rhel') : self.compute_galactocentric_coords(degree=degree)
         
     def compute_sky_center(self):           
                 
@@ -60,6 +73,29 @@ class Footprint:
           if not callable(getattr(self,myattr)) and np.ndim(getattr(self,myattr))>=1:
             setattr(self,myattr,getattr(self,myattr)[mask])
             #print 'Attribute ',myattr, len(getattr(selfcopy,myattr))
+
+    def compute_galactocentric_coords(self,verbose=False,degree=True):
+      #Convert to heliocentric cartesian. Bovy's library assumes Sun's position is positive
+      #tuple output, no .T needed
+      if verbose: print 'Converting Heliocentric Galactic Spherical to Heliocentric Cartesian coords...'
+      m=bovyc.lbd_to_XYZ(self.l,self.b,self.Rhel,degree=degree)
+      self.xhel,self.yhel,self.zhel=m.T
+      if hasattr(self,'vrad') and hasattr(self,'mub') :
+        m=bovyc.vrpmllpmbb_to_vxvyvz(self.vrad,self.mulstar,self.mub,self.l,self.b,self.Rhel,XYZ=False,degree=degree)
+        self.vxhel,self.vyhel,self.vzhel=m.T
+
+      #Convert Heliocentric Cartesian to Galactocentric Cartesian
+      if verbose: print 'Converting Heliocentric Cartesian to Galactocentric Cartesian coords...'
+      m=bovyc.XYZ_to_galcenrect(self.xhel,self.yhel,self.zhel,Xsun=self.xsun,Ysun=self.ysun,Zsun=self.zsun)
+      self.x,self.y,self.z=m
+      if hasattr(self,'vrad') and hasattr(self,'mub') :
+       m=bovyc.vxvyvz_to_galcenrect(self.vxhel,self.vyhel,self.vzhel,vsun=[self.vxsun, self.vysun, self.vzsun])
+       self.vx,self.vy,self.vz=m
+  
+      #Compute Galactocentric Spherical
+      m=bovyc.XYZ_to_lbd(self.x,self.y,self.z,degree=degree)
+      self.phi,self.theta,self.Rgal=m.T
+
 
 #---------MW Streams class--------------------------------------------------------------------------------
         
