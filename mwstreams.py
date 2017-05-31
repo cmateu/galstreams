@@ -273,6 +273,11 @@ class MWStreams(dict):
     #---For streams defined by an explicit list of stars, create and append footprints    
     self.init_by_star_list(verbose=verbose)
     
+    #---Make sure galactocentric attributes are set to None if Rhel<0
+    for i in self.keys():
+      if (self[i].Rhel<0.).all(): self[i].Rgal,self[i].phi,self[i].theta,self[i].cphi,self[i].ctheta=None,None,None,None,None 
+
+
   #-------------method to plot whole MW streams compilation object at once------------------------------------
   def plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,plot_colorbar=False,
                               scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,cootype='gal',verbose=False,
@@ -337,9 +342,15 @@ class MWStreams(dict):
       if verbose: 
         print 'Skipping %s [%.1f,%.1f], outside selected Rrange [%.1f,%.1f]' % (self[i].name,ro,rf,Rrange[0],Rrange[1])
       continue
-      
+   
+    #Skip it stream name in list of excluded streams    
     if i in exclude_streams:
         print 'Skipping excluded stream: %s' % (self[i].name)
+        continue
+
+    #Skip it coomode selected is galactocentric and stream has no valid galactocentric attributes  
+    if 'GC' in cootype and self[i].phi is None: 
+        print 'Skipping stream %s, no valid Rhel => no valid galactocentric attributes' % (self[i].name)
         continue
 
     cc=ax.scatter(lons,latts,c=Rs,**scatter_kwargs)
@@ -349,11 +360,10 @@ class MWStreams(dict):
      
     if cc and plot_colorbar: 
         cbar=plt.colorbar(cc,ax=ax,**colorbar_kwargs)
-        cbar.solids.set_rasterized(True)
+        cbar.solids.set_rasterized(True)   #To avoid white lines in colorbar that appear some times
         cbar.solids.set_edgecolor("face")
         plot_colorbar=False
   
-
 
 def plot_globular_clusters(ax,plot_colorbar=False,scat_kwargs=None,galactic=True):
     
