@@ -11,8 +11,8 @@
  1   2   3    1      1        4   equ      NGC5466      lib_by_star.ngc5466.grillmair06.dat   GrillmairJohnson2006
 #1   2   3    1      2        0   equ      ACS          lib_by_star.acs.grillmair2008.dat     Grillmair2008
  1   2   3    1      1        0   equ      Alpheus      lib_by_star.alpheus.grillmair2013.dat Grillmair2013
- 1   2   3    1      1        0   equ      Hermus       lib_by_star.hermus.grillmair2014.dat  Grillmair2014
- 1   2   3    1      1        0   equ      Hyllus       lib_by_star.hyllus.grillmair2014.dat  Grillmair2014
+ 1   2   3    0      1        0   equ      Hermus       lib_by_star.hermus.grillmair2014.dat  Grillmair2014
+ 1   2   3    0      1        0   equ      Hyllus       lib_by_star.hyllus.grillmair2014.dat  Grillmair2014
  1   2   3    1      0        0   gal      Cetus        lib_by_star.cetus.newberg2009.dat     Newberg2009
 # 1   2   3    1      0        0   gal      Cetus2       lib_by_star.cetus.yam2013.dat         Yam2013
 
