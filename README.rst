@@ -15,10 +15,10 @@ The main contributions of this toolkit are the following:
 
 - The gcutils library provides utility methods that will let you create a footprint object for your own stream, defining it in one the following four ways:
 
-	- by giving the coordinates of the start and end point
-	- by giving the orbital pole, and if known its center, length and width 
-	- by giving a range of RA/DEC or l/b  (more suitable for clouds rather than for streams)
-	- by giving a list of coordinates 
+  - by giving the coordinates of the start and end point
+  - by giving the orbital pole, and if known its center, length and width 
+  - by giving a range of RA/DEC or l/b  (more suitable for clouds rather than for streams)
+  - by giving a list of coordinates 
 
 ----------
 
