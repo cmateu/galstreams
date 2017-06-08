@@ -88,7 +88,14 @@ define a stream’s footprint:
 
 The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2015) review (their Table 4.1) and updated as of 06/May/2017.
 
+
+ | Tables        | Are           | Cool  |
+ | ------------- |:-------------:| -----:|
+ | col 3 is      | right-aligned | $1600 |
+ | col 2 is      | centered      |   $12 |
+
 ----------
+
 Package: mwstreams 
 ==================
 
