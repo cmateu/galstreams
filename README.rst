@@ -106,27 +106,27 @@ The coordinates in other reference systems of interest are computed by default a
 
 As an instance of the Footprint class, a footprint object has the following default attributes:
 
- - footprint.ra, footprint.dec    (equatorial coords)
- - footprint.l, footprint.b       (galactic coords) 
- - footprint.cra, .cdec, .cl, .cb (footprint’s geometric center coordinates)
+- footprint.ra, footprint.dec    (equatorial coords)
+- footprint.l, footprint.b       (galactic coords) 
+- footprint.cra, .cdec, .cl, .cb (footprint’s geometric center coordinates)
 
 If Rhel, the heliocentric distance, is given:
- - footprint.Rhel
- - footprint.phi, .theta       (galactocentric coords)
- - footprint.Rgal              (galactocentric distance)
- - footprint.xhel,.yhel,.zhel  (cartesian heliocentric coords)
- - footprint.x,.y,.z           (cartesian galactocentric coords)
+- footprint.Rhel
+- footprint.phi, .theta       (galactocentric coords)
+- footprint.Rgal              (galactocentric distance)
+- footprint.xhel,.yhel,.zhel  (cartesian heliocentric coords)
+- footprint.x,.y,.z           (cartesian galactocentric coords)
 
 If proper motions are given:
- - footprint.pmra, .pmdec, .pmrastar  (pmrastar=pmra*cos(dec))
- - footprint.pml, .pmb, .pmlstar       (pmlstar=pml*cos(dec))
+- footprint.pmra, .pmdec, .pmrastar  (pmrastar=pmra*cos(dec))
+- footprint.pml, .pmb, .pmlstar       (pmlstar=pml*cos(dec))
 
 If radial velocity is given:
- - footprint.vrad
+- footprint.vrad
 
 If all above given:
- - footprint.vxhel,.vyhel,.vzhel  (cartesian heliocentric vels)
- - footprint.vx,.vy,.vz           (cartesian galactocentric vels)
+- footprint.vxhel,.vyhel,.vzhel  (cartesian heliocentric vels)
+- footprint.vx,.vy,.vz           (cartesian galactocentric vels)
 
 An utility method is provided to apply a mask to all array attributes of a Footprint object::
 
