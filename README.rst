@@ -111,6 +111,7 @@ As an instance of the Footprint class, a footprint object has the following defa
 - footprint.cra, .cdec, .cl, .cb (footprint’s geometric center coordinates)
 
 If Rhel, the heliocentric distance, is given:
+
 - footprint.Rhel
 - footprint.phi, .theta       (galactocentric coords)
 - footprint.Rgal              (galactocentric distance)
@@ -118,13 +119,16 @@ If Rhel, the heliocentric distance, is given:
 - footprint.x,.y,.z           (cartesian galactocentric coords)
 
 If proper motions are given:
+
 - footprint.pmra, .pmdec, .pmrastar  (pmrastar=pmra*cos(dec))
 - footprint.pml, .pmb, .pmlstar       (pmlstar=pml*cos(dec))
 
 If radial velocity is given:
+
 - footprint.vrad
 
 If all above given:
+
 - footprint.vxhel,.vyhel,.vzhel  (cartesian heliocentric vels)
 - footprint.vx,.vy,.vz           (cartesian galactocentric vels)
 
@@ -132,7 +136,7 @@ An utility method is provided to apply a mask to all array attributes of a Footp
 
 	Footprint.mask_footprint(mask)
 
-For full details see the doc-string for the Footprint class
+For full details see the doc-string for the Footprint class.
 
 ----------
 
