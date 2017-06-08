@@ -7,18 +7,18 @@ mwstreams is a Python Library and Toolkit for visualizing streams and overdensit
 
 The main contributions of this toolkit are the following:
 
-	- The current distribution provides tools to handle and plot each stream's footprint in different coordinate systems. 
+- The current distribution provides tools to handle and plot each stream's footprint in different coordinate systems. 
 
-	- Utility methods are provided to automatically add all MW known globular clusters and dwarf galaxy satellites.
+- Utility methods are provided to automatically add all MW known globular clusters and dwarf galaxy satellites.
 
-	- The MWStreams class provides an object to handle the data for all known streams in the MW
+- The MWStreams class provides an object to handle the data for all known streams in the MW
 
-	- The gcutils library provides utility methods that will let you create a footprint object for your own stream, defining it in one the following four ways:
+- The gcutils library provides utility methods that will let you create a footprint object for your own stream, defining it in one the following four ways:
 
-	  - by giving the coordinates of the start and end point
-	  - by giving the orbital pole, and if known its center, length and width 
-	  - by giving a range of RA/DEC or l/b  (more suitable for clouds rather than for streams)
-	  - by giving a list of coordinates 
+	- by giving the coordinates of the start and end point
+	- by giving the orbital pole, and if known its center, length and width 
+	- by giving a range of RA/DEC or l/b  (more suitable for clouds rather than for streams)
+	- by giving a list of coordinates 
 
 ----------
 
