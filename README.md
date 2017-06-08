@@ -74,8 +74,8 @@ To overplot the positions of MW globular clusters use::
 
 ----------
 
-The Built-in Streams Library
-============================
+The Milky Way Streams Library
+=============================
 
 The data for the built-in streams library is stored in the *lib* directory, where four main files are found, depending on which method is used in mwstreams.MWStreams to
 define a stream’s footprint:
