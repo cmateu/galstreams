@@ -96,7 +96,7 @@ This will read the stream definitions stored in the lib directory to instantiate
 
 **Footprint Class**
 
-This class handles a stream’s footprint as a collection of points. A Footprint object can be instantiated by passing it a name string and a pair of longitude-latitude vectors which will be interpreted as RA/DEC or l/b if the coordinate system is indicated as equatorial or galactic respectively (via de cootype keyword), e.g., as follows:
+This class handles a stream’s footprint as a collection of points. A Footprint object can be instantiated by passing it a name string and a pair of longitude-latitude vectors which will be interpreted as RA/DEC or l/b if the coordinate system is indicated as equatorial or galactic respectively (via de cootype keyword), e.g., as follows::
 
 	footprint= mwstreams.Footprint(ra,dec,’Amethyst’,cootype=‘equ’)
 
@@ -105,6 +105,7 @@ The heliocentric distance, proper motions and radial velocity can be passed at i
 The coordinates in other reference systems of interest are computed by default and set as object attributes. 
 
 As an instance of the Footprint class, a footprint object has the following default attributes:
+
  - footprint.ra, footprint.dec    (equatorial coords)
  - footprint.l, footprint.b       (galactic coords) 
  - footprint.cra, .cdec, .cl, .cb (footprint’s geometric center coordinates)
