@@ -89,16 +89,10 @@ define a stream’s footprint:
 The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2015) review (their Table 4.1) and updated as of 06/May/2017.
 
 
-|First Header | Second Header|
-| ------------- |-------------|
+| Id | Name |
+| ----------------- | ---- |
+| 1 | Test |
 
-|Content from cell 1 | Content from cell 2|
-|Content in the first column | Content in the second column|
-
-
-
-
-----------
 
 Package: mwstreams 
 ==================
