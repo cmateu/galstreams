@@ -13,7 +13,7 @@ The main contributions of this toolkit are the following:
 
 - The MWStreams class provides an object to handle the data for all known streams in the MW
 
-- The gcutils library provides utility methods that will let you create a footprint object for your own stream, defining it in one the following four ways:
+- The gcutils library provides utility methods that will let you create a footprint object for your own stream, defining it in one of the following four ways:
 
   - by giving the coordinates of the start and end point
   - by giving the orbital pole, and if known its center, length and width 
@@ -52,13 +52,13 @@ Add path_to_dir/bin to your PATH in your .csrhc or .bashrc file.
 Quick Guide
 ===========
 
-A MWstreams object can be easily created as follows:
+A MWstreams object can be easily created as follows::
 
 	mwsts=mwstreams.MWStreams(verbose=True)
 
 Running this in verbose mode will print the each of the library’s stream names as they are initialized.
 
-To quickly plot the the stream’s library stored in it use: 
+To quickly plot the the stream’s library stored in it use:: 
 
 	fig=plt.figure(1,figsize=(16,8))
 	ax=fig.add_subplot(111)
@@ -68,7 +68,7 @@ To quickly plot the the stream’s library stored in it use:
 
 the plot is made in equatorial coordinates by default, but heliocentric galactic and galactocentric spherical coordinates can also be used. For more details on available MWStreams methods see XXX-link-here.
 
-To overplot the positions of MW globular clusters use:
+To overplot the positions of MW globular clusters use::
 
 	mwstreams.plot_globular_clusters(ax)
 
@@ -88,7 +88,7 @@ Package: mwstreams
 
 The MWstreams class returns a dictionary containing a Footprint object (see XXX-link-here) for each of the streams known in the MW, indexed by the stream’s name.
 
-The class can be easily instantiated as follows:
+The class can be easily instantiated as follows::
 
 	mwsts=mwstreams.MWStreams()
 
@@ -96,7 +96,7 @@ This will read the stream definitions stored in the lib directory to instantiate
 
 **Footprint Class**
 
-This class handles a stream’s footprint as a collection of points. A Footprint object can be instantiated by passing it a name string and a pair of longitude-latitude vectors which will be interpreted as RA/DEC or l/b if the coordinate system is indicated as equatorial or galactic respectively (via de cootype keyword).
+This class handles a stream’s footprint as a collection of points. A Footprint object can be instantiated by passing it a name string and a pair of longitude-latitude vectors which will be interpreted as RA/DEC or l/b if the coordinate system is indicated as equatorial or galactic respectively (via de cootype keyword), e.g., as follows:
 
 	footprint= mwstreams.Footprint(ra,dec,’Amethyst’,cootype=‘equ’)
 
@@ -105,31 +105,31 @@ The heliocentric distance, proper motions and radial velocity can be passed at i
 The coordinates in other reference systems of interest are computed by default and set as object attributes. 
 
 As an instance of the Footprint class, a footprint object has the following default attributes:
-	- footprint.ra, footprint.dec    (equatorial coords)
-	- footprint.l, footprint.b       (galactic coords) 
-	- footprint.cra, .cdec, .cl, .cb (footprint’s geometric center coordinates)
+ - footprint.ra, footprint.dec    (equatorial coords)
+ - footprint.l, footprint.b       (galactic coords) 
+ - footprint.cra, .cdec, .cl, .cb (footprint’s geometric center coordinates)
 
 If Rhel, the heliocentric distance, is given:
-	- footprint.Rhel
-	- footprint.phi, .theta       (galactocentric coords)
-	- footprint.Rgal              (galactocentric distance)
-	- footprint.xhel,.yhel,.zhel  (cartesian heliocentric coords)
-	- footprint.x,.y,.z           (cartesian galactocentric coords)
+ - footprint.Rhel
+ - footprint.phi, .theta       (galactocentric coords)
+ - footprint.Rgal              (galactocentric distance)
+ - footprint.xhel,.yhel,.zhel  (cartesian heliocentric coords)
+ - footprint.x,.y,.z           (cartesian galactocentric coords)
 
 If proper motions are given:
-	- footprint.pmra, .pmdec, .pmrastar  (pmrastar=pmra*cos(dec))
-	- footprint.pml, .pmb, .pmlstar       (pmlstar=pml*cos(dec))
+ - footprint.pmra, .pmdec, .pmrastar  (pmrastar=pmra*cos(dec))
+ - footprint.pml, .pmb, .pmlstar       (pmlstar=pml*cos(dec))
 
 If radial velocity is given:
-	- footprint.vrad
+ - footprint.vrad
 
 If all above given:
-	- footprint.vxhel,.vyhel,.vzhel  (cartesian heliocentric vels)
-	- footprint.vx,.vy,.vz           (cartesian galactocentric vels)
+ - footprint.vxhel,.vyhel,.vzhel  (cartesian heliocentric vels)
+ - footprint.vx,.vy,.vz           (cartesian galactocentric vels)
 
-An utility method is provided to apply a mask to all array attributes of a Footprint object:
+An utility method is provided to apply a mask to all array attributes of a Footprint object::
 
-	- Footprint.mask_footprint(mask)
+	Footprint.mask_footprint(mask)
 
 For full details see the doc-string for the Footprint class
 
