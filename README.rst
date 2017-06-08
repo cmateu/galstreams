@@ -77,6 +77,20 @@ To overplot the positions of MW globular clusters use::
 The Built-in Streams Library
 ============================
 
+The data for the built-in streams library is stored in the *lib* directory, where four main files are found, depending on which method is used in mwstreams.MWStreams to
+define a stream’s footprint:
+
+  - lib_by_pair.dat (input: coordinates of the start and end point)
+  - lib_by_pole.dat (input: orbital pole, and optionally center, length and width) 
+  - lib_by_lonlat_range.dat (input: range of RA/DEC or l/b)
+  - lib_by_star.log (input: star list. this is a log file where the format and location of the star list files are set for each defined stream)  
+ 
+The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2015) review (their Table 4.1) and updated as of 06/May/2017.
+
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
 
 
 ----------
@@ -132,7 +146,7 @@ If all above given:
 - footprint.vxhel,.vyhel,.vzhel  (cartesian heliocentric vels)
 - footprint.vx,.vy,.vz           (cartesian galactocentric vels)
 
-An utility method is provided to apply a mask to all array attributes of a Footprint object::
+A convenience method is provided to apply a mask to all array attributes of a Footprint object::
 
 	Footprint.mask_footprint(mask)
 
