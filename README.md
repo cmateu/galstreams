@@ -89,13 +89,29 @@ define a stream’s footprint:
 The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2015) review (their Table 4.1) and updated as of 06/May/2017.
 
 
-| Id | Name |
-| ----------------- | ---- |
-| 1 | Test |
+| Name      | Reference                  |   Name      |  Reference                       |
+|-----------|----------------------------|-------------|----------------------------------|
+| Alpheus   |  Grillmair 2013            |   PiscesOv  |  Grillmair & Carlin 2015         |
+| Acheron   |  Grillmair 2009            |   PS1-A     |  Bernard 2016                    |
+| ACS       |  Grillmair 2006            |   PS1-B     |  Bernard 2016                    |
+| ATLAS     |  Koposov 2014              |   PS1-C     |  Bernard 2016                    |
+| Cetus     |  Newberg 2009              |   PS1-D     |  Bernard 2016                    |
+| Cocytos   |  Grillmair 2009            |   PS1-E     |  Bernard 2016                    |
+| GD-1      |  Grillmair 2006            |   Sagitarius|  Law & Majewski 2010 (model)     |
+| EBS       |  Grillmair & Carlin 2015   |   Sangarius |  Grillmair 2017                  |
+| Hermus    |  Grillmair 2014            |   Scamander |  Grillmair 2017                  |
+| Her-Aq    |  Grillmair & Carlin 2015   |   Styx      |  Grillmair 2009                  |
+| Hyllus    |  Grillmair 2014            |   Tri-And   |  Grillmair & Carlin 2015         |
+| Lethe     |  Grillmair 2009            |   Tri-And2  |  Grillmair & Carlin 2015         |
+| Monoceros |  Grillmair & Carlin 2015   |   Tri/Pis   |  Bonaca 2012                     |
+| NGC5466   |  Grillmair & Johnson2006   |   VOD/VSS   |  Grillmair & Carlin 2015         |
+| Ophiucus  |  Bernard 2014              |   WG1       |  Agnello 2017                    |
+| Orphan    |  Newberg 2010              |   WG2       |  Agnello 2017                    |
+| Pal5      |  Grillmair 2006            |   WG3       |  Agnello 2017                    |
+| PAndAS    |  Grillmair & Carlin 2015   |   WG4       |  Agnello 2017                    |
+| Phoenix   |  Balbinot 2016             |             |                                 | 
 
 
-
-blabla
 
 Package: mwstreams 
 ==================
