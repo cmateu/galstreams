@@ -1,0 +1,2 @@
+recursive-include examples *png *.ipynb
+include mwstreams/lib/*dat mwstreams/lib/*.log mwstreams/lib/*.ipynb mwstreams/lib/*csv

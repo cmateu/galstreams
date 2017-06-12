@@ -1,0 +1,19 @@
+To install this package, run the following command in a terminal:
+
+    sudo python setup.py install
+
+and source your .cshrc file.
+
+If you do not have root access, install in a custom directory using the --prefix option:
+
+    python setup.py install --prefix=path_to_dir
+
+After installing, add path_to_dir/mwstreams/bin to your PATH in your .csrhc or .bashrc file.
+Also add path_to_dir/mwstreams/bin and path_to_dir/mwstreams/ to PYTHONPATH also in your .cshrc/.bashrc file.
+
+WARNING: the setup uses the distribute_setup package which requires an internet
+connection. If you do not have an internet connection, comment out the following 
+lines in the setup.py script:
+
+from distribute_setup import use_setuptools
+use_setuptools()
