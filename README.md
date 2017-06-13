@@ -101,17 +101,19 @@ The following table summarizes the streams included in the library. The list of 
 | Cocytos   |  Grillmair 2009            |   PS1-E     |  Bernard 2016                    |
 | GD-1      |  Grillmair 2006            |   Sagitarius|  Law & Majewski 2010 (model)     |
 | EBS       |  Grillmair & Carlin 2016   |   Sangarius |  Grillmair 2017                  |
-| Hermus    |  Grillmair 2014            |   Scamander |  Grillmair 2017                  |
-| Her-Aq    |  Grillmair & Carlin 2016   |   Styx      |  Grillmair 2009                  |
-| Hyllus    |  Grillmair 2014            |   Tri-And   |  Grillmair & Carlin 2016         |
-| Lethe     |  Grillmair 2009            |   Tri-And2  |  Grillmair & Carlin 2016         |
-| Monoceros |  Grillmair & Carlin 2016   |   Tri/Pis   |  Bonaca 2012                     |
-| NGC5466   |  Grillmair & Johnson2006   |   VOD/VSS   |  Grillmair & Carlin 2016         |
-| Ophiucus  |  Bernard 2014              |   WG1       |  Agnello 2017                    |
-| Orphan    |  Newberg 2010              |   WG2       |  Agnello 2017                    |
-| Pal5      |  Grillmair 2006            |   WG3       |  Agnello 2017                    |
-| PAndAS    |  Grillmair & Carlin 2016   |   WG4       |  Agnello 2017                    |
-| Phoenix   |  Balbinot 2016             |             |                                 |
+| Eridanus  |  Myeong2017                |   Scamander |  Grillmair 2017                  |
+| Hermus    |  Grillmair 2014            |   Styx      |  Grillmair 2009                  |
+| Her-Aq    |  Grillmair & Carlin 2016   |   Tri-And   |  Grillmair & Carlin 2016         |
+| Hyllus    |  Grillmair 2014            |   Tri-And2  |  Grillmair & Carlin 2016         |
+| Lethe     |  Grillmair 2009            |   Tri/Pis   |  Bonaca 2012                     |
+| Monoceros |  Grillmair & Carlin 2016   |   VOD/VSS   |  Grillmair & Carlin 2016         |
+| NGC5466   |  Grillmair & Johnson2006   |   WG1       |  Agnello 2017                    |
+| Ophiucus  |  Bernard 2014              |   WG2       |  Agnello 2017                    |
+| Orphan    |  Newberg 2010              |   WG3       |  Agnello 2017                    |
+| Pal5      |  Grillmair 2006            |   WG4       |  Agnello 2017                    |
+| Pal15     |  Myeong2017                |             |                                  |
+| PAndAS    |  Grillmair & Carlin 2016   |             |                                  |
+| Phoenix   |  Balbinot 2016             |             |                                  |
 
 
 
@@ -152,7 +154,7 @@ As an instance of the Footprint class, a footprint object has the following defa
 If Rhel, the heliocentric distance, is given:
 
 - footprint.Rhel
-- footprint.phi, .theta       (galactocentric coords)
+- footprint.phi, .theta       (galactocentric coords, phi=0 towards the Sun)
 - footprint.Rgal              (galactocentric distance)
 - footprint.xhel,.yhel,.zhel  (cartesian heliocentric coords)
 - footprint.x,.y,.z           (cartesian galactocentric coords)

@@ -269,6 +269,12 @@ class MWStreams(dict):
          az_int=np.linspace(azs.min(),azs.max(),Nint)
          lat_int =scipy.interp(az_int,azs,lats)
          Rhel_int=scipy.interp(az_int,azs,Rhels)
+
+         #If any points have Rhel=-1, make sure not to use them for interpolation
+         if (Rhels<0).any():
+          #range of azs with valid Rhel:
+          azmin,azmax=np.min(azs[Rhels>=0]),np.max(azs[Rhels>=0])
+          Rhel_int[(az_int<azmin) | (az_int>azmax)]=-1
        else:
         az_int,lat_int,Rhel_int=azs,lats,Rhels          
                           
@@ -309,7 +315,14 @@ class MWStreams(dict):
     
     #---Make sure galactocentric attributes are set to None if Rhel<0
     for i in self.keys():
-      if (self[i].Rhel<0.).all(): self[i].Rgal,self[i].phi,self[i].theta,self[i].cphi,self[i].ctheta=None,None,None,None,None 
+      #If there's no distance info at all, set to none
+      if (self[i].Rhel<0.).all(): 
+        self[i].Rgal,self[i].phi,self[i].theta,self[i].cphi,self[i].ctheta=None,None,None,None,None 
+      #If some part has no distance info (e.g. the southern extension of the Orphan stream), set that part to null value
+      elif (self[i].Rhel<0.).any(): 
+        self[i].Rgal[self[i].Rhel<0.]=np.nan
+        self[i].phi[self[i].Rhel<0.]=np.nan
+        self[i].theta[self[i].Rhel<0.]=np.nan
 
 
   #-------------method to plot whole MW streams compilation object at once------------------------------------
@@ -360,11 +373,25 @@ class MWStreams(dict):
 
    #------------------------------PLOT---------------------------------------------------------------------- 
    for i in self.keys(): 
-        
+
+    #Skip it stream name in list of excluded streams    
+    if i in exclude_streams:
+        print 'Skipping excluded stream: %s' % (self[i].name)
+        continue
+
+    #Skip it if coo-mode selected is galactocentric and stream has no valid galactocentric attributes  
+    if 'GC' in cootype and self[i].phi is None:
+        print 'Skipping stream %s, no valid Rhel => no valid galactocentric attributes' % (self[i].name)
+        continue
+       
     if 'GC' in cootype:
-      ro,rf,Rs=np.min(self[i].Rgal),np.max(self[i].Rgal),self[i].Rgal    
+      notnan=self[i].Rgal>=0. #this works to avoid nans as well
+      ro,rf,Rs=np.min(self[i].Rgal[notnan]),np.max(self[i].Rgal[notnan]),self[i].Rgal    
     else:
-      ro,rf,Rs=np.min(self[i].Rhel),np.max(self[i].Rhel),self[i].Rhel    
+      notneg=self[i].Rhel>=0.
+      if notneg.any():
+        ro,rf,Rs=np.min(self[i].Rhel[notneg]),np.max(self[i].Rhel[notneg]),self[i].Rhel    
+      else: ro,rf,Rs=-1,-1,self[i].Rhel
 
     if 'gal' in cootype: lons,latts,loncenter,latcenter=self[i].l,self[i].b,self[i].cl,self[i].cb
     elif 'equ' in cootype: lons,latts,loncenter,latcenter=self[i].ra,self[i].dec,self[i].cra,self[i].cdec      
@@ -376,17 +403,10 @@ class MWStreams(dict):
       if verbose: 
         print 'Skipping %s [%.1f,%.1f], outside selected Rrange [%.1f,%.1f]' % (self[i].name,ro,rf,Rrange[0],Rrange[1])
       continue
+    else:
+      if verbose and ro is not None:
+        print 'Plotting %s [%.1f,%.1f], INside selected Rrange [%.1f,%.1f]' % (self[i].name,ro,rf,Rrange[0],Rrange[1])
    
-    #Skip it stream name in list of excluded streams    
-    if i in exclude_streams:
-        print 'Skipping excluded stream: %s' % (self[i].name)
-        continue
-
-    #Skip it coomode selected is galactocentric and stream has no valid galactocentric attributes  
-    if 'GC' in cootype and self[i].phi is None: 
-        print 'Skipping stream %s, no valid Rhel => no valid galactocentric attributes' % (self[i].name)
-        continue
-
     cc=ax.scatter(lons,latts,c=Rs,**scatter_kwargs)
     if plot_names:
      ax.plot(loncenter,latcenter,**textsym_kwargs)
