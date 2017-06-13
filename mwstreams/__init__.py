@@ -356,6 +356,10 @@ class MWStreams(dict):
    textlab_kwargs=dict(horizontalalignment='center',verticalalignment='bottom',zorder=99)
    textsym_kwargs=dict(marker='+',color='k',ms=5,zorder=textlab_kwargs['zorder'])
    colorbar_kwargs=dict(extend='max')
+   if Rrange[1]<9e9: 
+     colorbar_kwargs=dict(extend='max')
+     if Rrange[0]>0: colorbar_kwargs=dict(extend='both')
+   elif Rrange[0]>0: colorbar_kwargs=dict(extend='min')
 
    #but override whichever are user-supplied (doing it this way I ensure using my own defaults and not matplotlib's
    #if user supplies values for some (but not all) keywords
