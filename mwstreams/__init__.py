@@ -139,7 +139,7 @@ class Footprint:
       else: f=1.
       self.x=-self.x
       self.phi= (2*np.pi*f - self.phi) - np.pi*f
-
+      self.phi[self.phi<0]=self.phi[self.phi<0]+2*np.pi*f
 
 #---------MW Streams class--------------------------------------------------------------------------------
         
