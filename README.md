@@ -47,8 +47,6 @@ to the PYTHONPATH variable in your .cshrc/.bashrc file and source it. Then insta
 
 Add path_to_dir/bin to your PATH in your .csrhc or .bashrc file.
 
-*This is not set up yet, but will be soon.*
-
 ----------
 
 Quick Guide
