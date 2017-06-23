@@ -41,7 +41,7 @@ def get_random_spherical_coords(n,rad=[0.,1.],az=[0.,2*np.pi],lat=[-np.pi/2.,np.
 #Footprint class definition
 class Footprint:
     def __init__(self,lon,lat,name,Rhel=None,vrad=None,pmlon=None,pmlat=None,cootype='gal',degree=True,is_pml_star=True,
-                 xyz_sun=[-8.5,0.,0.],vel_sun=[10.3,232.6,5.9]):
+                 xyz_sun=[8.5,0.,0.],vel_sun=[10.3,232.6,5.9]):
         
         self.deg=degree 
         self._f=np.pi/180.  
@@ -73,9 +73,10 @@ class Footprint:
             if pmlat is not None: self.pmdec=pmlat
 
         #Bovy's library assumes Sun's position is positive. Flip X-axis if xsun<0
-        if xyz_sun[0]<0.: sign=-1
-        else: sign=+1
-    
+        #if xyz_sun[0]<0.: sign=-1
+        #else: sign=+1
+        sign=1.
+
         #Save Sun's position
         self.xsun, self.ysun, self.zsun= xyz_sun
         self.vxsun, self.vysun, self.vzsun= vel_sun
@@ -131,6 +132,13 @@ class Footprint:
       #Compute Galactocentric Spherical
       m=bovyc.XYZ_to_lbd(self.x,self.y,self.z,degree=degree)
       self.phi,self.theta,self.Rgal=m.T
+
+      #Bovy's ref system's x-axis points towards the Sun. Mine points away from the Sun, i.e. x-axis is the same as for lbd
+      #Will use my ref system for consistency with pole-ref system used in PyGC3
+      if degree: f=180./np.pi
+      else: f=1.
+      self.x=-self.x
+      self.phi= (2*np.pi*f - self.phi) - np.pi*f
 
 
 #---------MW Streams class--------------------------------------------------------------------------------
