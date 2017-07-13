@@ -3,9 +3,9 @@ mwstreams
 
 **DESCRIPTION:**
 
-mwstreams is a Python Library and Toolkit for visualizing streams and overdensities known in the Milky Way (MW).
+mwstreams is a Python Library and Package for visualizing streams and overdensities known in the Milky Way (MW). It is introduced in Mateu et al. (2017b, submitted, soon on arXive) .
 
-The main contributions of this toolkit are the following:
+The main contributions of this package are the following:
 
 - The current distribution provides tools to handle and plot each stream's footprint in different coordinate systems.
 
@@ -21,6 +21,8 @@ The main contributions of this toolkit are the following:
   - by giving a list of coordinates
 
 - The streams_lib_notes.ipynb iPython Notebook keeps record of intermediate computations made for some of the stream's data to comply with one the four available constructors.
+
+The mwstreams package can be use to replicate Figures 2, 3 and 4 in Mateu et al. (2017b).
 
 ----------
 
@@ -86,7 +88,7 @@ define a stream’s footprint:
 - lib_by_star.log (input: star list. this is a log file where the format and location of the star list files are set for each defined stream)  
 
 
-The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2015) review (their Table 4.1) and updated as of 06/May/2017.
+The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2016) review (their Table 4.1) and updated as of 06/May/2017.
 
 
 | Name      | Reference                  |   Name      |  Reference                       |

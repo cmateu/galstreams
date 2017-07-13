@@ -214,10 +214,12 @@ class MWStreams(dict):
            self[name[i]]=footprint     
 
   #-----------------by lonlat range--------------------------------------------------------------
-  def init_by_lonlat_range(self,Nran=1000,verbose=False,Rstat='mean'):
+  def init_by_lonlat_range(self,libname=None,Nran=1000,verbose=False,Rstat='mean'):
                 
-    lib_llrange_filen=os.path.join(os.path.dirname(os.path.realpath(__file__)),'lib','lib_by_lonlat_range.dat')
-    
+    if libname is None:
+     lib_llrange_filen=os.path.join(os.path.dirname(os.path.realpath(__file__)),'lib','lib_by_lonlat_range.dat')
+    else: lib_llrange_filen=libname
+
     #Validate options for Rstat
     stat_types = ['min', 'max', 'mean', 'median']
     if Rstat not in stat_types:
@@ -452,3 +454,4 @@ def plot_globular_clusters(ax,plot_colorbar=False,scat_kwargs=None,galactic=True
         
  if plot_colorbar: plt.colorbar(cc,ax=ax)                
  
+#----------------
