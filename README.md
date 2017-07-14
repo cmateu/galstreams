@@ -3,7 +3,7 @@ mwstreams
 
 **DESCRIPTION:**
 
-mwstreams is a Python Library and Package for visualizing streams and overdensities known in the Milky Way (MW). It is introduced in Mateu et al. (2017b, submitted, soon on arXive) .
+mwstreams is a Python Library and Package for visualizing streams and overdensities known in the Milky Way (MW). It is introduced in Mateu et al. (2017b, submitted, soon on arXive).
 
 The main contributions of this package are the following:
 
