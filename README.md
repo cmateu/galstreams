@@ -121,10 +121,9 @@ The following table summarizes the streams included in the library. The list of 
 
 
 
-Module: galstreams
-==================
+# Module: galstreams
 
- **MWstreams Class**
+## MWstreams Class
 
 The MWstreams class returns a dictionary containing a [Footprint object](#footprint-class) for each of the streams known in the MW, indexed by the stream’s name.
 
@@ -139,7 +138,7 @@ This will read the stream definitions stored in the lib directory to instantiate
 
 See the Footprint Class description below for details on Footprint object attributes and methods.
 
-**Footprint Class**
+## Footprint Class
 
 This class handles a stream’s footprint as a collection of points. A Footprint object can be instantiated by passing it a name string and a pair of longitude-latitude vectors which will be interpreted as RA/DEC or l/b if the coordinate system is indicated as equatorial or galactic respectively (via de cootype keyword), e.g., as follows::
 
