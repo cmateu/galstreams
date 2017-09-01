@@ -1,7 +1,6 @@
-galstreams
-=========
+# galstreams
 
-**DESCRIPTION:**
+### DESCRIPTION:
 
 galstreams is a Milky Way Streams Library and Toolkit for Python. It includes a compilation of known stellar streams and overdensities in the Milky Way (MW) and Python tools for visualizing them. It is introduced in Mateu et al. (2017b, submitted, soon on arXive).
 
@@ -28,14 +27,14 @@ The galstreams package can be use to replicate Figures 2, 3 and 4 in Mateu et al
 
 ----------
 
-**REQUIREMENTS**
+### REQUIREMENTS
 
 - Python modules required are NUMPY, SCIPY and MATPLOTLIB.
 - This toolkit makes use of the coordinate transformation library bovy_coords.py from the [galpy](http://github.com/jobovy/galpy) package by [Jo Bovy (2015)](http://adsabs.harvard.edu/abs/2015ApJS..216...29B). It is supplied with this bundle.
 
 ----------
 
-**INSTALLATION**
+### INSTALLATION
 
 In a terminal, run the following command:
 
@@ -52,9 +51,7 @@ to the PYTHONPATH variable in your .cshrc (or .bashrc) file and source it. Then 
 Add path_to_dir/bin to your PATH in your .csrhc or .bashrc file.
 
 ----------
-
-Quick Guide
-===========
+# Quick Guide
 
 A MWstreams object can be easily created as follows:
 
@@ -80,8 +77,7 @@ There are many options available to customize these plots, to check them out hav
 
 ----------
 
-The Milky Way Streams Library
-=============================
+# The Milky Way Streams Library
 
 The data for the built-in streams library is stored in the *lib* directory, where four main files are found, depending on which method is used in galstreams.MWStreams to
 define a stream’s footprint:
@@ -119,7 +115,7 @@ The following table summarizes the streams included in the library. The list of 
 | PAndAS    |  Grillmair & Carlin 2016   |             |                                  |
 | Phoenix   |  Balbinot 2016             |             |                                  |
 
-
+----------
 
 # Module: galstreams
 
@@ -127,11 +123,11 @@ The following table summarizes the streams included in the library. The list of 
 
 The MWstreams class returns a dictionary containing a [Footprint object](#footprint-class) for each of the streams known in the MW, indexed by the stream’s name.
 
-The class can be easily instantiated as follows::
+The class can be easily instantiated as follows:
 
 	mwsts=galstreams.MWStreams()
 
-This will read the stream definitions stored in the lib directory to instantiate a footprint object appropriately for each stream. In this example, you can access the footprint object's RA and DEC for the Orphan stream as::
+This will read the stream definitions stored in the lib directory to instantiate a footprint object appropriately for each stream. In this example, you can access the footprint object's RA and DEC for the Orphan stream as:
 
   print mwsts['Orphan'].ra, mwsts['Orphan'].dec
 
@@ -176,7 +172,7 @@ If all above are given:
 - footprint.vxhel,.vyhel,.vzhel  (cartesian heliocentric vels)
 - footprint.vx,.vy,.vz           (cartesian galactocentric vels)
 
-A convenience method is provided to apply a mask to all array attributes of a Footprint object::
+A convenience method is provided to apply a mask to all array attributes of a Footprint object:
 
 	Footprint.mask_footprint(mask)
 
@@ -186,14 +182,15 @@ For full details see the doc-string for the Footprint class.
 
 **FILES PROVIDED**
 
-- Executable programs:
-	* work in progress - stand-alone code to make a quick plot of the MW library in user-selected coords
-
 - Libraries:
 	* galstreams.py
 	* gcutils.py
 	* bovy_coords.py
 	* pyutils.py
 	* lib
+
+- Executable programs:
+  * work in progress - stand-alone script to make a quick plot of the MW library in user-selected coords
+
 - Documentation
    * README.md
