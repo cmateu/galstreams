@@ -9,17 +9,17 @@ except ImportError:
 
 
 setup(
-    name='mwstreams',
+    name='galstreams',
     version='1.0.0',
     author='C. Mateu',
     author_email='cmateu.cida@gmail.com,cmateu@cida.gob.ve',
-    packages=['bovy_coords','mwstreams','gcutils','mwstreams/lib'],
-    package_data={'mwstreams/lib':['*.dat',
+    packages=['bovy_coords','galstreams','gcutils','galstreams/lib'],
+    package_data={'galstreams/lib':['*.dat',
                                    '*.log',
                                    'streams_lib_notes.ipynb',
                                    'globular_cluster_params.harris2010.tableI.csv']},
-    scripts=['bin/'],
-    url='https://github.com/cmateu/mwstreams',
+#    scripts=['bin/'],
+    url='https://github.com/cmateu/galstreams',
     license='LICENSE',
     description='MW stream library toolkit',
     long_description=open('README.md').read(),
