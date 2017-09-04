@@ -57,7 +57,7 @@ A MWstreams object can be easily created as follows:
 
 	mwsts=galstreams.MWStreams(verbose=True)
 
-Running this in verbose mode will print the each of the library’s stream names as they are initialized.
+Running this in verbose mode will print the each of the library’s stream names as they are initialized. The resulting object, mwsts, contains the footprint information for each of the streams and clouds registered in the library.
 
 To quickly plot the the stream’s library stored in it use:
 
@@ -67,25 +67,25 @@ To quickly plot the the stream’s library stored in it use:
 
 (plot not shown)
 
-the plot is made in equatorial coordinates by default, but heliocentric galactic and galactocentric spherical coordinates can also be used. For more details on available MWStreams methods see XXX-link-here.
+the plot is made in equatorial coordinates by default, but heliocentric galactic and galactocentric spherical coordinates can also be used. For more details on available MWStreams methods see [here](#mwstreams-class).
 
 To overplot the positions of MW globular clusters use:
 
 	galstreams.plot_globular_clusters(ax)
 
-There are many options available to customize these plots, to check them out have a look at the MWStreams doc-string.
+There are several options available to customize these plots, to check them out have a look at the MWStreams doc-string.
 
 ----------
 
 # The Milky Way Streams Library
 
-The data for the built-in streams library is stored in the *lib* directory, where four main files are found, depending on which method is used in galstreams.MWStreams to
+The data for the built-in streams library is stored in the *lib* directory, where four main files are found, depending on which constructor is used in galstreams.MWStreams to
 define a stream’s footprint:
 
 - lib_by_pair.dat (input: coordinates of the start and end point)
 - lib_by_pole.dat (input: orbital pole, and optionally center, length and width)
 - lib_by_lonlat_range.dat (input: range of RA/DEC or l/b)
-- lib_by_star.log (input: star list. this is a log file where the format and location of the star list files are set for each defined stream)  
+- lib_by_star.log (input: list of star coordinates. this is a log file where the format and location of the star list files are set for each defined stream)  
 
 
 The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2016) review (their Table 4.1) and updated as of 01/Sep/2017.
@@ -129,12 +129,12 @@ The class can be easily instantiated as follows:
 
 	mwsts=galstreams.MWStreams()
 
-This will read the stream definitions stored in the lib directory to instantiate a footprint object appropriately for each stream. In this example, you can access the footprint object's RA and DEC for the Orphan stream as:
+This will read the stream definitions stored in the lib directory to instantiate a Footprint object appropriately for each stream. In this example, you can access the Footprint object's RA and DEC for the Orphan stream as:
 
   print mwsts['Orphan'].ra, mwsts['Orphan'].dec
 
 
-See the Footprint Class description below for details on Footprint object attributes and methods.
+See the Footprint Class description below for details on object attributes and methods.
 
 ## Footprint Class
 
@@ -152,7 +152,7 @@ As an instance of the Footprint class, a footprint object has the following defa
 - footprint.l, footprint.b       (galactic coords)
 - footprint.cra, .cdec, .cl, .cb (footprint’s geometric center coordinates)
 
-If Rhel, the heliocentric distance, is given:
+If Rhel, the heliocentric distance, is given the following attributes are also created:
 
 - footprint.Rhel
 - footprint.phi, .theta       (galactocentric coords, phi=0 towards the Sun)
@@ -178,7 +178,7 @@ A convenience method is provided to apply a mask to all array attributes of a Fo
 
 	Footprint.mask_footprint(mask)
 
-For full details see the doc-string for the Footprint class.
+For full details, please see the doc-string for the Footprint class.
 
 ----------
 
