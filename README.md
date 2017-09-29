@@ -2,7 +2,7 @@
 
 ### DESCRIPTION:
 
-galstreams is a Milky Way Streams Library and Toolkit for Python. It includes a compilation of known stellar streams and overdensities in the Milky Way (MW) and Python tools for visualizing them. It is introduced in Mateu et al. (2017b, submitted, soon on arXive).
+galstreams is a Milky Way Streams Footprint Library and Toolkit for Python. It includes a compilation of spatial information for known stellar streams and overdensities in the Milky Way (MW) and Python tools for visualizing them. It is introduced in Mateu et al. (2017b, submitted, soon on arXive).
 
 The main contributions of this package are the following:
 
