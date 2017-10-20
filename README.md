@@ -70,11 +70,11 @@ To make a quick plot of the stream’s library stored in the mwsts object use:
 	ax.set_xlabel('$l$ (deg)')
 	ax.set_ylabel('$b$ (deg)')
 
-![see plot here](examples/quickex.png?raw=true "Title")
+![see plot here](examples/quickex.png?raw=true "Example plot for galstreams")
 
-the plot is made in galactic coordinates by default, but equatorial and galactocentric spherical coordinates can also be used (cootype="equ" or cootype="gc"). For more details on available MWStreams methods see [here](#mwstreams-class).
+The plot is made in galactic coordinates by default, but equatorial and galactocentric spherical coordinates can also be used (cootype="equ" or cootype="gc"). This example shows how you can make changes to the plot by passing arguments to the 'scatter' and 'colorbar' commands through the scat_kwargs and cb_kwargs keyword arguments. Also, axis text and symbol-text (stream names) properties can be modified using the text_kwargs and sym_kwargs. For more details on available MWStreams methods see [here](#mwstreams-class).
 
-To overplot the positions of MW globular clusters use:
+MW globular clusters's data is also included in the library. To quickly overplot globular clusters as an extra layer in the previous add:
 
 	galstreams.plot_globular_clusters(ax)
 
