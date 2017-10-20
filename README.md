@@ -70,7 +70,7 @@ To make a quick plot of the stream’s library stored in the mwsts object use:
 	ax.set_xlabel('$l$ (deg)')
 	ax.set_ylabel('$b$ (deg)')
 
-![see plot here](example/quickex.png?raw=true "Title")
+![see plot here](examples/quickex.png?raw=true "Title")
 
 the plot is made in galactic coordinates by default, but equatorial and galactocentric spherical coordinates can also be used (cootype="equ" or cootype="gc"). For more details on available MWStreams methods see [here](#mwstreams-class).
 
