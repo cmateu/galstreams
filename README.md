@@ -12,7 +12,7 @@ The main contributions of this package are the following:
 
 - It is easily extendable to include new streams as they are published
 
-- The gcutils library provides utility methods that will let you create a footprint object for your own stream, using any of the four available constructors to define a stream:
+- The gcutils library provides utility methods that will let you create a footprint object for your own stream, using any of the four available constructors:
 
   - by giving the coordinates of the start and end point
   - by giving the orbital pole and, if known, its center, length and width
@@ -23,7 +23,7 @@ The main contributions of this package are the following:
 
 - The streams_lib_notes.ipynb iPython Notebook keeps record of intermediate computations made for some of the stream's data to comply with one the four available constructors.
 
-The galstreams package can be use to replicate Figures 2, 3 and 4 in Mateu et al. (2017b).
+The galstreams package can be used to replicate Figures 2, 3 and 4 in Mateu et al. (2017b).
 
 ----------
 
