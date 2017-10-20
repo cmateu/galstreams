@@ -59,15 +59,20 @@ A MWstreams object can be easily created as follows:
 
 Running this in verbose mode will print the each of the library’s stream names as they are initialized. The resulting object, mwsts, contains the footprint information for each of the streams and clouds registered in the library.
 
-To quickly plot the the stream’s library stored in it use:
+To make a quick plot of the stream’s library stored in the mwsts object use:
 
 	fig=plt.figure(1,figsize=(16,8))
 	ax=fig.add_subplot(111)
-	mwsts.plot_stream_compilation(ax,plot_colorbar=True)
+	mwsts.plot_stream_compilation(ax,plot_colorbar=True,scat_kwargs=dict(vmin=5.,vmax=90.,cmap=plt.cm.Dark2),
+	                              cb_kwargs=dict(label='Heliocentric Distance (kpc)'))
+	ax.set_xlim(0.,360.)
+	ax.set_ylim(-90.,90.)
+	ax.set_xlabel('$l$ (deg)')
+	ax.set_ylabel('$b$ (deg)')
 
-(plot not shown)
+![see plot here](example/quickex.png?raw=true "Title")
 
-the plot is made in equatorial coordinates by default, but heliocentric galactic and galactocentric spherical coordinates can also be used. For more details on available MWStreams methods see [here](#mwstreams-class).
+the plot is made in galactic coordinates by default, but equatorial and galactocentric spherical coordinates can also be used (cootype="equ" or cootype="gc"). For more details on available MWStreams methods see [here](#mwstreams-class).
 
 To overplot the positions of MW globular clusters use:
 
