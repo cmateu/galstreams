@@ -1,5 +1,6 @@
 # galstreams
 
+
 ### DESCRIPTION:
 
 galstreams is a Milky Way Streams Footprint Library and Toolkit for Python. It includes a compilation of spatial information for known stellar streams and overdensities in the Milky Way (MW) and Python tools for visualizing them. It is introduced in Mateu, Read & Kawata (2017, submitted to MNRAS, soon on arXive).
@@ -26,6 +27,10 @@ The main contributions of this package are the following:
 The galstreams package can be used to replicate Figures 2, 3 and 4 in Mateu, Read & Kawata (2017).
 
 ----------
+
+### VERSION HISTORY:
+
+- 2017/11/21: Eri/Phe coordinates fixed and reference added to Table.
 
 ### REQUIREMENTS
 
