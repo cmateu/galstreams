@@ -107,17 +107,18 @@ The following table summarizes the streams included in the library. The list of 
 | GD-1         |  Grillmair 2006            |   PS1-D     |  Bernard 2016                    |
 | EBS          |  Grillmair & Carlin 2016   |   PS1-E     |  Bernard 2016                    |
 | Eridanus     |  Myeong2017                |   Sagitarius|  Law & Majewski 2010 (model)     |
-| Hermus       |  Grillmair 2014            |   Sangarius |  Grillmair 2017                  |
-| Her-Aq       |  Grillmair & Carlin 2016   |   Scamander |  Grillmair 2017                  |
-| Hyllus       |  Grillmair 2014            |   Styx      |  Grillmair 2009                  |
-| Kwando       |  Grillmair 2017b           |   Tri-And   |  Grillmair & Carlin 2016         |
-| Lethe        |  Grillmair 2009            |   Tri-And2  |  Grillmair & Carlin 2016         |
-| Molonglo     |  Grillmair 2017b           |   Tri/Pis   |  Bonaca 2012                     |
-| Monoceros    |  Grillmair & Carlin 2016   |   VOD/VSS   |  Grillmair & Carlin 2016         |
-| Murrumbidgee |  Grillmair 2017b           |   WG1       |  Agnello 2017                    |
-| NGC5466      |  Grillmair & Johnson2006   |   WG2       |  Agnello 2017                    |
-| Ophiucus     |  Bernard 2014              |   WG3       |  Agnello 2017                    |
-| Orphan       |  Newberg 2010              |   WG4       |  Agnello 2017                    |
+| Eri/Phe      |  Li2016                    |   Sangarius |  Grillmair 2017                  |
+| Hermus       |  Grillmair 2014            |   Scamander |  Grillmair 2017                  |
+| Her-Aq       |  Grillmair & Carlin 2016   |   Styx      |  Grillmair 2009                  |
+| Hyllus       |  Grillmair 2014            |   Tri-And   |  Grillmair & Carlin 2016         |
+| Kwando       |  Grillmair 2017b           |   Tri-And2  |  Grillmair & Carlin 2016         |
+| Lethe        |  Grillmair 2009            |   Tri/Pis   |  Bonaca 2012                     |
+| Molonglo     |  Grillmair 2017b           |   VOD/VSS   |  Grillmair & Carlin 2016         |
+| Monoceros    |  Grillmair & Carlin 2016   |   WG1       |  Agnello 2017                    |
+| Murrumbidgee |  Grillmair 2017b           |   WG2       |  Agnello 2017                    |
+| NGC5466      |  Grillmair & Johnson2006   |   WG3       |  Agnello 2017                    |
+| Ophiucus     |  Bernard 2014              |   WG4       |  Agnello 2017                    |
+| Orphan       |  Newberg 2010              |             |                                  |
 | Orinoco      |  Grillmair 2017b           |             |                                  |
 | Pal5         |  Grillmair 2006            |             |                                  |
 | Pal15        |  Myeong2017                |             |                                  |
