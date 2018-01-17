@@ -2,7 +2,7 @@
 #ShortName  RAo   RAf  DECo   DECf    Do       Df  Coords prog_type Reference
  VOD/VSS     180   195   -4     0.     20.      20   equ      1      GrillmairCarlin2016     
  Monoceros   108   125  -41    -3      10.5   10.5   equ      2      GrillmairCarlin2016     
- NGC5466     182   224   21     42     17       17   equ      1      GrillmairCarlin2016     
+# NGC5466     182   224   21     42     17       17   equ      1      GrillmairCarlin2016     
 #ACS         121   130   -3     63     8.        8   equ      2     GrillmairCarlin2016     
  EBS         132   137   -3     16     10.      10   equ      1      GrillmairCarlin2016     
  Her-Aq      0.    80    -50    50     10.      25   gal      2      GrillmairCarlin2016     

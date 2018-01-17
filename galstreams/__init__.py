@@ -46,6 +46,7 @@ class Footprint:
         self.deg=degree 
         self._f=np.pi/180.  
         self.name=name
+        self.sname=name[:8]      
         
         if 'gal' in cootype:
          self.l,self.b=lon,lat
@@ -87,10 +88,12 @@ class Footprint:
          
         #Set center attributes
         self.compute_sky_center()
-        
+
+      
     def compute_sky_center(self):           
-                
-        #Need to get cartesian coords to do vector-average (this works wether or not Rhel exists)
+        
+        #Set defaults        
+        #Need to get cartesian coords to do vector-average (this works whether or not Rhel exists)
         mm=bovyc.lbd_to_XYZ(self.l,self.b,np.ones_like(self.l),degree=True)
         if self.l.size>1: _xx,_yy,_zz=mm.T
         else: _xx,_yy,_zz=mm    
@@ -101,6 +104,7 @@ class Footprint:
         if hasattr(self,'phi') and hasattr(self,'theta'):
           _xgc,_ygc,_zgc=self.x.sum(),self.y.sum(),self.z.sum()
           self.cphi,self.ctheta=bovyc.XYZ_to_lbd(_xgc,_ygc,_zgc,degree=True)[:2]
+
 
     def mask_footprint(self,mask):
         
@@ -134,7 +138,7 @@ class Footprint:
       self.phi,self.theta,self.Rgal=m.T
 
       #Bovy's ref system's x-axis points towards the Sun. Mine points away from the Sun, i.e. x-axis is the same as for lbd
-      #Will use my ref system for consistency with pole-ref system used in PyGC3
+      #Will use my ref system for consistency with pole-ref system used in PyMGC3
       if degree: f=180./np.pi
       else: f=1.
       self.x=-self.x
@@ -300,8 +304,26 @@ class MWStreams(dict):
         footprint.cl,footprint.cb=auxfoot.cl,auxfoot.cb
         
        #Store
-       self[name[i]]=footprint              
-        
+       self[name[i]]=footprint       
+
+  def load_user_defined_centers_and_shortnames(self):
+
+     #Read library log-file that will be used to overwrite center coords with user-defined values
+     lib_log_filen=os.path.join(os.path.dirname(os.path.realpath(__file__)),'lib','lib_centers.log')
+     names,shortnames=scipy.genfromtxt(lib_log_filen,usecols=(0,1),unpack=True,dtype='S')
+     _ra,_dec,_ll,_bb,_phi,_theta=scipy.genfromtxt(lib_log_filen,usecols=(2,3,4,5,6,7),
+                                                    unpack=True,dtype=np.float,missing_values='',filling_values=np.nan)
+ 
+     for ii in range(names.size):
+       try:
+         if not np.isnan( _ra[ii])  and not np.isnan(  _dec[ii]): self[names[ii]].cra, self[names[ii]].cdec =  _ra[ii],   _dec[ii] 
+         if not np.isnan( _ll[ii])  and not np.isnan(   _bb[ii]):  self[names[ii]].cl, self[names[ii]].cb   =  _ll[ii],    _bb[ii] 
+         if  hasattr(self[names[ii]],'cphi'):
+          if not np.isnan(_phi[ii])  and not np.isnan(_theta[ii]): self[names[ii]].cphi,self[names[ii]].ctheta = _phi[ii], _theta[ii] 
+         #Setting short names
+         self[names[ii]].sname=shortnames[ii]        
+       except KeyError: print 'WARNING: No stream found with %s name used lib_centers.log' % (stname)
+
   def __init__(self,verbose=True,gcstep=0.1,N=1000,Rstat='mean'):
         
     #A MWStreams object is a dictionary in which each entry is a Footprint object, indexed by each stream's name.
@@ -334,6 +356,8 @@ class MWStreams(dict):
         self[i].phi[self[i].Rhel<0.]=np.nan
         self[i].theta[self[i].Rhel<0.]=np.nan
 
+    #---Override default labelling coords when pre-defined values available.
+    self.load_user_defined_centers_and_shortnames()
 
   #-------------method to plot whole MW streams compilation object at once------------------------------------
   def plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,plot_colorbar=False,
