@@ -30,6 +30,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 
 ### VERSION HISTORY:
 
+- 2018/01/17: Label centering changed. Now can be set arbitrarily at log file. Labels checked in gal/equ/GC
 - 2018/01/17: New DES streams (Shipp et al. 2018) and Jet stream (Jethwa et al. 2017) added.
 	      Width option added to end-points constructor and now included for all streams defined this way. 
 - 2017/11/21: Eri/Phe coordinates fixed and reference added to Table.
@@ -102,7 +103,7 @@ define a stream’s footprint:
 - lib_by_star.log (input: list of star coordinates. this is a log file where the format and location of the star list files are set for each defined stream)  
 
 
-The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2016) review (their Table 4.1) and updated as of 01/Sep/2017.
+The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2016) review (their Table 4.1) and updated as of 17/Jan/2018.
 
 
 | Name         | Reference                  |   Name      |  Reference                       |
@@ -127,10 +128,16 @@ The following table summarizes the streams included in the library. The list of 
 | Murrumbidgee |  Grillmair 2017b           |   WG2       |  Agnello 2017                    |
 | NGC5466      |  Grillmair & Johnson2006   |   WG3       |  Agnello 2017                    |
 | Ophiucus     |  Bernard 2014              |   WG4       |  Agnello 2017                    |
-| Orphan       |  Newberg 2010              |             |                                  |
-| Orinoco      |  Grillmair 2017b           |             |                                  |
-| Pal5         |  Grillmair 2006            |             |                                  |
-| Pal15        |  Myeong2017                |             |                                  |
+| Orphan       |  Newberg 2010              |   Jet       |  Jethwa et al. 2017              |
+| Orinoco      |  Grillmair 2017b           |   Indus     |  Shipp et al. 2018               |
+| Pal5         |  Grillmair 2006            |   Jhelum    |  Shipp et al. 2018               |
+| Pal15        |  Myeong2017                |   Ravi      |  Shipp et al. 2018               |
+| Chenab       |  Shipp et al. 2018         |   Elqui     |  Shipp et al. 2018               |
+| Aliqa Uma    |  Shipp et al. 2018         |   Turbio    |  Shipp et al. 2018               |
+| Willka Yaku  |  Shipp et al. 2018         | Turranburra |  Shipp et al. 2018               |
+| Wambelong    |  Shipp et al. 2018         | Palca       |  Shipp et al. 2018               |
+|              |  Shipp et al. 2018         |             |  Shipp et al. 2018               |
+
 
 ----------
 
