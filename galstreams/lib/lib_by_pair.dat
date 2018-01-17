@@ -16,7 +16,8 @@ GD-1      GD-1         220.   58.5   141.  +24.0   equ          8.5    8.5  0.5 
 ACS       ACS          126.4  -0.7   133.9 +64.2   equ          8.9    8.9  5.    Grillmair2006
 Pal15     Pal15        255.3  -1.47  254.8 -0.12   equ         38.4   38.4  0.    Myeong2017 
 Eridanus  Eri          65.98 -21.42   66.4 -20.96  equ         95.0   95.0  0.    Myeong2017
-#DES Streams
+#DES Streams, not accepted yet
+#Name     ShortName    lono   lato    lonf   latf  coo(equ/gal) Ro    Rf    Width Reference
 Indus       Ind     -36.3  -50.7   -8.0 -64.8      equ          16.6  16.6  0.83  Shipp2018   
 Jhelum      Jhe     -38.8  -45.1   +4.7 -51.7      equ          13.2  13.2  1.16  Shipp2018   
 Ravi        Rav     -25.2  -44.1  -16.0 -59.7      equ          22.9  22.9  0.72  Shipp2018   
@@ -27,4 +28,6 @@ Turbio      Tur      28.0  -61.0   27.9 -46.0      equ          16.6  16.6  0.25
 Willka_Yaku WYak     36.1  -64.6   38.4 -58.3      equ          34.7  34.7  0.21  Shipp2018   
 Turranburra Tur      59.3  -18.0   75.2 -26.4      equ          27.5  27.5  0.60  Shipp2018   
 Wambelong   Wam      90.5  -45.6   79.3 -34.3      equ          15.1  15.1  0.40  Shipp2018   
-Palca       Pca      30.3  -53.7   16.2   2.4      equ          36.3  36.3  0.    Shipp2018   
+Palca       Pca      30.3  -53.7   16.2   2.4      equ          36.3  36.3  0.    Shipp2018 
+#Jet Stream, not accepted yet
+Jet         Jet     133.75 -27.7 142.00 -17.82     equ          28.6  28.6  0.18  Jethwa2017          
