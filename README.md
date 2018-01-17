@@ -72,7 +72,7 @@ To make a quick plot of the stream’s library stored in the mwsts object use:
 	fig=plt.figure(1,figsize=(16,8))
 	ax=fig.add_subplot(111)
 	cmapp=plt.cm.plasma_r
-	cmapp.set_under('k')   #If distance info is missing (-1), plot in black
+	cmapp.set_under('grey')   #If distance info is missing (-1), plot in grey
 	mwsts.plot_stream_compilation(ax,plot_colorbar=True,scat_kwargs=dict(vmin=0.,vmax=90.,cmap=cmapp,alpha=0.3),
 	                              cb_kwargs=dict(label='Heliocentric Distance (kpc)'))
 	ax.set_xlim(0.,360.)
