@@ -156,7 +156,7 @@ class MWStreams(dict):
       for i in range(len(lono)):
         #Get great-circle lons,lats given end-points 
         if verbose: print 'Reading pair-list for %s' % (name[i])        
-        azs,lats,azcenter,latcenter=gcutils.get_gc_for_pair(lono[i],lato[i],lonf[i],latf[i],degree=True,step=gcstep,dlat=width) 
+        azs,lats,azcenter,latcenter=gcutils.get_gc_for_pair(lono[i],lato[i],lonf[i],latf[i],degree=True,step=gcstep,dlat=width[i]) 
         
         #Do linear interpolation for the distance, not much better to do
         if ro[i]==rf[i]: D=ro[i]*np.ones_like(azs)

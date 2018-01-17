@@ -15,7 +15,7 @@ def get_gc_for_pole(_lon,_lat,degree=True,step=0.01,dlat=0.,center=None,dlon=Non
 
     #Generate great circle with pole = u_z
     azs,thetas=np.array([]),np.array([])
-    if dlat and dlat>0:
+    if dlat>0:
      for lato in np.radians(np.arange(-dlat/2.,dlat/2.,step)):
         aux=np.radians(np.arange(0.,360.,step))
         azs=np.append(azs,aux)
@@ -50,7 +50,7 @@ def get_gc_for_pole(_lon,_lat,degree=True,step=0.01,dlat=0.,center=None,dlon=Non
     return (phi2,theta2)
 
 
-def get_gc_for_pair(lono,lato,lonf,latf,step=0.01,degree=True,dlat=None):
+def get_gc_for_pair(lono,lato,lonf,latf,step=0.01,degree=True,dlat=0.):
 
    #Find pole cartesian coords
    u_ini=bovyc.lbd_to_XYZ(lono,lato,1.,degree=degree)
