@@ -150,13 +150,13 @@ class MWStreams(dict):
     
       lib_end_points_filen=os.path.join(os.path.dirname(os.path.realpath(__file__)),'lib','lib_by_pair.dat')
 
-      lono,lato,lonf,latf,ro,rf=scipy.genfromtxt(lib_end_points_filen,usecols=(3-1,4-1,5-1,6-1,8-1,9-1),unpack=True)
+      lono,lato,lonf,latf,ro,rf,width=scipy.genfromtxt(lib_end_points_filen,usecols=(3-1,4-1,5-1,6-1,8-1,9-1,10-1),unpack=True)
       name,sname,cootype=scipy.genfromtxt(lib_end_points_filen,usecols=(1-1,2-1,7-1),unpack=True,dtype='S')
   
       for i in range(len(lono)):
         #Get great-circle lons,lats given end-points 
         if verbose: print 'Reading pair-list for %s' % (name[i])        
-        azs,lats,azcenter,latcenter=gcutils.get_gc_for_pair(lono[i],lato[i],lonf[i],latf[i],degree=True,step=gcstep) 
+        azs,lats,azcenter,latcenter=gcutils.get_gc_for_pair(lono[i],lato[i],lonf[i],latf[i],degree=True,step=gcstep,dlat=width) 
         
         #Do linear interpolation for the distance, not much better to do
         if ro[i]==rf[i]: D=ro[i]*np.ones_like(azs)

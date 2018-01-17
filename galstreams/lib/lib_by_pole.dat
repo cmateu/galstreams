@@ -1,12 +1,12 @@
 #dlon,dlat in deg; Ro,Rf in kpc
-#0        1          2          3        4         5           6       7         8     9       10   11
-#Name     pole_lon  pole_lat pole_coo  center_lon center_lat cent_coo dlon_deg  dlat    Ro    Rf    Reference
-PS1-A     300.856   20.732   equ       160.17     -62.27     gal      5.        0.45    7.9   7.9   Bernard2016      
-PS1-B     65.603    32.567   equ       248.41     +32.30     gal      10.       0.45    14.5  14.5  Bernard2016  
-PS1-C     232.227   33.838   equ       75.12      -32.6      gal      8.        0.333   17.4  17.4  Bernard2016  
-PS1-D     49.640     2.467   equ       231.06     +32.83     gal      45.       0.867   22.9  22.9  Bernard2016   
-PS1-E     42.526    23.987   equ       144.17     +58.40     gal      25.       0.617   12.6  12.6  Bernard2016   
-ATLAS     77.16     46.92    equ       25.        -30.       equ      12.       0.25    20.   20.   Koposov2014
-Ophiucus  184.32    77.25    equ       4.53        31.69     gal      2.5       0.12    9.5   9.5   Bernard2014
-Sangarius 178.     -52.      gal     149.01       +7.847     equ      59.       0.44    21.   21.   Grillmair2017
-Scamander 196.     -41.      gal     153.52      +12.46      equ      66.       0.22    21.   21.   Grillmair2017
+#0           1          2          3        4         5           6       7         8     9       10   11
+#Name        pole_lon  pole_lat pole_coo  center_lon center_lat cent_coo dlon_deg  dlat    Ro    Rf    Reference
+PS1-A        300.856   20.732   equ       160.17     -62.27     gal      5.        0.45    7.9   7.9   Bernard2016      
+PS1-B        65.603    32.567   equ       248.41     +32.30     gal      10.       0.45    14.5  14.5  Bernard2016  
+PS1-C        232.227   33.838   equ       75.12      -32.6      gal      8.        0.333   17.4  17.4  Bernard2016  
+PS1-D        49.640     2.467   equ       231.06     +32.83     gal      45.       0.867   22.9  22.9  Bernard2016   
+PS1-E        42.526    23.987   equ       144.17     +58.40     gal      25.       0.617   12.6  12.6  Bernard2016   
+ATLAS        77.16     46.92    equ       25.        -30.       equ      12.       0.25    20.   20.   Koposov2014
+Ophiucus     184.32    77.25    equ       4.53        31.69     gal      2.5       0.12    9.5   9.5   Bernard2014
+Sangarius    178.     -52.      gal     149.01       +7.847     equ      59.       0.44    21.   21.   Grillmair2017
+Scamander    196.     -41.      gal     153.52      +12.46      equ      66.       0.22    21.   21.   Grillmair2017
