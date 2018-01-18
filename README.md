@@ -136,7 +136,6 @@ The following table summarizes the streams included in the library. The list of 
 | Aliqa Uma    |  Shipp et al. 2018         |   Turbio    |  Shipp et al. 2018               |
 | Willka Yaku  |  Shipp et al. 2018         | Turranburra |  Shipp et al. 2018               |
 | Wambelong    |  Shipp et al. 2018         | Palca       |  Shipp et al. 2018               |
-|              |  Shipp et al. 2018         |             |  Shipp et al. 2018               |
 
 
 ----------
