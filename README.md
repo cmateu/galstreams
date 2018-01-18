@@ -31,7 +31,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 ### VERSION HISTORY:
 
 - 2018/01/17: Label centering changed. Now can be set arbitrarily at log file. Labels checked in gal/equ/GC
-- 2018/01/17: New DES streams (Shipp et al. 2018) and Jet stream (Jethwa et al. 2017) added.
+- 2018/01/17: *New DES streams* (Shipp et al. 2018) *and Jet stream* (Jethwa et al. 2017) *added*.
 	      Width option added to end-points constructor and now included for all streams defined this way. 
 - 2017/11/21: Eri/Phe coordinates fixed and reference added to Table.
 
