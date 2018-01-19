@@ -363,7 +363,7 @@ class MWStreams(dict):
   def plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,
                               use_shortnames=False,plot_colorbar=False,
                               scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,cootype='gal',verbose=False,
-                              exclude_streams=[]): 
+                              exclude_streams=[],include_only=[]): 
 
    #Validate options for cootype
    coo_types = ['gal', 'equ', 'GC']
@@ -411,7 +411,10 @@ class MWStreams(dict):
    if Rrange[1]<9e9: scatter_kwargs['vmax']=Rrange[1]
 
    #------------------------------PLOT---------------------------------------------------------------------- 
-   for i in self.keys(): 
+   keys_to_plot=self.keys()
+   if include_only: keys_to_plot=include_only
+
+   for i in keys_to_plot:
 
     #Skip it stream name in list of excluded streams    
     if i in exclude_streams:
