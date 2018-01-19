@@ -30,6 +30,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 
 ### VERSION HISTORY:
 
+- 2018/01/19: Orinoco and Murrumbidgee footprints corrected. Shortname attribute added. Use shortname option in plots added.
 - 2018/01/17: Label centering changed. Now can be set arbitrarily at log file. Labels checked in gal/equ/GC
 - 2018/01/17: *New DES streams* (Shipp et al. 2018) *and Jet stream* (Jethwa et al. 2017) *added*.
 	      Width option added to end-points constructor and now included for all streams defined this way. 
@@ -73,8 +74,11 @@ To make a quick plot of the stream’s library stored in the mwsts object use:
 	ax=fig.add_subplot(111)
 	cmapp=plt.cm.plasma_r
 	cmapp.set_under('grey')   #If distance info is missing (-1), plot in grey
-	mwsts.plot_stream_compilation(ax,plot_colorbar=True,scat_kwargs=dict(vmin=0.,vmax=90.,cmap=cmapp,alpha=0.3),
-	                              cb_kwargs=dict(label='Heliocentric Distance (kpc)'))
+        mwsts.plot_stream_compilation(ax,plot_colorbar=True,scat_kwargs=dict(vmin=0.,vmax=80.,cmap=cmapp, alpha=0.3),
+                                      use_shortnames=False, cb_kwargs=dict(label='Heliocentric Distance (kpc)')) 
+                                      verbose=False)
+
+
 	ax.set_xlim(0.,360.)
 	ax.set_ylim(-90.,90.)
 	ax.set_xlabel('$l$ (deg)')

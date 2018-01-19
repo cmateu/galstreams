@@ -360,7 +360,8 @@ class MWStreams(dict):
     self.load_user_defined_centers_and_shortnames()
 
   #-------------method to plot whole MW streams compilation object at once------------------------------------
-  def plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,plot_colorbar=False,
+  def plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,
+                              use_shortnames=False,plot_colorbar=False,
                               scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,cootype='gal',verbose=False,
                               exclude_streams=[]): 
 
@@ -447,8 +448,10 @@ class MWStreams(dict):
    
     cc=ax.scatter(lons,latts,c=Rs,**scatter_kwargs)
     if plot_names:
+     if use_shortnames: plotname=self[i].sname
+     else:              plotname=self[i].name
      ax.plot(loncenter,latcenter,**textsym_kwargs)
-     ax.text(loncenter,latcenter,self[i].name,**textlab_kwargs)
+     ax.text(loncenter,latcenter,plotname,**textlab_kwargs)
      
     if cc and plot_colorbar: 
         cbar=plt.colorbar(cc,ax=ax,**colorbar_kwargs)
