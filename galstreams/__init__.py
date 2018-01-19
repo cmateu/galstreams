@@ -4,6 +4,7 @@ import pylab as plt
 import bovy_coords as bovyc
 import gcutils 
 import os, os.path
+import sys
 
 #---------------------------------
 def get_random_spherical_angles(n,az=[0.,2*np.pi],lat=[-np.pi/2.,np.pi/2],degree=False):
@@ -40,52 +41,63 @@ def get_random_spherical_coords(n,rad=[0.,1.],az=[0.,2*np.pi],lat=[-np.pi/2.,np.
 #---------------------------------
 #Footprint class definition
 class Footprint:
-    def __init__(self,lon,lat,name,Rhel=None,vrad=None,pmlon=None,pmlat=None,cootype='gal',degree=True,is_pml_star=True,
-                 xyz_sun=[8.5,0.,0.],vel_sun=[10.3,232.6,5.9]):
+    def __init__(self,lon,lat,name,Dist=None,vrad=None,pmlon=None,pmlat=None,cootype='gal',degree=True,is_pml_star=True,
+                 xyz_sun=[8.5,0.,0.],vel_sun=[10.3,232.6,5.9],vxyz_gal=(),Rhel=None):
         
         self.deg=degree 
         self._f=np.pi/180.  
         self.name=name
         self.sname=name[:8]      
-        
-        if 'gal' in cootype:
-         self.l,self.b=lon,lat
-         mm=bovyc.lb_to_radec(self.l,self.b,degree=self.deg)  
-         if self.l.size>1: self.ra,self.dec=mm.T
-         else: self.ra,self.dec=mm       
-        else:
-         self.ra,self.dec=lon,lat 
-         mm=bovyc.radec_to_lb(self.ra,self.dec,degree=self.deg)
-         if self.ra.size>1: self.l,self.b=mm.T 
-         else: self.l,self.b=mm
-            
-        if Rhel is not None: self.Rhel=Rhel
-        if vrad is not None: self.vrad=vrad
-            
-        if 'gal' in cootype:
-            if pmlon is not None: 
-                if is_pml_star: self.pmlstar,self.pml=pmlon,pmlon/np.cos(_f*self.b)
-                else: self.pmlstar,self.pml=pmlon*np.cos(_f*self.b),pmlon
-            if pmlat is not None: self.pmb=pmlat
-        else:        
-            if pmlon is not None: 
-                if is_pml_star: self.pmrastar,self.pmra=pmlon,pmlon/np.cos(_f*self.dec)
-                else: self.pmrastar,self.pmra=pmlon*np.cos(_f*self.dec),pmlon
-            if pmlat is not None: self.pmdec=pmlat
 
-        #Bovy's library assumes Sun's position is positive. Flip X-axis if xsun<0
-        #if xyz_sun[0]<0.: sign=-1
-        #else: sign=+1
+        #Bovy's library assumes Sun's position is positive. Flip X-axis is done later
         sign=1.
-
         #Save Sun's position
         self.xsun, self.ysun, self.zsun= xyz_sun
         self.vxsun, self.vysun, self.vzsun= vel_sun
         self.xsun, self.vxsun = sign*self.xsun, sign*self.vxsun
+        
+        #Rhel is kept for backwards compatibility
+        if Rhel is not None and 'GC' in cootype: 
+          sys.exit('ERROR: Rhel not compatible with cootype=GC (distance provided should be galactocentric)')
+        elif Rhel is not None: Dist,self.Rhel=Rhel,Rhel
 
-        #Set galactocentric attributes
-        if hasattr(self,'Rhel') : self.compute_galactocentric_coords(degree=degree)
-         
+        if 'GC' in cootype:
+          if Dist is not None: self.Rgal=Dist
+          else: sys.exit('ERROR: Distance is mandatory to instantiate a Footprint in Galactocentric coords (cootype=GC)')
+
+          self.phi,self.theta=lon,lat
+          if vxyz_gal: self.vx,self.vy,self.vz=vxyz_gal
+          #Compute and set all heliocentric attributes
+          self.compute_heliocentric_coords(degree=degree)
+        else:
+          if 'gal' in cootype:
+           self.l,self.b=lon,lat
+           mm=bovyc.lb_to_radec(self.l,self.b,degree=self.deg)  
+           if self.l.size>1: self.ra,self.dec=mm.T
+           else: self.ra,self.dec=mm       
+          else:
+           self.ra,self.dec=lon,lat 
+           mm=bovyc.radec_to_lb(self.ra,self.dec,degree=self.deg)
+           if self.ra.size>1: self.l,self.b=mm.T 
+           else: self.l,self.b=mm
+              
+          if Dist is not None: self.Rhel=Dist
+          if vrad is not None: self.vrad=vrad
+            
+          if 'gal' in cootype:
+            if pmlon is not None: 
+                if is_pml_star: self.pmlstar,self.pml=pmlon,pmlon/np.cos(_f*self.b)
+                else: self.pmlstar,self.pml=pmlon*np.cos(self._f*self.b),pmlon
+            if pmlat is not None: self.pmb=pmlat
+          else:        
+            if pmlon is not None: 
+                if is_pml_star: self.pmrastar,self.pmra=pmlon,pmlon/np.cos(_f*self.dec)
+                else: self.pmrastar,self.pmra=pmlon*np.cos(self._f*self.dec),pmlon
+            if pmlat is not None: self.pmdec=pmlat
+
+          #Set galactocentric attributes
+          if hasattr(self,'Rhel') : self.compute_galactocentric_coords(degree=degree)
+
         #Set center attributes
         self.compute_sky_center()
 
@@ -121,8 +133,8 @@ class Footprint:
       if verbose: print 'Converting Heliocentric Galactic Spherical to Heliocentric Cartesian coords...'
       m=bovyc.lbd_to_XYZ(self.l,self.b,self.Rhel,degree=degree)
       self.xhel,self.yhel,self.zhel=m.T
-      if hasattr(self,'vrad') and hasattr(self,'mub') :
-        m=bovyc.vrpmllpmbb_to_vxvyvz(self.vrad,self.mulstar,self.mub,self.l,self.b,self.Rhel,XYZ=False,degree=degree)
+      if hasattr(self,'vrad') and hasattr(self,'pmb') :
+        m=bovyc.vrpmllpmbb_to_vxvyvz(self.vrad,self.pmlstar,self.pmb,self.l,self.b,self.Rhel,XYZ=False,degree=degree)
         self.vxhel,self.vyhel,self.vzhel=m.T
 
       #Convert Heliocentric Cartesian to Galactocentric Cartesian
@@ -144,6 +156,31 @@ class Footprint:
       self.x=-self.x
       self.phi= (2*np.pi*f - self.phi) - np.pi*f
       self.phi[self.phi<0]=self.phi[self.phi<0]+2*np.pi*f
+
+    def compute_heliocentric_coords(self,verbose=False,degree=True):
+
+       #Set Galactocentric Cartesian coords
+       xg,yg,zg=bovyc.lbd_to_XYZ(self.phi,self.theta,self.Rgal,degree=degree).T
+       self.x,self.y,self.z=-xg,yg,zg
+       #Convert to Heliocentric
+       self.xhel,self.yhel,self.zhel=bovyc.galcenrect_to_XYZ(self.x,self.y,self.z,
+                                                             Xsun=self.xsun,Ysun=self.ysun,Zsun=self.zsun)
+       #Save Heliocentric galactic and equatorial
+       self.l,self.b,self.Rhel=bovyc.XYZ_to_lbd(self.xhel,self.yhel,self.zhel,degree=degree).T
+       self.ra,self.dec=bovyc.lb_to_radec(self.l,self.b,degree=degree).T
+ 
+       #Set kinematic attributes, if vels available   
+       if hasattr(self,'vx') and hasattr(self,'vy') and hasattr(self,'vz'):
+          #Cartesian Heliocentric
+          m=bovyc.galcenrect_to_vxvyvz(self.vx,self.vy,self.vz,vsun=[self.vxsun, self.vysun, self.vzsun])
+          self.vxhel,self.vyhel,self.vzhel=m
+          #Spherical Heliocentric Galactic
+          m=bovyc.vxvyvz_to_vrpmllpmbb(self.vxhel,self.vyhel,self.vzhel,self.l,self.b,self.Rhel,XYZ=False,degree=degree)
+          self.vrad,self.pmlstar,self.pmb=m.T
+          self.pml=self.pmlstar/np.cos(self.b*self._f)  
+          #Spherical Heliocentric Equatorial
+          self.pmrastar,self.pmdec=pmllpmbb_to_pmrapmdec(self.pml,self.pmb,self.l,self.b,degree=degree,epoch=2000.0) 
+          self.pmra=self.pmrastar/np.cos(self.dec*self._f)  
 
 #---------MW Streams class--------------------------------------------------------------------------------
         
@@ -168,7 +205,7 @@ class MWStreams(dict):
         else: D=-1*np.ones_like(azs)
         
         #Create footprint appropriately depending on coord type, this will define the l,b,ra,dec attributes appropriately
-        footprint=Footprint(azs,lats,name[i],Rhel=D,degree=True,cootype=cootype[i])
+        footprint=Footprint(azs,lats,name[i],Dist=D,degree=True,cootype=cootype[i])
         
         #Store
         self[name[i]]=footprint     
@@ -212,7 +249,7 @@ class MWStreams(dict):
            else: D=-1*np.ones_like(gc_lons)
                                            
            #Create footprint appropriately depending on coord type, this will define the l,b,ra,dec attributes appropriately
-           footprint=Footprint(gc_lons,gc_lats,name[i],Rhel=D,degree=True,cootype=pole_coot[i])
+           footprint=Footprint(gc_lons,gc_lats,name[i],Dist=D,degree=True,cootype=pole_coot[i])
         
            #Store
            self[name[i]]=footprint     
@@ -246,7 +283,7 @@ class MWStreams(dict):
      Rs,azs,lats=get_random_spherical_coords(Nran,rad=[ro,rf],az=[azo,azf],lat=[lato,latf],degree=True)
 
      #Create footprint appropriately depending on coord type, this will define the l,b,ra,dec attributes appropriately
-     footprint=Footprint(azs,lats,name[i],Rhel=Rstat_func(Rs)*np.ones_like(Rs),degree=True,cootype=cootype[i])
+     footprint=Footprint(azs,lats,name[i],Dist=Rstat_func(Rs)*np.ones_like(Rs),degree=True,cootype=cootype[i])
         
      #Store
      self[name[i]]=footprint  
@@ -293,7 +330,7 @@ class MWStreams(dict):
         az_int,lat_int,Rhel_int=azs,lats,Rhels          
                           
        #Create footprint appropriately depending on coord type, this will define the l,b,ra,dec attributes appropriately
-       footprint=Footprint(az_int,lat_int,name[i],Rhel=Rhel_int,degree=True,cootype=cootype[i])
+       footprint=Footprint(az_int,lat_int,name[i],Dist=Rhel_int,degree=True,cootype=cootype[i])
                         
        #If cntflg_col==1, force center to this coords (instead of the default vector mean)
        if cntflg_col[i]>=0:
@@ -322,7 +359,7 @@ class MWStreams(dict):
           if not np.isnan(_phi[ii])  and not np.isnan(_theta[ii]): self[names[ii]].cphi,self[names[ii]].ctheta = _phi[ii], _theta[ii] 
          #Setting short names
          self[names[ii]].sname=shortnames[ii]        
-       except KeyError: print 'WARNING: No stream found with %s name used lib_centers.log' % (stname)
+       except KeyError: print 'WARNING: No stream found with %s name used lib_centers.log' % (names[ii])
 
   def __init__(self,verbose=True,gcstep=0.1,N=1000,Rstat='mean'):
         

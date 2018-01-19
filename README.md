@@ -30,6 +30,8 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 
 ### VERSION HISTORY:
 
+- 2018/01/19: Corvus and 20.0-1 stream's (Mateu et al. 2018 high-confidence candidates) footprints added 
+- 2018/01/19: New functionality added: Footprints can be initialized with cootype=GC 
 - 2018/01/19: Orinoco and Murrumbidgee footprints corrected. Shortname attribute added. Use shortname option in plots added.
 - 2018/01/17: Label centering changed. Now can be set arbitrarily at log file. Labels checked in gal/equ/GC
 - 2018/01/17: *New DES streams* (Shipp et al. 2018) *and Jet stream* (Jethwa et al. 2017) *added*.
@@ -140,7 +142,7 @@ The following table summarizes the streams included in the library. The list of 
 | Aliqa Uma    |  Shipp et al. 2018         |   Turbio    |  Shipp et al. 2018               |
 | Willka Yaku  |  Shipp et al. 2018         | Turranburra |  Shipp et al. 2018               |
 | Wambelong    |  Shipp et al. 2018         | Palca       |  Shipp et al. 2018               |
-
+| Corvus       |  Mateu et al. 2018         | 20.0-1      |  Mateu et al. 2018               |
 
 ----------
 
