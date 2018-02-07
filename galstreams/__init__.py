@@ -402,6 +402,12 @@ class MWStreams(dict):
                               scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,cootype='gal',verbose=False,
                               exclude_streams=[],include_only=[]): 
 
+   '''plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,
+                              use_shortnames=False,plot_colorbar=False,
+                              scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,cootype='gal',verbose=False,
+                              exclude_streams=[],include_only=[])  '''
+
+
    #Validate options for cootype
    coo_types = ['gal', 'equ', 'GC']
    if cootype not in coo_types:
