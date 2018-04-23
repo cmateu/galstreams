@@ -1,0 +1,12 @@
+# Compiled by Cecilia Mateu (Apr 2018)
+# RA,DEC      - J2000
+# GLON,GLAT   - Galactic coords
+# D (kpc)     - Heliocentric distance 
+# Mv (mag)    - Total Absolute V-band mag
+# rh (arcmin) - Half-light radius
+# rh (pc)     - Half-light radius
+# Type        - 1=Classical, 2=Ultra-Faint
+#Tuc5       "Tucana 5"               316.3   -51.9     55.    -1.6    1.0    17.   2   Drlica-Wagner2015                  Conn2018a claims not a dwarf           
+#CetusII    "Cetus II"               156.48  -78.53    30.     0.0    1.9    17.   2   Drlica-Wagner2015         Conn2018a claims not a dwarf
+#CMa        "Canis Major"            240.0    -8.0       7.   -14.4   ""    ""     2   McConnachie2012 not-dwarf:Mateu2009-noRRLS,Carraro2008,Momany2006,etc. 
+#ShortName FullName                 GLON      GLAT     D     Mv  rh_arcmin rh_pc Type Reference          Comment      
