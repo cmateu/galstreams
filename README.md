@@ -91,7 +91,7 @@ To make a quick plot of the stream’s library stored in the mwsts object use:
 
 ![see plot here](examples/quickex.png?raw=true "Example plot for galstreams")
 
-The plot is made in galactic coordinates by default, but equatorial and galactocentric spherical coordinates can also be used (cootype="equ" or cootype="gc") [see plots here](examples/quickex_lb_ra_phitheta.png). This example shows how you can make changes to the plot by passing arguments to the 'scatter' and 'colorbar' commands through the scat_kwargs and cb_kwargs keyword arguments. Also, axis text and symbol-text (stream names) properties can be modified using the text_kwargs and sym_kwargs. For more details on available MWStreams methods see [here](#mwstreams-class).
+The plot is made in galactic coordinates by default, but equatorial and galactocentric spherical coordinates can also be used (cootype="equ" or cootype="gc") ![see plot here](examples/quickex_lb_ra_phitheta.png?raw=true). This example shows how you can make changes to the plot by passing arguments to the 'scatter' and 'colorbar' commands through the scat_kwargs and cb_kwargs keyword arguments. Also, axis text and symbol-text (stream names) properties can be modified using the text_kwargs and sym_kwargs. For more details on available MWStreams methods see [here](#mwstreams-class).
 
 MW globular clusters data from the Harris (1996, 2010 edition) compilation is also included in the library. To quickly overplot globular clusters as an extra layer in the previous add:
 
