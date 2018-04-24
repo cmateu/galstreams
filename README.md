@@ -30,6 +30,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 
 ### VERSION HISTORY:
 
+- 2018/04/24: Tucana III stream (Drlica-Wagner et al. 2015, Shipp et al. 2018) added
 - 2018/04/23: Compilation of MW satellites added
 - 2018/01/24: Shortnames changed for Turbio (Trb) and Turramburra (Trn)
 - 2018/01/19: Corvus and 20.0-1 stream's (Mateu et al. 2018 high-confidence candidates) footprints added 
@@ -144,7 +145,8 @@ The following table summarizes the streams included in the library. The list of 
 | Aliqa Uma    |  Shipp et al. 2018         |   Turbio    |  Shipp et al. 2018               |
 | Willka Yaku  |  Shipp et al. 2018         | Turranburra |  Shipp et al. 2018               |
 | Wambelong    |  Shipp et al. 2018         | Palca       |  Shipp et al. 2018               |
-| Corvus       |  Mateu et al. 2018         | 20.0-1      |  Mateu et al. 2018               |
+| Corvus       |  Mateu et al. 2018         | Tucana III  |  Shipp et al. 2018               |
+| 20.0-1       |  Mateu et al. 2018         |             |                                  |
 
 ----------
 

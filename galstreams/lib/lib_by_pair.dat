@@ -16,6 +16,8 @@ GD-1      GD-1         220.   58.5   141.  +24.0   equ          8.5    8.5  0.5 
 ACS       ACS          126.4  -0.7   133.9 +64.2   equ          8.9    8.9  5.    Grillmair2006
 Pal15     Pal15        255.3  -1.47  254.8 -0.12   equ         38.4   38.4  0.    Myeong2017 
 Eridanus  Eri          65.98 -21.42   66.4 -20.96  equ         95.0   95.0  0.    Myeong2017
+#Tucana 3 discovered by Drlica-Wagner+2015. Distance gradiend of 4kpc (W-near, E-far)
+TucanaIII Tuc3         -6.3  -59.7    3.2  -59.4   equ         23.0   27.0  0.18  Shipp2018,DrlicaWagner2015
 #DES Streams, not accepted yet
 #Name     ShortName    lono   lato    lonf   latf  coo(equ/gal) Ro    Rf    Width Reference
 Indus       Ind     -36.3  -50.7   -8.0 -64.8      equ          16.6  16.6  0.83  Shipp2018   
