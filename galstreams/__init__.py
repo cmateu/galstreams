@@ -359,7 +359,7 @@ class MWStreams(dict):
           if not np.isnan(_phi[ii])  and not np.isnan(_theta[ii]): self[names[ii]].cphi,self[names[ii]].ctheta = _phi[ii], _theta[ii] 
          #Setting short names
          self[names[ii]].sname=shortnames[ii]        
-       except KeyError: print 'WARNING: No stream found with %s name used lib_centers.log' % (names[ii])
+       except KeyError: print 'WARNING: Name %s used lib_centers.log not found in lib* definition files' % (names[ii])
 
   def __init__(self,verbose=True,gcstep=0.1,N=1000,Rstat='mean'):
         
