@@ -3,7 +3,7 @@
 #StreamKey   ShortName   RA      DEC       l      b      phi   theta       
 #Set by star_list      
 Sgr-L10      Sgr        ''       ''        8.   -14       6.    -10.     
-Orphan       Orp        ""       ""      234. +53.5     233.    +37.    
+Orphan       Orp       178.     -45.     234. +52.5     233.    +37.    
 Tri/Pis      TriPis     ''       ''      134. -36.0       ''      ''      
 NGC5466      NGC5466   190.     37.      64.    80.     114.    72.9      
 ACS          ACS        ''       ''       ''     ''       ''      ''      
@@ -14,14 +14,14 @@ Cetus        Cet        ''       ''       ''     ''       ''      ''
 Kwando       Kwa       19.      -25     207.   -78.      195     -56       
 Molonglo     Mol        ''       ''       ''     ''       ''      ''       
 Murrumbidgee Mur         6       4.     105.   -48.      137     -45      
-Orinoco      Ori       12.    -25.       86.   -87.      151     -73      
+Orinoco      Ori       12.    -25.       50.   -83.      155     -73      
 ##Set by pole      
 PS1-A        PS1-A     ''       ''    ''    ''            ''      ''                
 PS1-B        PS1-B     ''       ''    ''    ''          219.5     27             
 PS1-C        PS1-C     ''       ''    ''    ''            ''      ''             
 PS1-D        PS1-D     ''       ''    210.   +42.       228.      18.            
 PS1-E        PS1-E     ''       ''    ''    ''            ''      ''             
-ATLAS        ATLAS     ''       ''    ''     ''         186.     -64                  
+ATLAS        ATLAS     ''       ''    ''     ''         182.     -60                  
 Ophiucus     Ophi      ''       ''    ''    ''            ''      ''             
 Sangarius    Sang   133.0     21.0       199.    36.    195.      26            
 Scamander    Sca    147.0    +18.     235.      42.     193.      36            
@@ -59,8 +59,13 @@ Wambelong   Wam          ''    ''        ''     ''       ''      ''
 Palca       Palca      18.   -14.       182.   -82.     202      -72      
 TucanaIII   Tuc3        ''    ''        ''     ''       ''      ''
 Jet         Jet         ''    ''        ''     ''       237     12        
+Gaia-1      Gaia1       ''    ''         ''     ''      ''      ''
+Gaia-2      Gaia2      80.   -85.        ''     ''      ''      ''
+Gaia-3      Gaia3       ''    ''         ''     ''      ''      ''
+Gaia-4      Gaia4       ''    ''         ''     ''      ''      ''
+Gaia-5      Gaia5       ''    ''         ''     ''      ''      ''
 ##Set by lon-lat range      
-VOD/VSS     VOD/VSS     ''    ''          ''     ''      ''      ''       
+VOD/VSS     VOD/VSS    ''    ''          ''     ''      ''      ''       
 Monoceros  Mon         ''    ''          ''     ''      ''      ''       
 EBS        EBS         ''    ''          ''     ''      ''      ''       
 Her-Aq     HerAq       ''    ''         50.      0      ''      ''       
