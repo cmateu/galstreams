@@ -318,8 +318,11 @@ class MWStreams(dict):
        if interp_flg[i]==1 and azs.size>1:
          #connect these with linear interpolation  
          az_int=np.linspace(azs.min(),azs.max(),Nint)
-         lat_int =scipy.interp(az_int,azs,lats)
-         Rhel_int=scipy.interp(az_int,azs,Rhels)
+         lat_spline=scipy.interpolate.CubicSpline(azs,lats,bc_type='natural')
+         Rhel_spline=scipy.interpolate.CubicSpline(azs,Rhels,bc_type='natural')
+         lat_int,Rhel_int=lat_spline(az_int),Rhel_spline(az_int)
+         #lat_int =scipy.interp(az_int,azs,lats)
+         #Rhel_int=scipy.interp(az_int,azs,Rhels)
 
          #If any points have Rhel=-1, make sure not to use them for interpolation
          if (Rhels<0).any():

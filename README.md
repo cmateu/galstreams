@@ -30,7 +30,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 
 ### VERSION HISTORY:
 
-- 2019/01/30: Phlegethon stream added (Ibata et al. 2019)
+- 2019/01/30: Phlegethon stream added (Ibata et al. 2018)
 - 2019/01/30: Orphan stream track updated (Koposov et al. 2019)
 - 2019/01/30: Gaia1-5 streams (Malhan et al. 2018) added
 - 2018/04/24: Tucana III stream (Drlica-Wagner et al. 2015, Shipp et al. 2018) added
@@ -135,7 +135,7 @@ The following table summarizes the streams included in the library. The list of 
 | Hyllus       |  Grillmair 2014            |   Tri-And   |  Grillmair & Carlin 2016         |
 | Kwando       |  Grillmair 2017b           |   Tri-And2  |  Grillmair & Carlin 2016         |
 | Lethe        |  Grillmair 2009            |   Tri/Pis   |  Bonaca 2012                     |
-| Molonglo     |  Grillmair 2017b           |   VOD/VSS   |  Grillmair & Carlin 2016         |
+| Molonglo     |  Grillmair 2017b           |   VOD/VSS   |  Duffau et al. 2006              |
 | Monoceros    |  Grillmair & Carlin 2016   |   WG1       |  Agnello 2017                    |
 | Murrumbidgee |  Grillmair 2017b           |   WG2       |  Agnello 2017                    |
 | NGC5466      |  Grillmair & Johnson2006   |   WG3       |  Agnello 2017                    |
@@ -150,7 +150,7 @@ The following table summarizes the streams included in the library. The list of 
 | Wambelong    |  Shipp et al. 2018         | Palca       |  Shipp et al. 2018               |
 | Corvus       |  Mateu et al. 2018         | Tucana III  |  Shipp et al. 2018               |
 | 20.0-1       |  Mateu et al. 2018         | Gaia-[1,5]  |  Malhan et al. 2018              |
-| Phlegethon   |  Ibata et al. 2019         |             |                                  |
+| Phlegethon   |  Ibata et al. 2018         |             |                                  |
 
 ----------
 

@@ -14,10 +14,10 @@
  1   2   3    1      1        0   equ      Alpheus      lib_by_star.alpheus.grillmair2013.dat         Grillmair2013
  1   2   3    0      1        0   equ      Hermus       lib_by_star.hermus.grillmair2014.dat          Grillmair2014
  1   2   3    0      1        0   equ      Hyllus       lib_by_star.hyllus.grillmair2014.dat          Grillmair2014
- 1   2   3    1      0        0   gal      Cetus        lib_by_star.cetus.newberg2009.dat             Newberg2009
-# 1   2   3    1      0        0   gal      Cetus2       lib_by_star.cetus.yam2013.dat                 Yam2013
+# 1   2   3    1      0        0   gal      Cetus        lib_by_star.cetus.newberg2009.dat             Newberg2009
+ 1   2   3    1      0        0   gal      Cetus        lib_by_star.cetus.yam2013.dat                 Yam2013
  1   2   3    0      1        0   equ      Kwando       lib_by_star.kwando.grillmair2017.dat          Grillmair2017  
  1   2   3    0      1        0   equ      Molonglo     lib_by_star.molonglo.grillmair2017.dat        Grillmair2017    
  1   2   3    0      1        0   equ      Murrumbidgee lib_by_star.murrumbidgee.grillmair2017.dat    Grillmair2017        
  1   2   3    0      1        0   equ      Orinoco      lib_by_star.orinoco.grillmair2017.dat         Grillmair2017   
- 1   2   3    1      1        0   gal      Phlegethon   lib_by_star.phlegethon.ibata2019.dat           Ibata2019
+ 1   2   3    1      1        0   gal      Phlegethon   lib_by_star.phlegethon.ibata2018.dat          Ibata2018
