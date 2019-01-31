@@ -321,14 +321,15 @@ class MWStreams(dict):
          lat_spline=scipy.interpolate.CubicSpline(azs,lats,bc_type='natural')
          Rhel_spline=scipy.interpolate.CubicSpline(azs,Rhels,bc_type='natural')
          lat_int,Rhel_int=lat_spline(az_int),Rhel_spline(az_int)
-         #lat_int =scipy.interp(az_int,azs,lats)
-         #Rhel_int=scipy.interp(az_int,azs,Rhels)
 
          #If any points have Rhel=-1, make sure not to use them for interpolation
          if (Rhels<0).any():
           #range of azs with valid Rhel:
           azmin,azmax=np.min(azs[Rhels>=0]),np.max(azs[Rhels>=0])
           Rhel_int[(az_int<azmin) | (az_int>azmax)]=-1
+         #If there are negative latitudes given, make sure to translate to [0,360] 
+         if (az_int<0).any():
+          az_int[az_int<0] = 360.+ az_int[az_int<0]    
        else:
         az_int,lat_int,Rhel_int=azs,lats,Rhels          
                           

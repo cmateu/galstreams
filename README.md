@@ -30,10 +30,10 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 
 ### VERSION HISTORY:
 
-- 2019/01/30: Phlegethon stream added (Ibata et al. 2018)
+- 2019/01/30: *NEW Phlegethon and 8 norse streams* added (Ibata et al. 2018, 2019)
 - 2019/01/30: Cetus stream coordinates updated (Yam et al. 2013), minor error fixed
-- 2019/01/30: Orphan stream track updated (Koposov et al. 2019)
-- 2019/01/30: Gaia1-5 streams (Malhan et al. 2018) added
+- 2019/01/30: *Orphan stream track updated* (Koposov et al. 2019)
+- 2019/01/30: Gaia1-5 streams added (Malhan et al. 2018) 
 - 2018/04/24: Tucana III stream (Drlica-Wagner et al. 2015, Shipp et al. 2018) added
 - 2018/04/23: Compilation of MW satellites added
 - 2018/01/24: Shortnames changed for Turbio (Trb) and Turramburra (Trn)
@@ -41,7 +41,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 - 2018/01/19: New functionality added: Footprints can be initialized with cootype=GC 
 - 2018/01/19: Orinoco and Murrumbidgee footprints corrected. Shortname attribute added. Use shortname option in plots added.
 - 2018/01/17: Label centering changed. Now can be set arbitrarily at log file. Labels checked in gal/equ/GC
-- 2018/01/17: *New DES streams* (Shipp et al. 2018) *and Jet stream* (Jethwa et al. 2017) *added*.
+- 2018/01/17: New DES streams (Shipp et al. 2018) and Jet stream (Jethwa et al. 2017) added.
 	      Width option added to end-points constructor and now included for all streams defined this way. 
 - 2017/11/21: Eri/Phe coordinates fixed and reference added to Table.
 
@@ -151,7 +151,12 @@ The following table summarizes the streams included in the library. The list of 
 | Wambelong    |  Shipp et al. 2018         | Palca       |  Shipp et al. 2018               |
 | Corvus       |  Mateu et al. 2018         | Tucana III  |  Shipp et al. 2018               |
 | 20.0-1       |  Mateu et al. 2018         | Gaia-[1,5]  |  Malhan et al. 2018              |
-| Phlegethon   |  Ibata et al. 2018         |             |                                  |
+| Phlegethon   |  Ibata et al. 2018         | Slidr       |  Ibata et al. 2019               |
+| Sylgr        |  Ibata et al. 2019         | Fjorm       |  Ibata et al. 2019               |
+| Ylgr         |  Ibata et al. 2019         | Gjoll       |  Ibata et al. 2019               | 
+| Fimbulthul   |  Ibata et al. 2019         | Leiptr      |  Ibata et al. 2019               | 
+| Svol         |  Ibata et al. 2019         |             |                                  |
+
 
 ----------
 

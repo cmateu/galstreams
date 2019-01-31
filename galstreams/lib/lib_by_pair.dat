@@ -9,7 +9,8 @@ WG3       WG3          304.1  -47.7  351.3  -44.8  equ          ''    ''    0.  
 WG4       WG4          300.0  -49.4  333.5  -66.0  equ          ''    ''    0.    Agnello2017          
 Acheron   Ach          230.   -2.    259.   +21.   equ          3.5   3.8   0.9   Grillmair2009
 Cocytos   Coc          186.   -3.    259.   +20.   equ          11.   11.   0.7   Grillmair2009
-Lethe     Let          258.   +20.   171.   +18.   equ          13.   13.   0.4   Grillmair2009
+#Lethe     Let          258.   +20.   171.   +18.   equ          13.   13.   0.4   Grillmair2009
+Lethe     Let          171.   +18.   258.   +20.   equ          13.   13.   0.4   Grillmair2009
 Styx      Sty          259.   +21.   194.   +20.   equ          45.   45.   3.3   Grillmair2009
 Pal5      Pal5         226.3  -2.9   246.   +7.9   equ         23.2   23.2  0.7   Grillmair2006,Odenkirchen2003
 GD-1      GD-1         220.   58.5   141.  +24.0   equ          8.5    8.5  0.5   Grillmair2006
