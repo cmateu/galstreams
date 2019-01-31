@@ -136,7 +136,7 @@ The following table summarizes the streams included in the library. The list of 
 | Hyllus       |  Grillmair 2014            |   Tri-And   |  Grillmair & Carlin 2016         |
 | Kwando       |  Grillmair 2017b           |   Tri-And2  |  Grillmair & Carlin 2016         |
 | Lethe        |  Grillmair 2009            |   Tri/Pis   |  Bonaca 2012                     |
-| Molonglo     |  Grillmair 2017b           |   VOD/VSS   |  Duffau et al. 2006              |
+| Molonglo     |  Grillmair 2017b           |   VOD/VSS   |  Vivas et al. 2001              |
 | Monoceros    |  Grillmair & Carlin 2016   |   WG1       |  Agnello 2017                    |
 | Murrumbidgee |  Grillmair 2017b           |   WG2       |  Agnello 2017                    |
 | NGC5466      |  Grillmair & Johnson2006   |   WG3       |  Agnello 2017                    |
