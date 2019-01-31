@@ -221,6 +221,16 @@ A convenience method is provided to apply a mask to all array attributes of a Fo
 
 For full details, please see the doc-string for the Footprint class.
 
+
+----------
+**Notes about excluded streams**
+
+Streams that are very close to or surround the Sun are excluded. The following (incomplete list) are, therefore, not included:
+
+- S1-S4, C1-C2 (Myeong et al. 2018)
+- Helmi et al. 1999 stream
+
+
 ----------
 
 **FILES PROVIDED**
