@@ -31,6 +31,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 ### VERSION HISTORY:
 
 - 2019/01/30: Phlegethon stream added (Ibata et al. 2018)
+- 2019/01/30: Cetus stream coordinates updated (Yam et al. 2013), minor error fixed
 - 2019/01/30: Orphan stream track updated (Koposov et al. 2019)
 - 2019/01/30: Gaia1-5 streams (Malhan et al. 2018) added
 - 2018/04/24: Tucana III stream (Drlica-Wagner et al. 2015, Shipp et al. 2018) added
