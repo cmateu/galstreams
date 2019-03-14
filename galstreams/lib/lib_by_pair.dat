@@ -13,7 +13,7 @@ Cocytos   Coc          186.   -3.    259.   +20.   equ          11.   11.   0.7 
 Lethe     Let          171.   +18.   258.   +20.   equ          13.   13.   0.4   Grillmair2009
 Styx      Sty          259.   +21.   194.   +20.   equ          45.   45.   3.3   Grillmair2009
 Pal5      Pal5         226.3  -2.9   246.   +7.9   equ         23.2   23.2  0.7   Grillmair2006,Odenkirchen2003
-GD-1      GD-1         220.   58.5   141.  +24.0   equ          8.5    8.5  0.5   Grillmair2006
+#GD-1      GD-1         220.   58.5   141.  +24.0   equ          8.5    8.5  0.5   Grillmair2006
 ACS       ACS          126.4  -0.7   133.9 +64.2   equ          8.9    8.9  5.    Grillmair2006
 Pal15     Pal15        255.3  -1.47  254.8 -0.12   equ         38.4   38.4  0.    Myeong2017 
 Eridanus  Eri          65.98 -21.42   66.4 -20.96  equ         95.0   95.0  0.    Myeong2017

@@ -30,6 +30,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 
 ### VERSION HISTORY:
 
+- 2019/03/14: *GD-1 footprint updated* (Price-Whelan & Bonaca, 2018) - Courtesy of A. Price-Whelan.
 - 2019/01/30: *NEW Phlegethon and 8 norse streams* added (Ibata et al. 2018, 2019)
 - 2019/01/30: Cetus stream coordinates updated (Yam et al. 2013), minor error fixed
 - 2019/01/30: *Orphan stream track updated* (Koposov et al. 2019)
@@ -116,7 +117,7 @@ define a stream’s footprint:
 - lib_by_star.log (input: list of star coordinates. this is a log file where the format and location of the star list files are set for each defined stream)  
 
 
-The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2016) review (their Table 4.1) and updated as of 17/Jan/2018.
+The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2016) review (their Table 4.1) and updated as of 14/Mar/2019. The list of references provided below refers to the sources for the footprint definitions.
 
 
 | Name         | Reference                  |   Name      |  Reference                       |
@@ -127,7 +128,7 @@ The following table summarizes the streams included in the library. The list of 
 | ATLAS        |  Koposov 2014              |   PS1-A     |  Bernard 2016                    |
 | Cetus        |  Newberg 2009              |   PS1-B     |  Bernard 2016                    |
 | Cocytos      |  Grillmair 2009            |   PS1-C     |  Bernard 2016                    |
-| GD-1         |  Grillmair 2006            |   PS1-D     |  Bernard 2016                    |
+| GD-1         |  Price-Whelan & Bonaca 2018|   PS1-D     |  Bernard 2016                    |
 | EBS          |  Grillmair & Carlin 2016   |   PS1-E     |  Bernard 2016                    |
 | Eridanus     |  Myeong2017                |   Sagitarius|  Law & Majewski 2010 (model)     |
 | Eri/Phe      |  Li2016                    |   Sangarius |  Grillmair 2017                  |
@@ -136,7 +137,7 @@ The following table summarizes the streams included in the library. The list of 
 | Hyllus       |  Grillmair 2014            |   Tri-And   |  Grillmair & Carlin 2016         |
 | Kwando       |  Grillmair 2017b           |   Tri-And2  |  Grillmair & Carlin 2016         |
 | Lethe        |  Grillmair 2009            |   Tri/Pis   |  Bonaca 2012                     |
-| Molonglo     |  Grillmair 2017b           |   VOD/VSS   |  Vivas et al. 2001              |
+| Molonglo     |  Grillmair 2017b           |   VOD/VSS   |  Vivas et al. 2001               |
 | Monoceros    |  Grillmair & Carlin 2016   |   WG1       |  Agnello 2017                    |
 | Murrumbidgee |  Grillmair 2017b           |   WG2       |  Agnello 2017                    |
 | NGC5466      |  Grillmair & Johnson2006   |   WG3       |  Agnello 2017                    |
