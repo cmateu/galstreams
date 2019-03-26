@@ -192,7 +192,7 @@ class MWStreams(dict):
       lib_end_points_filen=os.path.join(os.path.dirname(os.path.realpath(__file__)),'lib','lib_by_pair.dat')
 
       lono,lato,lonf,latf,ro,rf,width=scipy.genfromtxt(lib_end_points_filen,usecols=(3-1,4-1,5-1,6-1,8-1,9-1,10-1),unpack=True)
-      name,sname,cootype=scipy.genfromtxt(lib_end_points_filen,usecols=(1-1,2-1,7-1),unpack=True,dtype='S')
+      name,sname,cootype=scipy.genfromtxt(lib_end_points_filen,usecols=(1-1,2-1,7-1),unpack=True,dtype=str)
   
       for i in range(len(lono)):
         #Get great-circle lons,lats given end-points 
@@ -215,7 +215,7 @@ class MWStreams(dict):
 
         lib_poles_filen=os.path.join(os.path.dirname(os.path.realpath(__file__)),'lib','lib_by_pole.dat')
 
-        name,pole_coot,c_coot=scipy.genfromtxt(lib_poles_filen,usecols=(0,3,6),unpack=True,dtype='S')
+        name,pole_coot,c_coot=scipy.genfromtxt(lib_poles_filen,usecols=(0,3,6),unpack=True,dtype=str)
         pole_dat=scipy.genfromtxt(lib_poles_filen,usecols=(1,2,4,5,7,8,9,10),filling_values=-999.)
         pole_lons,pole_lats,clons,clats,dlons,dlats,ros,rfs=pole_dat.T
 
@@ -268,7 +268,7 @@ class MWStreams(dict):
     Rstat_func=getattr(np,Rstat)
 
     
-    name,cootype=scipy.genfromtxt(lib_llrange_filen,usecols=(0,7),unpack=True,dtype='S')
+    name,cootype=scipy.genfromtxt(lib_llrange_filen,usecols=(0,7),unpack=True,dtype=str)
     azo_l,azf_l,lato_l,latf_l,ro_l,rf_l,stype=scipy.genfromtxt(lib_llrange_filen,usecols=(1,2,3,4,5,6,8),unpack=True,
                                                                filling_values=-999.)
 
@@ -296,7 +296,7 @@ class MWStreams(dict):
      lib_by_stars_list_filen=os.path.join(lib_path,'lib_by_star.log')
             
      list_dat=scipy.genfromtxt(lib_by_stars_list_filen,usecols=(1-1,2-1,3-1,4-1,5-1,6-1))
-     list_sdat=scipy.genfromtxt(lib_by_stars_list_filen,usecols=(7-1,8-1,9-1),dtype='S')       
+     list_sdat=scipy.genfromtxt(lib_by_stars_list_filen,usecols=(7-1,8-1,9-1),dtype=str)       
         
      #Deal with one-liners   
      if np.ndim(list_dat)==1: 
@@ -351,7 +351,7 @@ class MWStreams(dict):
 
      #Read library log-file that will be used to overwrite center coords with user-defined values
      lib_log_filen=os.path.join(os.path.dirname(os.path.realpath(__file__)),'lib','lib_centers.log')
-     names,shortnames=scipy.genfromtxt(lib_log_filen,usecols=(0,1),unpack=True,dtype='S')
+     names,shortnames=scipy.genfromtxt(lib_log_filen,usecols=(0,1),unpack=True,dtype=str)
      _ra,_dec,_ll,_bb,_phi,_theta=scipy.genfromtxt(lib_log_filen,usecols=(2,3,4,5,6,7),
                                                     unpack=True,dtype=np.float,missing_values='',filling_values=np.nan)
  
