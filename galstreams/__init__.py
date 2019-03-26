@@ -130,7 +130,7 @@ class Footprint:
     def compute_galactocentric_coords(self,verbose=False,degree=True):
       #Convert to heliocentric cartesian. Bovy's library assumes Sun's position is positive
       #tuple output, no .T needed
-      if verbose: print 'Converting Heliocentric Galactic Spherical to Heliocentric Cartesian coords...'
+      if verbose: print('Converting Heliocentric Galactic Spherical to Heliocentric Cartesian coords...')
       m=bovyc.lbd_to_XYZ(self.l,self.b,self.Rhel,degree=degree)
       self.xhel,self.yhel,self.zhel=m.T
       if hasattr(self,'vrad') and hasattr(self,'pmb') :
@@ -138,7 +138,7 @@ class Footprint:
         self.vxhel,self.vyhel,self.vzhel=m.T
 
       #Convert Heliocentric Cartesian to Galactocentric Cartesian
-      if verbose: print 'Converting Heliocentric Cartesian to Galactocentric Cartesian coords...'
+      if verbose: print('Converting Heliocentric Cartesian to Galactocentric Cartesian coords...')
       m=bovyc.XYZ_to_galcenrect(self.xhel,self.yhel,self.zhel,Xsun=self.xsun,Ysun=self.ysun,Zsun=self.zsun)
       self.x,self.y,self.z=m
       if hasattr(self,'vrad') and hasattr(self,'mub') :
@@ -196,7 +196,7 @@ class MWStreams(dict):
   
       for i in range(len(lono)):
         #Get great-circle lons,lats given end-points 
-        if verbose: print 'Reading pair-list for %s' % (name[i])        
+        if verbose: print('Reading pair-list for %s' % (name[i]))
         azs,lats,azcenter,latcenter=gcutils.get_gc_for_pair(lono[i],lato[i],lonf[i],latf[i],degree=True,step=gcstep,dlat=width[i]) 
         
         #Do linear interpolation for the distance, not much better to do
@@ -221,18 +221,18 @@ class MWStreams(dict):
 
         for i in np.arange(len(pole_lons)):
            #Convert central coords to the same as pole coords for consistency
-           if verbose: print 'Reading pole-list for %s' % (name[i])        
+           if verbose: print('Reading pole-list for %s' % (name[i]) )
  
            #If center coords are given, make sure they're in the same system as pole coords
            if (clons[i]!=-999. and clats[i]!=-999.):     
              if  c_coot[i] in pole_coot[i]:
                 center=[clons[i],clats[i]]   #If in the same system, just save
-                if verbose: print ' same system, center:',center
+                if verbose: print( ' same system, center:',center )
              else:
                if 'gal' in c_coot[i]: clons[i],clats[i]=bovyc.lb_to_radec(clons[i],clats[i],degree=True) 
                else: clons[i],clats[i]=bovyc.radec_to_lb(clons[i],clats[i],degree=True)
                center=[clons[i],clats[i]]    
-               if verbose: print ' computed center',center                     
+               if verbose: print(' computed center',center)                     
            else: 
              center=None                          
                                   
@@ -276,7 +276,7 @@ class MWStreams(dict):
 
     for i in ind:
      #Parse corners
-     if verbose: print 'Reading lon-lat range for %s' % (name[i])        
+     if verbose: print('Reading lon-lat range for %s' % (name[i]) )
      azo,azf,lato,latf,ro,rf=azo_l[i],azf_l[i],lato_l[i],latf_l[i],ro_l[i],rf_l[i]
 
      #Random realization of coords    
@@ -311,7 +311,7 @@ class MWStreams(dict):
      #Loop over library of star list files
      for i in range(list_dat[:,0].size):
        
-       if verbose: print 'Reading star list for %s' % (name[i])
+       if verbose: print('Reading star list for %s' % (name[i]))
        azs,lats,Rhels,cntflg=scipy.genfromtxt(os.path.join(lib_path,fname[i]),usecols=(lon_col[i],lat_col[i],
                                               Rhel_col[i],cntflg_col[i]),unpack=True) 
        
@@ -338,7 +338,7 @@ class MWStreams(dict):
                         
        #If cntflg_col==1, force center to this coords (instead of the default vector mean)
        if cntflg_col[i]>=0:
-        if (cntflg==1).sum()>1: print 'Warning, more than one point flaged as center in %s, choosing first one.' % (fname[i]) 
+        if (cntflg==1).sum()>1: print('Warning, more than one point flaged as center in %s, choosing first one.' % (fname[i]))
         caz,clat=azs[cntflg==1][0],lats[cntflg==1][0]    
         auxfoot=Footprint(caz,clat,'dummy',degree=True,cootype=cootype[i]) 
         footprint.cra,footprint.cdec=auxfoot.cra,auxfoot.cdec
@@ -363,7 +363,7 @@ class MWStreams(dict):
           if not np.isnan(_phi[ii])  and not np.isnan(_theta[ii]): self[names[ii]].cphi,self[names[ii]].ctheta = _phi[ii], _theta[ii] 
          #Setting short names
          self[names[ii]].sname=shortnames[ii]        
-       except KeyError: print 'WARNING: Name %s used lib_centers.log not found in lib* definition files' % (names[ii])
+       except KeyError: print('WARNING: Name %s used lib_centers.log not found in lib* definition files' % (names[ii]))
 
   def __init__(self,verbose=True,gcstep=0.1,N=1000,Rstat='mean'):
         
@@ -465,12 +465,12 @@ class MWStreams(dict):
 
     #Skip it stream name in list of excluded streams    
     if i in exclude_streams:
-        print 'Skipping excluded stream: %s' % (self[i].name)
+        print('Skipping excluded stream: %s' % (self[i].name))
         continue
 
     #Skip it if coo-mode selected is galactocentric and stream has no valid galactocentric attributes  
     if 'GC' in cootype and self[i].phi is None:
-        print 'Skipping stream %s, no valid Rhel => no valid galactocentric attributes' % (self[i].name)
+        print('Skipping stream %s, no valid Rhel => no valid galactocentric attributes' % (self[i].name))
         continue
        
     if 'GC' in cootype:
@@ -490,11 +490,11 @@ class MWStreams(dict):
     #Skip if stream does not have any part overlapping Rrange
     if (ro>0) and not (ro<=Rrange[1] and rf>=Rrange[0]):
       if verbose: 
-        print 'Skipping %s [%.1f,%.1f], outside selected Rrange [%.1f,%.1f]' % (self[i].name,ro,rf,Rrange[0],Rrange[1])
+        print('Skipping %s [%.1f,%.1f], outside selected Rrange [%.1f,%.1f]' % (self[i].name,ro,rf,Rrange[0],Rrange[1]))
       continue
     else:
       if verbose and ro is not None:
-        print 'Plotting %s [%.1f,%.1f], INside selected Rrange [%.1f,%.1f]' % (self[i].name,ro,rf,Rrange[0],Rrange[1])
+        print('Plotting %s [%.1f,%.1f], INside selected Rrange [%.1f,%.1f]' % (self[i].name,ro,rf,Rrange[0],Rrange[1]))
    
     cc=ax.scatter(lons,latts,c=Rs,**scatter_kwargs)
     if plot_names:
