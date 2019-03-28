@@ -30,6 +30,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 
 ### VERSION HISTORY:
 
+- 2019/03/28: *New attributes added:* Attribute gcfr now contains each stream's own reference frame (gala.coordinates) object, based on an estimate of the stream's end points (stored in end_o,end_f). This is BETA mode. These reference frames exist, but make no sense for cloud-like structures.
 - 2019/03/26: Galstreams is now compliant with Python 3 
 - 2019/03/25: *Pal5 footprint updated* - Courtesy of A. Price-Whelan (private communication)
 - 2019/03/14: *GD-1 footprint updated* (Price-Whelan & Bonaca, 2018) - Courtesy of A. Price-Whelan.
