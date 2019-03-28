@@ -30,7 +30,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 
 ### VERSION HISTORY:
 
-- 2019/03/28: *New attributes added:* Attribute gcfr now contains each stream's own reference frame (gala.coordinates) object, based on an estimate of the stream's end points (stored in end_o,end_f). This is BETA mode. These reference frames exist, but make no sense for cloud-like structures.
+- 2019/03/28: *New attributes added:* Attribute gcfr now contains each stream's own reference frame (gala.coordinates) object, based on an estimate of the stream's end points (stored in end_o,end_f). phi1 and phi2 are also provided directly as attributes for each stream. This is BETA mode. These reference frames exist, but make no sense for cloud-like structures.
 - 2019/03/26: Galstreams is now compliant with Python 3 
 - 2019/03/25: *Pal5 footprint updated* - Courtesy of A. Price-Whelan (private communication)
 - 2019/03/14: *GD-1 footprint updated* (Price-Whelan & Bonaca, 2018) - Courtesy of A. Price-Whelan.
@@ -104,6 +104,27 @@ The plot is made in galactic coordinates by default, but equatorial and galactoc
 MW globular clusters data from the Harris (1996, 2010 edition) compilation is also included in the library. To quickly overplot globular clusters as an extra layer in the previous add:
 
 	galstreams.plot_globular_clusters(ax)
+
+Here's also an example on how to use the stream's reference frame attribute. The plot below shows several streams that intersect the GD-1 track, all plotted in GD-1's reference frame. This can be produced with the following code: 
+
+        #import seaborn as sns    #---uncomment these two lines to match the style of the plot shown below---
+        #sns.set_context('talk') 
+	plt.figure(1,figsize=(12,5))
+	plt.subplot(111)
+	for ss in ['GD-1','Gaia-5','PS1-D','PS1-E','Orphan']:
+	 scoo = mwsts[ss].sc.transform_to(mwsts['GD-1'].gcfr)   
+	 plt.plot(scoo.phi1,scoo.phi2,'.',label=ss)
+	
+	plt.legend(ncol=2,markerscale=2)
+	plt.xlim(-60,60)
+	plt.ylim(-20,20)
+	plt.xlabel('$\phi_1$ ($\degree$)')
+	plt.ylabel('$\phi_2$ ($\degree$)')
+	plt.title("Streams in GD-1's reference system" )
+	plt.tight_layout()
+
+![see plot here](examples/example_gd1_ref_system.png?raw=true "Example plot for galstreams")
+
 
 There are several options available to customize these plots, to check them out have a look at the MWStreams doc-string.
 

@@ -135,6 +135,11 @@ class Footprint:
 
         #Set great-circle gala-reference-frame for each stream based on its mid-plane end-points
         self.gcfr = gc.GreatCircleICRSFrame.from_endpoints(self.end_o, self.end_f)
+
+        #Provide phi1 and phi2 as "normal" Footprint attributes
+        self.phi1 = self.sc.transform_to(self.gcfr).phi1  
+        self.phi2 = self.sc.transform_to(self.gcfr).phi2  
+       
         #goes here
 
       
