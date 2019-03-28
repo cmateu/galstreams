@@ -1,5 +1,6 @@
 import numpy as np
 import bovy_coords as bovyc
+import galstreams
 
 def great_circle_distance(lono,lato,lonf,latf,degree=False):
 
@@ -8,13 +9,15 @@ def great_circle_distance(lono,lato,lonf,latf,degree=False):
 
     return (1./f)*np.arccos(np.sin(latf*f)*np.sin(lato*f) + np.cos(latf*f)*np.cos(lato*f)*np.cos(f*(lonf-lono))) 
 
-def get_gc_for_pole(_lon,_lat,degree=True,step=0.01,dlat=0.,center=None,dlon=None):
+def get_gc_for_pole(_lon,_lat,degree=True,step=0.01,dlat=0.,center=None,dlon=None,Nran=10000):
     if degree: f=np.pi/180.
     else: f=1.
     lon,lat=f*_lon,f*_lat
 
     #Generate great circle with pole = u_z
     azs,thetas=np.array([]),np.array([])
+#    n = np.int(Nran/step)
+#    azs,thetas=galstreams.get_random_spherical_angles(n,az=[0.,2*np.pi],lat=[-f*dlat/2.,+f*dlat/2.],degree=False) 
     if dlat>0:
      for lato in np.radians(np.arange(-dlat/2.,dlat/2.,step)):
         aux=np.radians(np.arange(0.,360.,step))
