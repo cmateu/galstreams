@@ -105,6 +105,8 @@ MW globular clusters data from the Harris (1996, 2010 edition) compilation is al
 
 	galstreams.plot_globular_clusters(ax)
 
+There are several options available to customize these plots, to check them out have a look at the MWStreams doc-string.
+
 Here's also an example on how to use the stream's reference frame attribute. The plot below shows several streams that intersect the GD-1 track, all plotted in GD-1's reference frame. This can be produced with the following code: 
 
         #import seaborn as sns    #---uncomment these two lines to match the style of the plot shown below---
@@ -112,6 +114,8 @@ Here's also an example on how to use the stream's reference frame attribute. The
 	plt.figure(1,figsize=(12,5))
 	plt.subplot(111)
 	for ss in ['GD-1','Gaia-5','PS1-D','PS1-E','Orphan']:
+         #The reference frame attribute (gcfr) for GD-1 is used to convert each stream's astropy.SkyCoord object
+         #to GD-1's reference frame 
 	 scoo = mwsts[ss].sc.transform_to(mwsts['GD-1'].gcfr)   
 	 plt.plot(scoo.phi1,scoo.phi2,'.',label=ss)
 	
@@ -126,7 +130,6 @@ Here's also an example on how to use the stream's reference frame attribute. The
 ![see plot here](examples/quickex_gd1_ref_system.png?raw=true "Example plot for galstreams")
 
 
-There are several options available to customize these plots, to check them out have a look at the MWStreams doc-string.
 
 ----------
 
