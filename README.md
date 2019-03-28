@@ -123,7 +123,7 @@ Here's also an example on how to use the stream's reference frame attribute. The
 	plt.title("Streams in GD-1's reference system" )
 	plt.tight_layout()
 
-![see plot here](examples/example_gd1_ref_system.png?raw=true "Example plot for galstreams")
+![see plot here](examples/quickex_gd1_ref_system.png?raw=true "Example plot for galstreams")
 
 
 There are several options available to customize these plots, to check them out have a look at the MWStreams doc-string.
