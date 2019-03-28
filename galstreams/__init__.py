@@ -5,6 +5,9 @@ import bovy_coords as bovyc
 import gcutils 
 import os, os.path
 import sys
+import astropy.coordinates
+import astropy.units as u
+import gala.coordinates as gc
 
 #---------------------------------
 def get_random_spherical_angles(n,az=[0.,2*np.pi],lat=[-np.pi/2.,np.pi/2],degree=False):
@@ -37,6 +40,24 @@ def get_random_spherical_coords(n,rad=[0.,1.],az=[0.,2*np.pi],lat=[-np.pi/2.,np.
    phi_s,theta_s=get_random_spherical_angles(n,degree=degree,az=az,lat=lat)
 
    return (R_s,phi_s,theta_s)
+
+def get_avg_vec(phis,thetas,degree=True,lon0=0.):
+    
+  X,Y,Z=bovyc.lbd_to_XYZ(phis,thetas,np.ones_like(phis),degree=degree).T
+
+  #Vector sum
+  Xsum=X.sum()
+  Ysum=Y.sum()
+  Zsum=Z.sum()
+
+  #Normalize (not necessary, but nicer)
+  norm=np.sqrt(Xsum**2+Ysum**2+Zsum**2)
+  Xsum,Ysum,Zsum=Xsum/norm,Ysum/norm,Zsum/norm
+
+  #Back to spherical
+  phisum,thetasum,Rgal=bovyc.XYZ_to_lbd(Xsum,Ysum,Zsum,degree=degree)
+
+  return(phisum,thetasum)
 
 #---------------------------------
 #Footprint class definition
@@ -100,6 +121,21 @@ class Footprint:
 
         #Set center attributes
         self.compute_sky_center()
+
+        #Compute and Set end-point attributes
+        try:
+           self.compute_midplane_endpoints_1(verbose=False) 
+           self.mp=1
+        except:
+           self.compute_midplane_endpoints_2(verbose=False) 
+           self.mp=2
+
+        #Set decent astropy Skycoord object as attribute
+        self.sc = astropy.coordinates.SkyCoord(ra=self.ra*u.deg,dec=self.dec*u.deg)
+
+        #Set great-circle gala-reference-frame for each stream based on its mid-plane end-points
+        self.gcfr = gc.GreatCircleICRSFrame.from_endpoints(self.end_o, self.end_f)
+        #goes here
 
       
     def compute_sky_center(self):           
@@ -182,6 +218,46 @@ class Footprint:
           self.pmrastar,self.pmdec=pmllpmbb_to_pmrapmdec(self.pml,self.pmb,self.l,self.b,degree=degree,epoch=2000.0) 
           self.pmra=self.pmrastar/np.cos(self.dec*self._f)  
 
+    def compute_midplane_endpoints_2(self,verbose=False, tol=0.5):
+
+          if verbose: print("Computing end points for %s..." % (self.name))
+
+          ramin, ramax = np.min(self.ra), np.max(self.ra)
+          rari_mask = (self.ra<=ramin+tol)
+          rale_mask = (self.ra>=ramax-tol)
+        
+          ra_o,dec_o = get_avg_vec(self.ra[rari_mask],self.dec[rari_mask])
+          ra_f,dec_f = get_avg_vec(self.ra[rale_mask],self.dec[rale_mask])            
+
+          #Set the skycoord end-points as attributes
+          self.end_o = astropy.coordinates.SkyCoord(ra_o, dec_o,frame='icrs', unit=u.deg)
+          self.end_f = astropy.coordinates.SkyCoord(ra_f, dec_f,frame='icrs', unit=u.deg)
+
+    def compute_midplane_endpoints_1(self,verbose=False):
+
+          if verbose: print("Computing end points for %s..." % (self.name))
+
+          ra1,dec1 = self.ra[np.argmin(self.dec)], self.dec[np.argmin(self.dec)]
+          ra2,dec2 = self.ra[np.argmin(self.ra)],  self.dec[np.argmin(self.ra)]
+          ra3,dec3 = self.ra[np.argmax(self.ra)],  self.dec[np.argmax(self.ra)]
+          ra4,dec4 = self.ra[np.argmax(self.dec)], self.dec[np.argmax(self.dec)]
+
+          call = astropy.coordinates.SkyCoord(ra=np.array([ra1,ra2,ra3,ra4])*u.deg,
+                                              dec=np.array([dec1,dec2,dec3,dec4])*u.deg)
+
+          triup = np.triu(call[:, None].separation(call[None]).degree)
+          idx1, idx2 = np.where(np.isclose(triup, triup[triup != 0].min()))
+
+          end1a = call[idx1[0]]
+          end1b = call[idx2[0]]
+          end2a = call[idx1[1]]
+          end2b = call[idx2[1]]
+
+          #Set the skycoord end-points as attributes
+          self.end_o = astropy.coordinates.SkyCoord(gc.greatcircle.sph_midpoint(end1a, end1b),frame='icrs')
+          self.end_f = astropy.coordinates.SkyCoord(gc.greatcircle.sph_midpoint(end2a, end2b),frame='icrs')
+
+
 #---------MW Streams class--------------------------------------------------------------------------------
         
 class MWStreams(dict):
@@ -204,7 +280,7 @@ class MWStreams(dict):
         elif rf[i]>ro[i]>0.: D=scipy.interp(azs,[lono[i],lonf[i]],[ro[i],rf[i]])    
         else: D=-1*np.ones_like(azs)
         
-        #Create footprint appropriately depending on coord type, this will define the l,b,ra,dec attributes appropriately
+        #Create footprint appropriately depending on coord type, this will define the l,b,ra,dec attributes
         footprint=Footprint(azs,lats,name[i],Dist=D,degree=True,cootype=cootype[i])
         
         #Store
@@ -396,6 +472,7 @@ class MWStreams(dict):
         self[i].Rgal[self[i].Rhel<0.]=np.nan
         self[i].phi[self[i].Rhel<0.]=np.nan
         self[i].theta[self[i].Rhel<0.]=np.nan
+
 
     #---Override default labelling coords when pre-defined values available.
     self.load_user_defined_centers_and_shortnames()
