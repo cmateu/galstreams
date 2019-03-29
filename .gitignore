@@ -1,0 +1,31 @@
+# Compiled files
+*.py[co]
+*.a
+*.o
+*.so
+__pycache__
+
+# Packages/installer info
+*.egg
+*.egg-info
+dist
+build
+eggs
+.eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+distribute-*.tar.gz
+
+# Other
+.*.swp
+*~
+
+# Mac OSX
+.DS_Store
+
+# Jupyter/IPython
+.ipynb_checkpoints
