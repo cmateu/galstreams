@@ -11,3 +11,7 @@ def get_galactocentric_frame():
     return Galactocentric(
         galcen_distance=config['galcen_distance'],
         galcen_vsun=CartesianDifferential(config['galcen_v_sun']))
+
+
+# Default frame for showing:
+config['default_frame'] = 'icrs'
