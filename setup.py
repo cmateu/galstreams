@@ -12,7 +12,7 @@ setup(
     name='galstreams',
     version='1.0.0',
     author='C. Mateu',
-    author_email='cmateu.cida@gmail.com,cmateu@cida.gob.ve',
+    author_email='cmateu@fisica.edu.uy',
     packages=['bovy_coords','galstreams','gcutils','galstreams/lib'],
     package_data={'galstreams/lib':['*.dat',
                                    '*.log',
