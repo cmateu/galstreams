@@ -136,6 +136,15 @@ class Footprint:
         #Set great-circle gala-reference-frame for each stream based on its mid-plane end-points
         self.gcfr = gc.GreatCircleICRSFrame.from_endpoints(self.end_o, self.end_f)
 
+        #Check that pole is not nan, use method_1 to correct it if it is, and recompute gcfr
+        if not (self.gcfr.pole.ra>=0):
+           self.compute_midplane_endpoints_2(verbose=False,tol=0.1) 
+           self.mp=2
+           self.gcfr = gc.GreatCircleICRSFrame.from_endpoints(self.end_o, self.end_f)
+        #Flip if pole's dec is negative
+        if self.gcfr.pole.dec<0:
+          self.gcfr=gc.GreatCircleICRSFrame.from_endpoints(self.end_f,self.end_o) 
+ 
         #Provide phi1 and phi2 as "normal" Footprint attributes
         self.phi1 = self.sc.transform_to(self.gcfr).phi1  
         self.phi2 = self.sc.transform_to(self.gcfr).phi2  
