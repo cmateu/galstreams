@@ -522,7 +522,10 @@ class MWStreams(dict):
    #Set a few plotting and labelling defaults  
    Rmax=0.
    if 'GC' in cootype: 
-      for i in self.keys(): Rmax=np.max([Rmax,np.max(self[i].Rgal)]) 
+      try:
+        for i in self.keys(): Rmax=np.max([Rmax,np.max(self[i].Rgal)]) 
+      except TypeError:
+         Ramx=np.max(Rmax,-1) #yes. I know
    else: 
       for i in self.keys(): Rmax=np.max([Rmax,np.max(self[i].Rhel)]) 
    scatter_kwargs=dict(marker='o',s=8.,edgecolor='none',vmin=0.,vmax=Rmax,alpha=0.5)
