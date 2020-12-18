@@ -30,6 +30,7 @@ The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Re
 
 ### VERSION HISTORY:
 
+- 2020/12/18: Pal 13 added.
 - 2020/12/03: Svol fixed (l/b knots were flipped). Ophiucus renamed to Ophiuchus
 - 2019/03/28: *New attributes added:* Attribute gcfr now contains each stream's own reference frame (gala.coordinates) object, based on an estimate of the stream's end points (stored in end_o,end_f). phi1 and phi2 are also provided directly as attributes for each stream. This is BETA mode. These reference frames exist, but make no sense for cloud-like structures.
 - 2019/03/26: Galstreams is now compliant with Python 3 
