@@ -10,14 +10,15 @@ except ImportError:
 
 setup(
     name='galstreams',
-    version='1.0.0',
+    version='2.0.0',
     author='C. Mateu',
     author_email='cmateu@fisica.edu.uy',
-    packages=['bovy_coords','galstreams','gcutils','galstreams/lib'],
+    packages=['galstreams','galstreams/lib','galstreams/tracks'],
     package_data={'galstreams/lib':['*.dat',
                                    '*.log',
                                    'streams_lib_notes.ipynb',
-                                   'globular_cluster_params.harris2010.tableI.csv']},
+                                   'globular_cluster_params.harris2010.tableI.csv'],
+		  'galstreams/tracks':['*.ecsv']},
 #    scripts=['bin/'],
     url='https://github.com/cmateu/galstreams',
     license='LICENSE',
