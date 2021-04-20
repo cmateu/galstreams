@@ -252,7 +252,7 @@ class MWStreams(dict):
 
        #Do the magic. The track is read and all attributes stored in the summary for all registered stream tracks. 
        #But only the ones "On" are "realized"
-       track = Track6D(track_name=lmaster.TrackName[ii], stream_name=lmaster.Name[ii], track_file=track_file, summary_file=summary_file)
+       track = Track6D(track_name=lmaster.TrackName[ii], stream_name=lmaster.Name[ii], track_reference=lmaster.TrackRefs[ii], track_file=track_file, summary_file=summary_file)
 
        if lmaster.On[ii]: self[lmaster.TrackName[ii]] = track
        else: 
@@ -289,7 +289,7 @@ class MWStreams(dict):
 
 class Track6D:
 
-  def __init__(self, track_name, track_file, summary_file, stream_name=None, stream_shortname=None, verbose=True):
+  def __init__(self, track_name, track_file, summary_file, stream_name=None, stream_shortname=None, track_reference=' ', verbose=True):
 
       ''' Track6D: A Stellar Stream's Track realization in 6D. The object has the following attributes: 
  	
@@ -324,6 +324,8 @@ class Track6D:
         mid_point: astropy.coordinates.SkyCoord Object
 
         mid_pole: astropy.coordinates.SkyCoord Object
+ 
+        poly_sc: astropy.coordinates.SkyCoord Object containing vertices for stream's polygon footprint
 
 	'''      
 
@@ -340,7 +342,10 @@ class Track6D:
       #Stream's short name
       self.stream_sname = str(stream_shortname)
       if stream_shortname is not None: self.stream_shortname = str(stream_shortname)
-      else: self.stream_shortname = self.stream_name[:3]
+      else: self.stream_shortname = self.stream_name[:5]
+
+      #References for the track
+      self.ref = track_reference
 
       #Read-in knots and initialize track
       t = astropy.table.QTable.read(track_file)
@@ -386,11 +391,28 @@ class Track6D:
       #Set up stream's coordinate frame
       self.stream_frame = gc.GreatCircleICRSFrame(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)
 
+      #Compute and store polygon vertices
       self.poly_sc = self.create_sky_polygon_footprint_from_track(width=1*u.deg)
 
-  def compute_pole_track(self):
+      #Compute and store heliocentric pole track
+      self.pole_track_helio = self.get_pole_track()
+
+
+  def get_pole_track(self):
 
      ''' TODO '''
+
+     #The pole_from_endpoints only works with SkyCoords objs that have no differentials data (i.e. no pm/vrad)
+     ep1 = ac.SkyCoord(ra=self.track.ra[:-1], dec=self.track.dec[:-1], frame='icrs') 
+     ep2 = ac.SkyCoord(ra=self.track.ra[1:],  dec=self.track.dec[1:], frame='icrs') 
+
+     #That's it. Really, that's it. I love gala. Thanks APW.
+     pole_track_helio = gc.pole_from_endpoints(ep1,ep2)
+     #Fix minor detail
+     pole_track_helio = ac.SkyCoord(ra=pole_track_helio.ra, dec=pole_track_helio.dec, frame='icrs')
+
+     #Will return galactocentric pole as well
+     return pole_track_helio
    
   def create_sky_polygon_footprint_from_track(self, width=1.*u.deg, phi2_offset=0.*u.deg):
 
