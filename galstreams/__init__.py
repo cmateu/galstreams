@@ -1,5 +1,6 @@
 import numpy as np
 import scipy
+import matplotlib as mpl
 import pylab as plt
 import gcutils 
 import os, os.path
@@ -58,6 +59,33 @@ def get_avg_vec(phis,thetas,degree=True,lon0=0.):
   phisum,thetasum,Rgal=bovyc.XYZ_to_lbd(Xsum,Ysum,Zsum,degree=degree)
 
   return(phisum,thetasum)
+
+def get_mask_in_poly_footprint(poly_sc, coo, stream_frame):
+
+     ''' Test whether points in input SkyCoords object are inside polygon footprint. 
+
+         Parameters
+         ==========
+
+         poly_sc : astropy.coordinates.SkyCoord object with polygon vertices 
+         coo : astropy.coordinates.SkyCoord object
+
+         Returns
+         =======
+
+         mask : boolean mask array, same number of elements as coo 
+     '''
+
+     #Create poly-path object
+     verts = np.array([poly_sc.transform_to(stream_frame).phi1, poly_sc.transform_to(stream_frame).phi2]).T
+     poly = mpl.path.Path(verts)
+
+     #The polygon test has to be done in phi1/phi2 (otherwise there's no guarantee of continuity for the polygon)
+     coo_in_str_fr = coo.transform_to(stream_frame)
+     _points = np.stack((coo_in_str_fr.phi1, coo_in_str_fr.phi2)).T
+
+     return poly.contains_points(_points)
+
 
 #---------------------------------
 #Footprint class definition
@@ -324,10 +352,10 @@ class Track6D:
       sfile=astropy.table.QTable.read(summary_file)
 
       #Streams InfoFlags: four-bit flag
-      # 0 = great circle by construction
-      # 1 = no distance track available (only mean or central value reported)
-      # 2 = no proper motion track available (only mean or central value reported)
-      # 3 = no radial velocity track available (only mean or central value reported)
+      # bit 0: 0 = great circle by construction
+      # bit 1: 0 = no distance track available (only mean or central value reported)
+      # bit 2: 0 = no proper motion track available (only mean or central value reported)
+      # bit 3: 0 = no radial velocity track available (only mean or central value reported)
       self.info_flags = str(sfile["InfoFlags"][0]) # All-in-one flag
 
       #And create the end_points object 
@@ -342,7 +370,7 @@ class Track6D:
       x = dict()
       atts = [x.replace('mid.','') for x in sfile.keys() if 'mid' in x ]
       for att in atts:  #we're effectively looping over skycoords defined for mid here (ra, dec, ...)
-         x[att] = sfile[f'mid.{att}']
+         x[att] = sfile[f'mid.{att}'][0]   #<- make sure to set it up as a scalar. if not, frame conversions get into trouble
       self.mid_point = ac.SkyCoord(**x) 
 
       #Pole at mid point - The track's (approx) pole at the mid-point. It represents the orbital plane's normal 
@@ -350,17 +378,58 @@ class Track6D:
       x = dict()
       atts = [x.replace('pole.','') for x in sfile.keys() if 'pole' in x ]
       for att in atts:  #we're effectively looping over skycoords defined for pole here (ra, dec, ...)
-         x[att] = sfile[f'pole.{att}']
+         x[att] = sfile[f'pole.{att}'][0]
+      #Make sure to set the pole's distance attribute to 1 (zero causes problems, when transforming to stream frame coords)
+      x["distance"] = 1.*u.kpc   #it shouldn't matter, but if it's zero it does
       self.mid_pole = ac.SkyCoord(**x)
 
       #Set up stream's coordinate frame
       self.stream_frame = gc.GreatCircleICRSFrame(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)
 
+      self.poly_sc = self.create_sky_polygon_footprint_from_track(width=1*u.deg)
 
   def compute_pole_track(self):
 
      ''' TODO '''
    
+  def create_sky_polygon_footprint_from_track(self, width=1.*u.deg, phi2_offset=0.*u.deg):
+
+    ''' 
+      Create the Polygon Footprint from the celestial track. The polygon is created by shifting the track in phi2 by a given width. 
+      Default width for now is 1 deg
+
+    '''  
+
+    #Convert to stream's coordinate frame
+    tr = self.track.transform_to(self.stream_frame)
+
+    #Create poly by shifting the track N/S in phi2 by a given angular width
+    sort = np.argsort(tr.phi1)
+    tr_N = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] + width + phi2_offset, frame=self.stream_frame)
+    tr_S = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] - width + phi2_offset, frame=self.stream_frame)
+
+    #Set poly
+    poly_sc = ac.SkyCoord(phi1 = np.append(tr_N.phi1,tr_S.phi1[::-1]) , phi2 = np.append(tr_N.phi2,tr_S.phi2[::-1]), unit=u.deg, frame=self.stream_frame)
+
+    return poly_sc
+
+  def get_mask_in_poly_footprint(self,coo):
+
+     ''' Test whether points in input SkyCoords object are inside polygon footprint. 
+
+         Parameters
+	 ==========
+
+	 coo : astropy.coordinates.SkyCoord object
+
+         Returns
+	 =======
+
+	 mask : boolean mask array, same number of elements as coo 
+     '''
+
+     return get_mask_in_poly_footprint(poly_sc=self.poly_sc, coo=coo, stream_frame=self.stream_frame)
+
 
   def resample_stream_track(self, dphi1=0.02*u.deg): 
 
