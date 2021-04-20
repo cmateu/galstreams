@@ -237,8 +237,6 @@ class MWStreams(dict):
     print("Initializing galstreams library from master_log... ")
     for ii in np.arange(lmaster.Name.size):
 
-       print(lmaster.Name[ii])
-
        #Create the names of the files containing the knots and summary attributes to initialize each stream
        summary_file = "{tdir}/track.{imp}.{stname}.{tref}.summary.ecsv".format(tdir=tdir+'/tracks', imp=lmaster.Imp[ii], 
           								      stname=lmaster.Name[ii],
@@ -248,7 +246,7 @@ class MWStreams(dict):
           							      tref=lmaster.TrackRefs[ii])
 
        if verbose: 
-          print(f"Initializing Track6D {TrackName[ii]}...")
+          print(f"Initializing Track6D {lmaster.TrackName[ii]} for {lmaster.Name[ii]}...")
 
        #Do the magic. The track is read and all attributes stored in the summary for all registered stream tracks. 
        #But only the ones "On" are "realized"
@@ -395,24 +393,42 @@ class Track6D:
       self.poly_sc = self.create_sky_polygon_footprint_from_track(width=1*u.deg)
 
       #Compute and store heliocentric pole track
-      self.pole_track_helio = self.get_pole_track()
+      self.pole_track_helio, self.pole_track_gsr = self.get_pole_tracks()
 
 
-  def get_pole_track(self):
+  def get_pole_tracks(self, use_gsr_default=True):
 
      ''' TODO '''
 
+     if use_gsr_default: _ = ac.galactocentric_frame_defaults.set('pre-v4.0')
+
      #The pole_from_endpoints only works with SkyCoords objs that have no differentials data (i.e. no pm/vrad)
-     ep1 = ac.SkyCoord(ra=self.track.ra[:-1], dec=self.track.dec[:-1], frame='icrs') 
-     ep2 = ac.SkyCoord(ra=self.track.ra[1:],  dec=self.track.dec[1:], frame='icrs') 
+     ep1 = ac.SkyCoord(ra=self.track.ra[:-1], dec=self.track.dec[:-1], distance=self.track.distance[:-1], frame='icrs') 
+     ep2 = ac.SkyCoord(ra=self.track.ra[1:],  dec=self.track.dec[1:],  distance=self.track.distance[1:], frame='icrs') 
 
      #That's it. Really, that's it. I love gala. Thanks APW.
      pole_track_helio = gc.pole_from_endpoints(ep1,ep2)
-     #Fix minor detail
-     pole_track_helio = ac.SkyCoord(ra=pole_track_helio.ra, dec=pole_track_helio.dec, frame='icrs')
+     #Recast as SkyCoord object (output from prev is ICRS obj, this way coord transf are easier)
+     ra, dec = pole_track_helio.ra, pole_track_helio.dec
+#     m = dec<0.*u.deg
+#     ra[m] = (ra[m] + 180.*u.deg).wrap_at(360*u.deg)
+#     dec[m] = -dec[m]
+     pole_track_helio = ac.SkyCoord(ra=ra, dec=dec, frame='icrs')
+
+     #Compute galactocentric pole now. Poles transform as pole(r1,r2)_gc = pole(r1,r2)_helio + (r1-r2)x(rsun_wrt_gc)
+     #I can do that, or as done here, trasnform first to GSR and then compute the pole as before
+     ep1_gc = ep1.transform_to(ac.Galactocentric())
+     ep2_gc = ep2.transform_to(ac.Galactocentric())
 
      #Will return galactocentric pole as well
-     return pole_track_helio
+     pole_track_gsr = gc.pole_from_endpoints(ep1_gc,ep2_gc).spherical
+     lon, lat = pole_track_gsr.lon, pole_track_gsr.lat
+     m = lat<0.*u.deg
+     lon[m] = lon[m] + 180.*u.deg
+     lat[m] = np.abs(lat[m])
+     pole_track_gsr = ac.SkyCoord(lon=lon, lat=lat, frame=ac.Galactocentric(), representation_type='spherical')
+
+     return pole_track_helio, pole_track_gsr
    
   def create_sky_polygon_footprint_from_track(self, width=1.*u.deg, phi2_offset=0.*u.deg):
 
