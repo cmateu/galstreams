@@ -1,0 +1,123 @@
+# %ECSV 0.9
+# ---
+# datatype:
+# - {name: StreamName, datatype: string}
+# - {name: StreamShortName, datatype: string}
+# - {name: InfoFlags, datatype: string}
+# - {name: end_o.ra, unit: deg, datatype: float64}
+# - {name: end_o.dec, unit: deg, datatype: float64}
+# - {name: end_o.distance, unit: kpc, datatype: float64}
+# - {name: end_o.pm_ra_cosdec, unit: mas / yr, datatype: float64}
+# - {name: end_o.pm_dec, unit: mas / yr, datatype: float64}
+# - {name: end_o.radial_velocity, unit: km / s, datatype: float64}
+# - {name: end_f.ra, unit: deg, datatype: float64}
+# - {name: end_f.dec, unit: deg, datatype: float64}
+# - {name: end_f.distance, unit: kpc, datatype: float64}
+# - {name: end_f.pm_ra_cosdec, unit: mas / yr, datatype: float64}
+# - {name: end_f.pm_dec, unit: mas / yr, datatype: float64}
+# - {name: end_f.radial_velocity, unit: km / s, datatype: float64}
+# - {name: mid.ra, unit: deg, datatype: float64}
+# - {name: mid.dec, unit: deg, datatype: float64}
+# - {name: mid.distance, unit: kpc, datatype: float64}
+# - {name: mid.pm_ra_cosdec, unit: mas / yr, datatype: float64}
+# - {name: mid.pm_dec, unit: mas / yr, datatype: float64}
+# - {name: mid.radial_velocity, unit: km / s, datatype: float64}
+# - {name: pole.ra, unit: deg, datatype: float64}
+# - {name: pole.dec, unit: deg, datatype: float64}
+# - {name: pole.distance, datatype: float64}
+# delimiter: ','
+# meta: !!omap
+# - __serialized_columns__:
+#     end_f.dec:
+#       __class__: astropy.coordinates.angles.Latitude
+#       unit: &id001 !astropy.units.Unit {unit: deg}
+#       value: !astropy.table.SerializedColumn {name: end_f.dec}
+#     end_f.distance:
+#       __class__: astropy.coordinates.distances.Distance
+#       unit: &id002 !astropy.units.Unit {unit: kpc}
+#       value: !astropy.table.SerializedColumn {name: end_f.distance}
+#     end_f.pm_dec:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: &id003 !astropy.units.Unit {unit: mas / yr}
+#       value: !astropy.table.SerializedColumn {name: end_f.pm_dec}
+#     end_f.pm_ra_cosdec:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: &id004 !astropy.units.Unit {unit: mas / yr}
+#       value: !astropy.table.SerializedColumn {name: end_f.pm_ra_cosdec}
+#     end_f.ra:
+#       __class__: astropy.coordinates.angles.Longitude
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: end_f.ra}
+#       wrap_angle: &id005 !astropy.coordinates.Angle
+#         unit: *id001
+#         value: 360.0
+#     end_f.radial_velocity:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: &id006 !astropy.units.Unit {unit: km / s}
+#       value: !astropy.table.SerializedColumn {name: end_f.radial_velocity}
+#     end_o.dec:
+#       __class__: astropy.coordinates.angles.Latitude
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: end_o.dec}
+#     end_o.distance:
+#       __class__: astropy.coordinates.distances.Distance
+#       unit: *id002
+#       value: !astropy.table.SerializedColumn {name: end_o.distance}
+#     end_o.pm_dec:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id003
+#       value: !astropy.table.SerializedColumn {name: end_o.pm_dec}
+#     end_o.pm_ra_cosdec:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id004
+#       value: !astropy.table.SerializedColumn {name: end_o.pm_ra_cosdec}
+#     end_o.ra:
+#       __class__: astropy.coordinates.angles.Longitude
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: end_o.ra}
+#       wrap_angle: *id005
+#     end_o.radial_velocity:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id006
+#       value: !astropy.table.SerializedColumn {name: end_o.radial_velocity}
+#     mid.dec:
+#       __class__: astropy.coordinates.angles.Latitude
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: mid.dec}
+#     mid.distance:
+#       __class__: astropy.coordinates.distances.Distance
+#       unit: *id002
+#       value: !astropy.table.SerializedColumn {name: mid.distance}
+#     mid.pm_dec:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id003
+#       value: !astropy.table.SerializedColumn {name: mid.pm_dec}
+#     mid.pm_ra_cosdec:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id004
+#       value: !astropy.table.SerializedColumn {name: mid.pm_ra_cosdec}
+#     mid.ra:
+#       __class__: astropy.coordinates.angles.Longitude
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: mid.ra}
+#       wrap_angle: *id005
+#     mid.radial_velocity:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id006
+#       value: !astropy.table.SerializedColumn {name: mid.radial_velocity}
+#     pole.dec:
+#       __class__: astropy.coordinates.angles.Latitude
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: pole.dec}
+#     pole.distance:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: ''}
+#       value: !astropy.table.SerializedColumn {name: pole.distance}
+#     pole.ra:
+#       __class__: astropy.coordinates.angles.Longitude
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: pole.ra}
+#       wrap_angle: *id005
+# schema: astropy-2.0
+StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance
+Scamander,Sca,0000,151.62806274964777,-20.455832380737682,20.999999999999783,0.0,0.0,0.0,143.56740157551886,44.325488608557464,21.00000000000005,0.0,0.0,0.0,148.13903573622193,11.963046254163931,21.0,0.0,0.0,0.0,59.402837641641426,-5.942747868605655,1.0
