@@ -120,4 +120,4 @@
 #       wrap_angle: *id005
 # schema: astropy-2.0
 StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance
-Eridanus,Eri,1000,65.97858431221823,-21.41671333293569,95.00000000000001,0.0,0.0,0.0,66.3922156877818,-20.957086667064306,95.00000000000003,0.0,0.0,0.0,66.18546642577651,-21.18682618716745,95.00000000000004,0.0,0.0,0.0,353.0567157868176,36.822036767310614,1.0
+Eridanus,Eri,1000,65.97858431221822,-21.41671333293569,94.99999999999996,0.0,0.0,0.0,66.3922156877818,-20.95708666706431,95.0,0.0,0.0,0.0,66.18546642577651,-21.186826187167455,95.00000000000001,0.0,0.0,0.0,353.0567157868176,36.822036767310614,1.0

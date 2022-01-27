@@ -252,9 +252,10 @@ class MWStreams(dict):
        #But only the ones "On" are "realized"
        track = Track6D(track_name=lmaster.TrackName[ii], stream_name=lmaster.Name[ii], track_reference=lmaster.TrackRefs[ii], track_file=track_file, summary_file=summary_file)
 
-       if lmaster.On[ii]: self[lmaster.TrackName[ii]] = track
-       else: 
-          if verbose: print(f"Skipping {TrackName[ii]}...")
+       self[lmaster.TrackName[ii]] = track
+#       if lmaster.On[ii]: self[lmaster.TrackName[ii]] = track
+#       else: 
+#          if verbose: print(f"Skipping {TrackName[ii]}...")
 
        #Store summary attributes
        for k in attributes: end_o_dic[k] = np.append(end_o_dic[k], getattr(track.end_points, k)[0] )
@@ -262,7 +263,7 @@ class MWStreams(dict):
        for k in attributes: mid_point_dic[k] = np.append(mid_point_dic[k], getattr(track.mid_point, k) )
        for k in attributes[:2]: mid_pole_dic[k]  = np.append(mid_pole_dic[k] , getattr(track.mid_pole, k) )
 
-       info_flags.append(track.info_flags)
+       info_flags.append(track.InfoFlags)
 
     #Store master table as an attribute
     self.summary = lmaster
@@ -359,7 +360,7 @@ class Track6D:
       # bit 1: 0 = no distance track available (only mean or central value reported)
       # bit 2: 0 = no proper motion track available (only mean or central value reported)
       # bit 3: 0 = no radial velocity track available (only mean or central value reported)
-      self.info_flags = str(sfile["InfoFlags"][0]) # All-in-one flag
+      self.InfoFlags = str(sfile["InfoFlags"][0]) # All-in-one flag
 
       #And create the end_points object 
       #two-element SkyCoord obj, one for each end
@@ -395,6 +396,11 @@ class Track6D:
       #Compute and store heliocentric pole track
       self.pole_track_helio, self.pole_track_gsr = self.get_pole_tracks()
 
+      #Also store the mid_pole_gsr (poles do not transform as normal coord objects, so this needs to be computed at the GSR)
+      #I use this shortcut. The midpoint is located at (helio-centric) phi1=0, so we can retrieve its pole in the gsr track
+      mask = np.argmin(np.abs(self.track.transform_to(self.stream_frame).phi1.deg)) #Find central point (closest to phi1=0)
+      self.mid_pole_gsr = self.pole_track_gsr[mask]
+
 
   def get_pole_tracks(self, use_gsr_default=True):
 
@@ -408,12 +414,20 @@ class Track6D:
 
      #That's it. Really, that's it. I love gala. Thanks APW.
      pole_track_helio = gc.pole_from_endpoints(ep1,ep2)
+     pole_track_helio = ac.SkyCoord(ra=pole_track_helio.ra, dec=pole_track_helio.dec, frame='icrs')
      #Recast as SkyCoord object (output from prev is ICRS obj, this way coord transf are easier)
-     ra, dec = pole_track_helio.ra, pole_track_helio.dec
+     #and make the pole tracks stay in only one hemisphere (we don't have the sense of rotation info in these anyway)
+     #the flipping is done in galactic coords (doesn't make sense to do it in ra-dec, duh)
+     l, b = pole_track_helio.galactic.l, pole_track_helio.galactic.b
+     m = b<0.*u.deg
+     l[m] = l[m] + 180.*u.deg
+     b[m] = np.abs(b[m])
+     pole_track_helio = ac.SkyCoord(l=l, b=b, frame='galactic')
+#     ra, dec = pole_track_helio.ra, pole_track_helio.dec
 #     m = dec<0.*u.deg
-#     ra[m] = (ra[m] + 180.*u.deg).wrap_at(360*u.deg)
-#     dec[m] = -dec[m]
-     pole_track_helio = ac.SkyCoord(ra=ra, dec=dec, frame='icrs')
+#     ra[m] = ra[m] + 180.*u.deg
+#     dec[m] = np.abs(dec[m])
+#     pole_track_helio = ac.SkyCoord(ra=ra, dec=dec, frame='icrs')
 
      #Compute galactocentric pole now. Poles transform as pole(r1,r2)_gc = pole(r1,r2)_helio + (r1-r2)x(rsun_wrt_gc)
      #I can do that, or as done here, trasnform first to GSR and then compute the pole as before

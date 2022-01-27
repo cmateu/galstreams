@@ -120,4 +120,4 @@
 #       wrap_angle: *id005
 # schema: astropy-2.0
 StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance
-Turranburra,Tur,0000,59.3,-18.0,27.5,0.0,0.0,0.0,75.2,-26.4,27.5,0.0,0.0,0.0,67.01021150038848,-22.39406164802916,27.500000000000004,1.6893064393659456,-1.6590086366480876,-865.5353505594932,123.47312197603947,53.28363056133041,0.0
+Turranburra,Tur,0000,59.3,-18.0,27.5,0.0,0.0,0.0,75.2,-26.4,27.5,0.0,0.0,0.0,67.01021150038848,-22.394061648029158,27.499999999999996,1.689306439365945,-1.6590086366480883,-865.535350559493,123.47312197603947,53.28363056133041,0.0
