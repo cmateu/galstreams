@@ -120,4 +120,4 @@
 #       wrap_angle: *id005
 # schema: astropy-2.0
 StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance
-Willka_Yaku,WYak,0000,36.1,-64.6,34.7,0.0,0.0,0.0,38.4,-58.3,34.7,0.0,0.0,0.0,37.366335879960694,-61.45479550531662,34.70000000000001,1.0301576937502803,-0.6413174532124741,-844.2196047485043,315.98203942485196,4.658813209029771,0.0
+Willka_Yaku,WYak,0020,36.1,-64.6,34.7,0.0,0.0,0.0,38.4,-58.3,34.7,0.0,0.0,0.0,37.36633587996069,-61.4547955053166,34.7,1.1,0.3,-999.0,315.98203942485196,4.658813209029771,0.0

@@ -120,4 +120,4 @@
 #       wrap_angle: *id005
 # schema: astropy-2.0
 StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance
-Acheron,Ach,0000,230.0,-2.0,3.5,0.0,0.0,0.0,259.0,21.0,3.8,0.0,0.0,0.0,244.604605842248,10.300418553972733,3.6563816859299156,-9.186338800107395,-9.950846423027741,-1092.2691795000967,142.33942832888778,49.453184084738695,0.0
+Acheron,Ach,0000,230.0,-2.0,3.5,0.0,0.0,0.0,259.0,21.0,3.8,0.0,0.0,0.0,244.604605842248,10.300418553972733,3.656381685929915,0.0,0.0,-999.0,142.33942832888778,49.453184084738695,0.0

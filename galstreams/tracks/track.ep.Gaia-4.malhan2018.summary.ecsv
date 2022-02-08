@@ -120,4 +120,4 @@
 #       wrap_angle: *id005
 # schema: astropy-2.0
 StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance
-Gaia-4,Gaia4,0000,163.0,-11.0,10.7,0.0,0.0,0.0,167.0,-3.0,11.5,0.0,0.0,0.0,165.0892525153473,-6.8597522781906015,11.114443623094619,-1.6869772828081504,-3.1822431740592694,-832.2995346040583,78.47371143749896,26.138758309996575,0.0
+Gaia-4,Gaia4,0000,163.0,-11.0,10.7,0.0,0.0,0.0,167.0,-3.0,11.5,0.0,0.0,0.0,165.0892525153473,-6.859752278190603,11.114443623094616,0.0,0.0,-999.0,78.47371143749896,26.138758309996575,0.0

@@ -210,7 +210,7 @@ class Footprint:
         
 class MWStreams(dict):
     
-  def __init__(self,verbose=True):
+  def __init__(self, verbose=True, implement_Off=False):
 
     #A MWStreams object is a dictionary in which each entry is a Footprint object, indexed by each stream's name.
     #There's also a mandatory summary entry, which is a Pandas DataFrame with summary attributes for the full library
@@ -233,6 +233,7 @@ class MWStreams(dict):
     mid_point_dic = {k: np.array([])*uu  for k,uu in zip(attributes,units) }
     mid_pole_dic  = {k: np.array([])*uu  for k,uu in zip(attributes,units) }
     info_flags = []
+    lengths = np.array([])*u.deg
 
     print("Initializing galstreams library from master_log... ")
     for ii in np.arange(lmaster.Name.size):
@@ -253,9 +254,11 @@ class MWStreams(dict):
        track = Track6D(track_name=lmaster.TrackName[ii], stream_name=lmaster.Name[ii], track_reference=lmaster.TrackRefs[ii], track_file=track_file, summary_file=summary_file)
 
        self[lmaster.TrackName[ii]] = track
-#       if lmaster.On[ii]: self[lmaster.TrackName[ii]] = track
-#       else: 
-#          if verbose: print(f"Skipping {TrackName[ii]}...")
+       if implement_Off:
+          self[lmaster.TrackName[ii]] = track
+       else:
+          if lmaster.On[ii]: self[lmaster.TrackName[ii]] = track
+          elif verbose: print(f"Skipping Off track {lmaster.TrackName[ii]}...")
 
        #Store summary attributes
        for k in attributes: end_o_dic[k] = np.append(end_o_dic[k], getattr(track.end_points, k)[0] )
@@ -264,6 +267,7 @@ class MWStreams(dict):
        for k in attributes[:2]: mid_pole_dic[k]  = np.append(mid_pole_dic[k] , getattr(track.mid_pole, k) )
 
        info_flags.append(track.InfoFlags)
+       lengths = np.append(lengths, track.length)
 
     #Store master table as an attribute
     self.summary = lmaster
@@ -274,16 +278,26 @@ class MWStreams(dict):
     self.mid_point = ac.SkyCoord(**mid_point_dic)
     self.mid_pole  = ac.SkyCoord(ra=mid_pole_dic["ra"], dec=mid_pole_dic["dec"], frame='icrs')
 
+    #Stream Length
+    self.summary["length"] = np.array(lengths)
+    #End points
     self.summary["ra_o"] = end_o_dic["ra"]
     self.summary["dec_o"] = end_o_dic["dec"]
     self.summary["ra_f"] = end_f_dic["ra"]
     self.summary["dec_f"] = end_f_dic["dec"]
+    #Mid point
     self.summary["ra_mid"] = mid_point_dic["ra"]
     self.summary["dec_mid"] = mid_point_dic["dec"]
     self.summary["distance"] = mid_point_dic["distance"]
+    #Pole
     self.summary["ra_pole"] = mid_pole_dic["ra"]
     self.summary["dec_pole"] = mid_pole_dic["dec"]
+    #Info
     self.summary["InfoFlags"] = np.array(info_flags)
+
+    #Create a numeric ID
+    self.summary["ID"] = np.arange(0,self.summary.Name.size,1)+1
+    self.summary.index=self.summary.TrackName
 
 
 class Track6D:
@@ -384,7 +398,7 @@ class Track6D:
       for att in atts:  #we're effectively looping over skycoords defined for pole here (ra, dec, ...)
          x[att] = sfile[f'pole.{att}'][0]
       #Make sure to set the pole's distance attribute to 1 (zero causes problems, when transforming to stream frame coords)
-      x["distance"] = 1.*u.kpc   #it shouldn't matter, but if it's zero it does
+      x["distance"] = 1.*u.kpc   #it shouldn't matter, but if it's zero it does crazy things
       self.mid_pole = ac.SkyCoord(**x)
 
       #Set up stream's coordinate frame
@@ -402,13 +416,17 @@ class Track6D:
       self.mid_pole_gsr = self.pole_track_gsr[mask]
 
 
+      #Compute and store the full length along the track
+      self.length = np.sum(self.track[0:-1].separation(self.track[1:]))
+
+
   def get_pole_tracks(self, use_gsr_default=True):
 
      ''' TODO '''
 
      if use_gsr_default: _ = ac.galactocentric_frame_defaults.set('pre-v4.0')
 
-     #The pole_from_endpoints only works with SkyCoords objs that have no differentials data (i.e. no pm/vrad)
+     #The pole_from_endpoints only works with SkyCoords objs that have no differentials (i.e. no pm/vrad)
      ep1 = ac.SkyCoord(ra=self.track.ra[:-1], dec=self.track.dec[:-1], distance=self.track.distance[:-1], frame='icrs') 
      ep2 = ac.SkyCoord(ra=self.track.ra[1:],  dec=self.track.dec[1:],  distance=self.track.distance[1:], frame='icrs') 
 
@@ -423,11 +441,6 @@ class Track6D:
      l[m] = l[m] + 180.*u.deg
      b[m] = np.abs(b[m])
      pole_track_helio = ac.SkyCoord(l=l, b=b, frame='galactic')
-#     ra, dec = pole_track_helio.ra, pole_track_helio.dec
-#     m = dec<0.*u.deg
-#     ra[m] = ra[m] + 180.*u.deg
-#     dec[m] = np.abs(dec[m])
-#     pole_track_helio = ac.SkyCoord(ra=ra, dec=dec, frame='icrs')
 
      #Compute galactocentric pole now. Poles transform as pole(r1,r2)_gc = pole(r1,r2)_helio + (r1-r2)x(rsun_wrt_gc)
      #I can do that, or as done here, trasnform first to GSR and then compute the pole as before

@@ -120,4 +120,4 @@
 #       wrap_angle: *id005
 # schema: astropy-2.0
 StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance
-Lethe,Let,0000,171.0,18.0,13.0,0.0,0.0,0.0,258.0,20.0,13.0,0.0,0.0,0.0,214.17321565663352,25.39284104447635,13.0,-2.728550728242421,-2.9277643327753258,-1053.521215519067,37.91848801706455,64.55967256976363,0.0
+Lethe,Let,0000,171.0,18.0,13.0,0.0,0.0,0.0,258.0,20.0,13.0,0.0,0.0,0.0,214.17321565663354,25.392841044476352,13.0,0.0,0.0,-999.0,37.91848801706455,64.55967256976363,0.0
