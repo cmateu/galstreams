@@ -86,6 +86,38 @@ def get_mask_in_poly_footprint(poly_sc, coo, stream_frame):
 
      return poly.contains_points(_points)
 
+def compute_angular_momentum_track(track, return_spherical = True):
+
+   '''  TODO  
+
+       	By default it returns the cartesian components of the angular momentum in the heliocentric and galactocentric reference
+       	frames at rest w.r.t. the GSR
+
+       	Inputs:
+      	=======
+
+	track : SkyCoord object
+      
+        return_spherical : True. If false returns cartesian coordinates  
+     
+        Outputs:
+	========
+
+        L : list object with compoments of angular momentum vector. By default returns spherical components modulus, lat, lon
+
+   '''
+
+   tr = track.cartesian
+
+   pos = ac.CartesianRepresentation(x = tr.x, y = tr.y, z = tr.z)
+   vel = ac.CartesianDifferential(d_x = tr.differentials['s'].d_x, d_y = tr.differentials['s'].d_y, d_z = tr.differentials['s'].d_z)
+   psp = gd.PhaseSpacePosition(pos=pos, vel=vel)
+   L = psp.angular_momentum()
+   L_sph = ac.cartesian_to_spherical(x = L[0], y = L[1], z = L[2])
+
+   if return_spherical: return L_sph
+   else: return L
+
 
 #---------------------------------
 #Footprint class definition
@@ -407,6 +439,9 @@ class Track6D:
       #Compute and store polygon vertices
       self.poly_sc = self.create_sky_polygon_footprint_from_track(width=1*u.deg)
 
+      #Compute and store angular momentum track
+      self.angular_momentum_helio = self.get_helio_angular_momentum_track(return_spherical=True)
+
       #Compute and store heliocentric pole track
       self.pole_track_helio, self.pole_track_gsr = self.get_pole_tracks()
 
@@ -420,11 +455,34 @@ class Track6D:
       self.length = np.sum(self.track[0:-1].separation(self.track[1:]))
 
 
+  def get_helio_angular_momentum_track(self, return_spherical = True ):
+
+     '''  TODO  
+
+         By default it returns the cartesian components of the angular momentum in the heliocentric and galactocentric reference
+         frames at rest w.r.t. the GSR
+
+     '''
+
+     st_s = self.track.galactic
+     #If I wanted the GSR ang momentum: (for now, it doesn't make sense to provide this, it will be misleading as there
+     #are too few streams that have radial velocity data.
+     #tr = st_s.transform_to(gsr)
+
+     #Heliocentric, at rest w.r.t. GSR ( r_helio x v_gsr ). In this frame the radial velocity component of the stream (and the Sun)
+     #does not contribute to the angular momentum. 
+     tr = gc.reflex_correct(st_s)
+
+     L = compute_angular_momentum_track(tr, return_spherical = True)
+
+     return L
+
+
   def get_pole_tracks(self, use_gsr_default=True):
 
      ''' TODO '''
 
-     if use_gsr_default: _ = ac.galactocentric_frame_defaults.set('pre-v4.0')
+     if use_gsr_default: _ = ac.galactocentric_frame_defaults.set('latest')
 
      #The pole_from_endpoints only works with SkyCoords objs that have no differentials (i.e. no pm/vrad)
      ep1 = ac.SkyCoord(ra=self.track.ra[:-1], dec=self.track.dec[:-1], distance=self.track.distance[:-1], frame='icrs') 
