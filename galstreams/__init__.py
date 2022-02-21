@@ -476,7 +476,8 @@ class Track6D:
      #Force it to zero if the track doesn't have pm data
      if self.InfoFlags[2]=='0': 
         zz = np.zeros(st_s.b.size) 
-        L = (zz*u.kpc*u.km/u.s, zz*u.deg, zz*u.deg)
+        if return_spherical: L = (zz*u.kpc*u.km/u.s, zz*u.deg, zz*u.deg)
+        else: L = (zz*u.kpc*u.km/u.s, zz*u.kpc*u.km/u.s, zz*u.kpc*u.km/u.s)
      else:
         L = compute_angular_momentum_track(tr, return_spherical = True)
 
@@ -501,11 +502,26 @@ class Track6D:
      #Recast as SkyCoord object (output from prev is ICRS obj, this way coord transf are easier)
      #and make the pole tracks stay in only one hemisphere (we don't have the sense of rotation info in these anyway)
      #the flipping is done in galactic coords (doesn't make sense to do it in ra-dec, duh)
+
+     if self.InfoFlags[2]=='0':
+        L_mean_lat = +1.
+     else:
+        L_mean_lat = np.mean(self.angular_momentum_helio[1])
+
      l, b = pole_track_helio.galactic.l, pole_track_helio.galactic.b
-     m = b<0.*u.deg
-     l[m] = l[m] + 180.*u.deg
-     b[m] = np.abs(b[m])
-     pole_track_helio = ac.SkyCoord(l=l, b=b, frame='galactic')
+     #Flip pole track to match Lsign only if it's negative, which can only happen if L exists, if not, it is set to >0 by default
+     if L_mean_lat<0 and np.mean(pole_track_helio.galactic.b)>0 :
+     	m = b>0.*u.deg  
+     	l[m] = l[m] + 180.*u.deg
+     	b[m] = -b[m]
+     	pole_track_helio = ac.SkyCoord(l=l, b=b, frame='galactic')
+
+     if L_mean_lat>0 and np.mean(pole_track_helio.galactic.b)<0 :  
+     	m = b<0.*u.deg
+     	l[m] = l[m] + 180.*u.deg
+     	b[m] = np.abs(b[m])
+     	pole_track_helio = ac.SkyCoord(l=l, b=b, frame='galactic')
+        
 
      #Compute galactocentric pole now. Poles transform as pole(r1,r2)_gc = pole(r1,r2)_helio + (r1-r2)x(rsun_wrt_gc)
      #I can do that, or as done here, trasnform first to GSR and then compute the pole as before
