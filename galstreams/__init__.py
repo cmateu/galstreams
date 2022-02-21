@@ -9,6 +9,7 @@ import astropy.table
 import astropy.coordinates as ac
 import astropy.units as u
 import gala.coordinates as gc
+import gala.dynamics as gd
 
 #---------------------------------
 def get_random_spherical_angles(n,az=[0.,2*np.pi],lat=[-np.pi/2.,np.pi/2],degree=False):
@@ -404,8 +405,8 @@ class Track6D:
       #Streams InfoFlags: four-bit flag
       # bit 0: 0 = great circle by construction
       # bit 1: 0 = no distance track available (only mean or central value reported)
-      # bit 2: 0 = no proper motion track available (only mean or central value reported)
-      # bit 3: 0 = no radial velocity track available (only mean or central value reported)
+      # bit 2: 0 = no proper motion data available (only mean or central value reported)
+      # bit 3: 0 = no radial velocity data available (only mean or central value reported)
       self.InfoFlags = str(sfile["InfoFlags"][0]) # All-in-one flag
 
       #And create the end_points object 
@@ -450,7 +451,6 @@ class Track6D:
       mask = np.argmin(np.abs(self.track.transform_to(self.stream_frame).phi1.deg)) #Find central point (closest to phi1=0)
       self.mid_pole_gsr = self.pole_track_gsr[mask]
 
-
       #Compute and store the full length along the track
       self.length = np.sum(self.track[0:-1].separation(self.track[1:]))
 
@@ -473,9 +473,16 @@ class Track6D:
      #does not contribute to the angular momentum. 
      tr = gc.reflex_correct(st_s)
 
-     L = compute_angular_momentum_track(tr, return_spherical = True)
+     #Force it to zero if the track doesn't have pm data
+     if self.InfoFlags[2]=='0': 
+        zz = np.zeros(st_s.b.size) 
+        L = (zz*u.kpc*u.km/u.s, zz*u.deg, zz*u.deg)
+     else:
+        L = compute_angular_momentum_track(tr, return_spherical = True)
 
-     return L
+     if return_spherical:
+        return (L[0], L[1].to(u.deg), L[2].to(u.deg) )  #For it to be in deg because leaving it in radians is asking for trouble
+     else: return L
 
 
   def get_pole_tracks(self, use_gsr_default=True):
