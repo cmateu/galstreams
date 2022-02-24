@@ -87,21 +87,21 @@ def get_mask_in_poly_footprint(poly_sc, coo, stream_frame):
 
      return poly.contains_points(_points)
 
-def compute_angular_momentum_track(track, return_spherical = True):
+def compute_angular_momentum_track(track, return_cartesian = False):
 
-   '''  TODO  
+   '''  Compute angular momentum for each point in the track.  
+        By default it returns the spherical components of the angular momentum in the heliocentric and galactocentric reference
+        frames at rest w.r.t. the GSR. Set return_cartesian = True to get cartesian components
+ 
 
-       	By default it returns the cartesian components of the angular momentum in the heliocentric and galactocentric reference
-       	frames at rest w.r.t. the GSR
-
-       	Inputs:
+       	Parameters:
       	=======
 
 	track : SkyCoord object
       
-        return_spherical : True. If false returns cartesian coordinates  
+        return_cartesian : If True returns cartesian coordinates. If False, returns spherical coords (astropy format mod, lat, lon)
      
-        Outputs:
+        Returns:
 	========
 
         L : list object with compoments of angular momentum vector. By default returns spherical components modulus, lat, lon
@@ -114,133 +114,14 @@ def compute_angular_momentum_track(track, return_spherical = True):
    vel = ac.CartesianDifferential(d_x = tr.differentials['s'].d_x, d_y = tr.differentials['s'].d_y, d_z = tr.differentials['s'].d_z)
    psp = gd.PhaseSpacePosition(pos=pos, vel=vel)
    L = psp.angular_momentum()
-   L_sph = ac.cartesian_to_spherical(x = L[0], y = L[1], z = L[2])
 
-   if return_spherical: return L_sph
-   else: return L
-
-
-#---------------------------------
-#Footprint class definition
-class Footprint:
-    def __init__(self,lon,lat,name,Dist=None,vrad=None,pmlon=None,pmlat=None,cootype='gal',degree=True,is_pml_star=True,
-                 xyz_sun=[8.5,0.,0.],vel_sun=[10.3,232.6,5.9],vxyz_gal=(),Rhel=None):
-        
-        self.deg=degree 
-        self._f=np.pi/180.  
-        self.name=name
-        self.sname=name[:8]      
-
-        #Bovy's library assumes Sun's position is positive. Flip X-axis is done later
-        sign=1.
-        #Save Sun's position
-        self.xsun, self.ysun, self.zsun= xyz_sun
-        self.vxsun, self.vysun, self.vzsun= vel_sun
-        self.xsun, self.vxsun = sign*self.xsun, sign*self.vxsun
-        
-        #Rhel is kept for backwards compatibility
-        if Rhel is not None and 'GC' in cootype: 
-          sys.exit('ERROR: Rhel not compatible with cootype=GC (distance provided should be galactocentric)')
-        elif Rhel is not None: Dist,self.Rhel=Rhel,Rhel
-
-        if 'GC' in cootype:
-          if Dist is not None: self.Rgal=Dist
-          else: sys.exit('ERROR: Distance is mandatory to instantiate a Footprint in Galactocentric coords (cootype=GC)')
-
-          self.phi,self.theta=lon,lat
-          if vxyz_gal: self.vx,self.vy,self.vz=vxyz_gal
-          #Compute and set all heliocentric attributes
-          self.compute_heliocentric_coords(degree=degree)
-        else:
-          if 'gal' in cootype:
-           self.l,self.b=lon,lat
-           mm=bovyc.lb_to_radec(self.l,self.b,degree=self.deg)  
-           if self.l.size>1: self.ra,self.dec=mm.T
-           else: self.ra,self.dec=mm       
-          else:
-           self.ra,self.dec=lon,lat 
-           mm=bovyc.radec_to_lb(self.ra,self.dec,degree=self.deg)
-           if self.ra.size>1: self.l,self.b=mm.T 
-           else: self.l,self.b=mm
-              
-          if Dist is not None: self.Rhel=Dist
-          if vrad is not None: self.vrad=vrad
-            
-          if 'gal' in cootype:
-            if pmlon is not None: 
-                if is_pml_star: self.pmlstar,self.pml=pmlon,pmlon/np.cos(_f*self.b)
-                else: self.pmlstar,self.pml=pmlon*np.cos(self._f*self.b),pmlon
-            if pmlat is not None: self.pmb=pmlat
-          else:        
-            if pmlon is not None: 
-                if is_pml_star: self.pmrastar,self.pmra=pmlon,pmlon/np.cos(_f*self.dec)
-                else: self.pmrastar,self.pmra=pmlon*np.cos(self._f*self.dec),pmlon
-            if pmlat is not None: self.pmdec=pmlat
-
-          #Set galactocentric attributes
-          if hasattr(self,'Rhel') : self.compute_galactocentric_coords(degree=degree)
-
-        #Set center attributes
-        self.compute_sky_center()
-
-        #Compute and Set end-point attributes
-        try:
-           self.compute_midplane_endpoints_1(verbose=False) 
-           self.mp=1
-        except:
-           self.compute_midplane_endpoints_2(verbose=False) 
-           self.mp=2
-
-        #Set decent astropy Skycoord object as attribute
-        self.sc = astropy.coordinates.SkyCoord(ra=self.ra*u.deg,dec=self.dec*u.deg)
-
-        #Set great-circle gala-reference-frame for each stream based on its mid-plane end-points
-        self.gcfr = gc.GreatCircleICRSFrame.from_endpoints(self.end_o, self.end_f)
-
-        #Check that pole is not nan, use method_1 to correct it if it is, and recompute gcfr
-        if not (self.gcfr.pole.ra>=0):
-           self.compute_midplane_endpoints_2(verbose=False,tol=0.1) 
-           self.mp=2
-           self.gcfr = gc.GreatCircleICRSFrame.from_endpoints(self.end_o, self.end_f)
-        #Flip if pole's dec is negative
-        if self.gcfr.pole.dec<0:
-          self.gcfr=gc.GreatCircleICRSFrame.from_endpoints(self.end_f,self.end_o) 
- 
-        #Provide phi1 and phi2 as "normal" Footprint attributes
-        self.phi1 = self.sc.transform_to(self.gcfr).phi1  
-        self.phi2 = self.sc.transform_to(self.gcfr).phi2  
-       
-        #goes here
-
-      
-    def compute_sky_center(self):           
-        
-        #Set defaults        
-        #Need to get cartesian coords to do vector-average (this works whether or not Rhel exists)
-        mm=bovyc.lbd_to_XYZ(self.l,self.b,np.ones_like(self.l),degree=True)
-        if self.l.size>1: _xx,_yy,_zz=mm.T
-        else: _xx,_yy,_zz=mm    
-        _xc,_yc,_zc=_xx.sum(),_yy.sum(),_zz.sum()
-        self.cl,self.cb=bovyc.XYZ_to_lbd(_xc,_yc,_zc,degree=True)[:2]
-        self.cra,self.cdec=bovyc.lb_to_radec(self.cl,self.cb,degree=True)
-
-        if hasattr(self,'phi') and hasattr(self,'theta'):
-          _xgc,_ygc,_zgc=self.x.sum(),self.y.sum(),self.z.sum()
-          self.cphi,self.ctheta=bovyc.XYZ_to_lbd(_xgc,_ygc,_zgc,degree=True)[:2]
-
-
-    def mask_footprint(self,mask):
-        
-        #Apply mask to all array attributes of object
-        for myattr in self.__dict__.keys():
-        #If attribute is callable, proceed (only applicable to ndim>=1 arrays)
-          if not callable(getattr(self,myattr)) and np.ndim(getattr(self,myattr))>=1:
-            setattr(self,myattr,getattr(self,myattr)[mask])
-            #print 'Attribute ',myattr, len(getattr(selfcopy,myattr))
+   if return_cartesian: return L
+   else: 
+      L_sph = ac.cartesian_to_spherical(x = L[0], y = L[1], z = L[2])
+      return L_sph
 
 
 #---------MW Streams class--------------------------------------------------------------------------------
-        
 class MWStreams(dict):
     
   def __init__(self, verbose=True, implement_Off=False):
@@ -365,13 +246,30 @@ class Track6D:
 	track : astropy.coordinates.SkyCoord Object
 	  Contains the track 6D info. By default initialized in icrs frame
 
-	end_points: 2-element astropy.coordinates.SkyCoord Object
+        InfoFlags: string - 4-bits indicate available (or assumed) data. 
+  	    bit 0: 0 = great circle by construction
+  	    bit 1: 0 = no distance track available (only mean or central value reported)
+  	    bit 2: 0 = no proper motion data available (only mean or central value reported)
+  	    bit 3: 0 = no radial velocity data available (only mean or central value reported)
+ 
+	end_points: 2-element astropy.coordinates.SkyCoord Object with end point coordinates
 	  
-        mid_point: astropy.coordinates.SkyCoord Object
+        mid_point: astropy.coordinates.SkyCoord Object with stream's mid-point coordinates (phi1=0)
 
-        mid_pole: astropy.coordinates.SkyCoord Object
+        mid_pole: astropy.coordinates.SkyCoord Object heliocentric pole at phi1=0
  
         poly_sc: astropy.coordinates.SkyCoord Object containing vertices for stream's polygon footprint
+
+	pole_track_helio: astropy.coordinates.SkyCoord Object heliocentric pole track (galactic coordinates by default)
+	
+        pole_track_gsr: astropy.coordinates.SkyCoord Object GSR pole track (galactic coordinates by default)
+	
+	mid_pole_gsr: astropy.coordinates.SkyCoord Object. GSR pole at phi1=0
+     
+        angular_momentum_helio: list object with spherical components (modulus, lat, lon) for the angular momentum of
+				each point along the track, computed in a heliocentric frame at rest w.r.t. the GSR
+
+        length: angular length measured along the track
 
 	'''      
 
@@ -441,7 +339,7 @@ class Track6D:
       self.poly_sc = self.create_sky_polygon_footprint_from_track(width=1*u.deg)
 
       #Compute and store angular momentum track
-      self.angular_momentum_helio = self.get_helio_angular_momentum_track(return_spherical=True)
+      self.angular_momentum_helio = self.get_helio_angular_momentum_track()
 
       #Compute and store heliocentric pole track
       self.pole_track_helio, self.pole_track_gsr = self.get_pole_tracks()
@@ -455,13 +353,12 @@ class Track6D:
       self.length = np.sum(self.track[0:-1].separation(self.track[1:]))
 
 
-  def get_helio_angular_momentum_track(self, return_spherical = True ):
+  def get_helio_angular_momentum_track(self, return_cartesian = False ):
 
-     '''  TODO  
+     '''Compute angular momentum for each point in the track.  
 
-         By default it returns the cartesian components of the angular momentum in the heliocentric and galactocentric reference
-         frames at rest w.r.t. the GSR
-
+        By default it returns the spherical components of the angular momentum in the heliocentric and galactocentric reference
+        frames at rest w.r.t. the GSR. If return_cartesian = True it will return cartesian components
      '''
 
      st_s = self.track.galactic
@@ -476,14 +373,16 @@ class Track6D:
      #Force it to zero if the track doesn't have pm data
      if self.InfoFlags[2]=='0': 
         zz = np.zeros(st_s.b.size) 
-        if return_spherical: L = (zz*u.kpc*u.km/u.s, zz*u.deg, zz*u.deg)
-        else: L = (zz*u.kpc*u.km/u.s, zz*u.kpc*u.km/u.s, zz*u.kpc*u.km/u.s)
+        if return_cartesian: 
+           L = (zz*u.kpc*u.km/u.s, zz*u.kpc*u.km/u.s, zz*u.kpc*u.km/u.s)
+        else:  
+           L = (zz*u.kpc*u.km/u.s, zz*u.deg, zz*u.deg)
      else:
-        L = compute_angular_momentum_track(tr, return_spherical = True)
+        L = compute_angular_momentum_track(tr, return_cartesian = return_cartesian)
 
-     if return_spherical:
-        return (L[0], L[1].to(u.deg), L[2].to(u.deg) )  #For it to be in deg because leaving it in radians is asking for trouble
-     else: return L
+     if return_cartesian: return L 
+     else:
+        return (L[0], L[1].to(u.deg), L[2].to(u.deg) )  #Force lat,lon to be in deg because leaving them in rad is asking for trouble
 
 
   def get_pole_tracks(self, use_gsr_default=True):
@@ -509,6 +408,7 @@ class Track6D:
         L_mean_lat = np.mean(self.angular_momentum_helio[1])
 
      l, b = pole_track_helio.galactic.l, pole_track_helio.galactic.b
+     pole_track_helio = ac.SkyCoord(l=l, b=b, frame='galactic')
      #Flip pole track to match Lsign only if it's negative, which can only happen if L exists, if not, it is set to >0 by default
      if L_mean_lat<0 and np.mean(pole_track_helio.galactic.b)>0 :
      	m = b>0.*u.deg  
@@ -531,9 +431,9 @@ class Track6D:
      #Will return galactocentric pole as well
      pole_track_gsr = gc.pole_from_endpoints(ep1_gc,ep2_gc).spherical
      lon, lat = pole_track_gsr.lon, pole_track_gsr.lat
-     m = lat<0.*u.deg
-     lon[m] = lon[m] + 180.*u.deg
-     lat[m] = np.abs(lat[m])
+#     m = lat<0.*u.deg
+#     lon[m] = lon[m] + 180.*u.deg
+#     lat[m] = np.abs(lat[m])
      pole_track_gsr = ac.SkyCoord(lon=lon, lat=lat, frame=ac.Galactocentric(), representation_type='spherical')
 
      return pole_track_helio, pole_track_gsr
@@ -561,7 +461,7 @@ class Track6D:
 
   def get_mask_in_poly_footprint(self,coo):
 
-     ''' Test whether points in input SkyCoords object are inside polygon footprint. 
+     ''' Return a mask for  points in input SkyCoords object that are inside polygon footprint. 
 
          Parameters
 	 ==========
