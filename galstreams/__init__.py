@@ -132,11 +132,16 @@ class MWStreams(dict):
     #Initialize empty dictionary
     dict.__init__(self)
 
-    #Read in the master log
-    lib_master_file = os.path.join(os.path.dirname(os.path.realpath(__file__)),'lib','master_log.txt')
-
+    #Read in the master logs
     tdir = os.path.dirname(os.path.realpath(__file__))
-    lmaster = astropy.table.Table.read(tdir+"/lib/master_log.txt", format='ascii.commented_header').to_pandas()
+    #master logs
+    filepath = "{path}/{filen}".format(path=tdir+"/lib/",filen='master_log.txt')
+    lmaster = astropy.table.Table.read(filepath,format='ascii.commented_header').to_pandas()
+    filepath = "{path}/{filen}".format(path=tdir+"/lib/",filen='master_log.discovery_refs.txt')
+    lmaster_discovery = astropy.table.Table.read(filepath,format='ascii.commented_header').to_pandas(index='Name')
+    filepath = "{path}/{filen}".format(path=tdir+"/lib/",filen='master_log.comments.txt')
+    lmaster_comments = astropy.table.Table.read(filepath,format='ascii.commented_header').to_pandas(index='Name')
+
     lmaster["On"] = lmaster["On"].astype('bool') #this attribute controls whether a given track is included or not
 
     #SkyCoords objects will be created for each of these dicts after the full library has been created
@@ -147,10 +152,11 @@ class MWStreams(dict):
     mid_point_dic = {k: np.array([])*uu  for k,uu in zip(attributes,units) }
     mid_pole_dic  = {k: np.array([])*uu  for k,uu in zip(attributes,units) }
     info_flags = []
+    discovery_refs = []
     lengths = np.array([])*u.deg
 
     print("Initializing galstreams library from master_log... ")
-    for ii in np.arange(lmaster.Name.size):
+    for ii in np.arange(lmaster.TrackRefs.size):
 
        #Create the names of the files containing the knots and summary attributes to initialize each stream
        summary_file = "{tdir}/track.{imp}.{stname}.{tref}.summary.ecsv".format(tdir=tdir+'/tracks', imp=lmaster.Imp[ii], 
@@ -164,8 +170,10 @@ class MWStreams(dict):
           print(f"Initializing Track6D {lmaster.TrackName[ii]} for {lmaster.Name[ii]}...")
 
        #Do the magic. The track is read and all attributes stored in the summary for all registered stream tracks. 
-       #But only the ones "On" are "realized"
-       track = Track6D(track_name=lmaster.TrackName[ii], stream_name=lmaster.Name[ii], track_reference=lmaster.TrackRefs[ii], track_file=track_file, summary_file=summary_file)
+       #Only the ones "On" are "realized" unless implement_Off == True
+       track = Track6D(track_name=lmaster.TrackName[ii], stream_name=lmaster.Name[ii], track_reference=lmaster.TrackRefs[ii], 
+                       track_file=track_file, track_discovery_references=lmaster_discovery.loc[lmaster.Name[ii],'DiscoveryRefs'] ,
+                       summary_file=summary_file)
 
        self[lmaster.TrackName[ii]] = track
        if implement_Off:
@@ -182,9 +190,8 @@ class MWStreams(dict):
 
        info_flags.append(track.InfoFlags)
        lengths = np.append(lengths, track.length)
+       #discovery_refs = np.append(discovery_refs, lmaster_discovery.loc[lmaster.Name[ii],'DiscoveryRefs'] )
 
-    #Store master table as an attribute
-    self.summary = lmaster
 
     #Add skycoord summary attributes to the library and selected cols to the summary table
     self.end_o = ac.SkyCoord(**end_o_dic)
@@ -192,33 +199,43 @@ class MWStreams(dict):
     self.mid_point = ac.SkyCoord(**mid_point_dic)
     self.mid_pole  = ac.SkyCoord(ra=mid_pole_dic["ra"], dec=mid_pole_dic["dec"], frame='icrs')
 
+    #Store master table as an attribute (inherits structure of lmaster dataframe)
+    self.summary = lmaster
+
     #Stream Length
     self.summary["length"] = np.array(lengths)
     #End points
     self.summary["ra_o"] = end_o_dic["ra"]
     self.summary["dec_o"] = end_o_dic["dec"]
+    self.summary["distance_o"] = end_o_dic["distance"]
     self.summary["ra_f"] = end_f_dic["ra"]
-    self.summary["dec_f"] = end_f_dic["dec"]
+    self.summary["dec_f"] = end_f_dic["ra"]
+    self.summary["distance_f"] = end_f_dic["distance"]
     #Mid point
     self.summary["ra_mid"] = mid_point_dic["ra"]
     self.summary["dec_mid"] = mid_point_dic["dec"]
-    self.summary["distance"] = mid_point_dic["distance"]
+    self.summary["distance_mid"] = mid_point_dic["distance"]
     #Pole
     self.summary["ra_pole"] = mid_pole_dic["ra"]
     self.summary["dec_pole"] = mid_pole_dic["dec"]
     #Info
     self.summary["InfoFlags"] = np.array(info_flags)
+    #self.summary["DiscoveryRefs"] = discovery_refs
 
-    #Create a numeric ID
+    #Create a numeric ID for each track
     self.summary["ID"] = np.arange(0,self.summary.Name.size,1)+1
     self.summary.index=self.summary.TrackName
 
+    #Store discovery references in summary table
+    for ii in self.summary.index:
+        self.summary.loc[ii,'DiscoveryRefs'] = self[ii].ref_discovery
 
 class Track6D:
 
-  def __init__(self, track_name, track_file, summary_file, stream_name=None, stream_shortname=None, track_reference=' ', verbose=True):
+  def __init__(self, track_name, track_file, summary_file, stream_name=None, stream_shortname=None, track_reference=' ', 
+	        track_discovery_references=' ', verbose=True):
 
-      ''' Track6D: A Stellar Stream's Track realization in 6D. The object has the following attributes: 
+      ''' Track6D: A Stellar Stream's Track realization in 6D. See the list of attributes below. 
  	
 	Parameters
 	==========
@@ -246,6 +263,8 @@ class Track6D:
 	track : astropy.coordinates.SkyCoord Object
 	  Contains the track 6D info. By default initialized in icrs frame
 
+        length: angular length measured along the track
+
         InfoFlags: string - 4-bits indicate available (or assumed) data. 
   	    bit 0: 0 = great circle by construction
   	    bit 1: 0 = no distance track available (only mean or central value reported)
@@ -259,17 +278,17 @@ class Track6D:
         mid_pole: astropy.coordinates.SkyCoord Object heliocentric pole at phi1=0
  
         poly_sc: astropy.coordinates.SkyCoord Object containing vertices for stream's polygon footprint
+	
+  	mid_pole_gsr: astropy.coordinates.SkyCoord Object. GSR pole at phi1=0
 
 	pole_track_helio: astropy.coordinates.SkyCoord Object heliocentric pole track (galactic coordinates by default)
 	
         pole_track_gsr: astropy.coordinates.SkyCoord Object GSR pole track (galactic coordinates by default)
 	
-	mid_pole_gsr: astropy.coordinates.SkyCoord Object. GSR pole at phi1=0
-     
         angular_momentum_helio: list object with spherical components (modulus, lat, lon) for the angular momentum of
 				each point along the track, computed in a heliocentric frame at rest w.r.t. the GSR
-
-        length: angular length measured along the track
+      
+        WARNING: angular momentum and pole tracks have length track.size-1  
 
 	'''      
 
@@ -290,6 +309,7 @@ class Track6D:
 
       #References for the track
       self.ref = track_reference
+      self.ref_discovery = track_discovery_references
 
       #Read-in knots and initialize track
       t = astropy.table.QTable.read(track_file)
@@ -480,25 +500,6 @@ class Track6D:
   def resample_stream_track(self, dphi1=0.02*u.deg): 
 
      ''' TODO '''
-
-
-  def load_user_defined_centers_and_shortnames(self):
-
-     #Read library log-file that will be used to overwrite center coords with user-defined values
-     lib_log_filen=os.path.join(os.path.dirname(os.path.realpath(__file__)),'lib','lib_centers.log')
-     names,shortnames=scipy.genfromtxt(lib_log_filen,usecols=(0,1),unpack=True,dtype=str)
-     _ra,_dec,_ll,_bb,_phi,_theta=scipy.genfromtxt(lib_log_filen,usecols=(2,3,4,5,6,7),
-                                                    unpack=True,dtype=np.float,missing_values='',filling_values=np.nan)
- 
-     for ii in range(names.size):
-       try:
-         if not np.isnan( _ra[ii])  and not np.isnan(  _dec[ii]): self[names[ii]].cra, self[names[ii]].cdec =  _ra[ii],   _dec[ii] 
-         if not np.isnan( _ll[ii])  and not np.isnan(   _bb[ii]):  self[names[ii]].cl, self[names[ii]].cb   =  _ll[ii],    _bb[ii] 
-         if  hasattr(self[names[ii]],'cphi'):
-          if not np.isnan(_phi[ii])  and not np.isnan(_theta[ii]): self[names[ii]].cphi,self[names[ii]].ctheta = _phi[ii], _theta[ii] 
-         #Setting short names
-         self[names[ii]].sname=shortnames[ii]        
-       except KeyError: print('WARNING: Name %s used lib_centers.log not found in lib* definition files' % (names[ii]))
 
 
   #-------------method to plot whole MW streams compilation object at once------------------------------------

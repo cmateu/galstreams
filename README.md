@@ -1,60 +1,24 @@
-# galstreams
+# galstreams - v2
+
 
 
 ### DESCRIPTION:
 
-galstreams is a Milky Way Streams Footprint Library and Toolkit for Python. It includes a compilation of spatial information for known stellar streams and overdensities in the Milky Way (MW) and Python tools for visualizing them. It is introduced in [Mateu, Read & Kawata (2018)](http://adsabs.harvard.edu/abs/2018MNRAS.474.4112M).
+A new and improved *galstreams* Library of Stellar Streams in the Milky Way is introduced. Stellar streams are now supported as track (Track6D) objects, rather than the Footprint objects provided in v1. The main features of the new library are:
 
-The main contributions of this package are the following:
+-  Celestial, distance, proper motion and radial velocity tracks for each stream (pm/vrad when available)
+-  Stream's (heliocentric) coordinate frame realised as astropy reference frame
+-  Stream's end-points and mid-point
+- Polygon Footprints
+-  Pole (at mid point) and pole tracks in the heliocentric and Galactocentric (GSR) frames
+-  Angular momentum track in a heliocentric reference frame at rest with respect to the Galactic centre
+-  Summary object for the full library: Uniformly reported stream length, end points and mid-point, heliocentric and Galactocentric mid-pole, track and discovery references and information flag denoting which of the 6D attributes (sky, distance, proper motions and radial velocity) are available in the track object.
 
-- It provides tools to easily handle and plot a stream's footprint in different celestial coordinate systems.
-
-- The MWStreams class provides an object to handle the data for all known streams in the MW at once
-
-- It is easily extendable to include new streams as they are published
-
-- The gcutils library provides utility methods that will let you create a footprint object for your own stream, using any of the four available constructors:
-
-  - by giving the coordinates of the start and end point
-  - by giving the orbital pole and, if known, its center, length and width
-  - by giving a range of RA,DEC or l,b  (more suitable for clouds rather than for streams)
-  - by giving a list of coordinates (RA,DEC or l,b)
-
-- Utility methods are also provided to automatically add all MW known globular clusters and dwarf galaxy satellites.
-
-- The streams_lib_notes.ipynb iPython Notebook keeps record of intermediate computations made for some of the stream's data to comply with one the four available constructors.
-
-The galstreams package can be used to replicate Figures 2, 3 and 4 in [Mateu, Read & Kawata (2018).](http://adsabs.harvard.edu/abs/2018MNRAS.474.4112M)
-
-----------
-
-### VERSION HISTORY:
-
-- 2020/12/18: Pal 13 added.
-- 2020/12/03: Svol fixed (l/b knots were flipped). Ophiucus renamed to Ophiuchus
-- 2019/03/28: *New attributes added:* Attribute gcfr now contains each stream's own reference frame (gala.coordinates) object, based on an estimate of the stream's end points (stored in end_o,end_f). phi1 and phi2 are also provided directly as attributes for each stream. This is BETA mode. These reference frames exist, but make no sense for cloud-like structures.
-- 2019/03/26: Galstreams is now compliant with Python 3 
-- 2019/03/25: *Pal5 footprint updated* - Courtesy of A. Price-Whelan (private communication)
-- 2019/03/14: *GD-1 footprint updated* (Price-Whelan & Bonaca, 2018) - Courtesy of A. Price-Whelan.
-- 2019/01/30: *NEW Phlegethon and 8 norse streams* added (Ibata et al. 2018, 2019)
-- 2019/01/30: Cetus stream coordinates updated (Yam et al. 2013), minor error fixed
-- 2019/01/30: *Orphan stream track updated* (Koposov et al. 2019)
-- 2019/01/30: Gaia1-5 streams added (Malhan et al. 2018) 
-- 2018/04/24: Tucana III stream (Drlica-Wagner et al. 2015, Shipp et al. 2018) added
-- 2018/04/23: Compilation of MW satellites added
-- 2018/01/24: Shortnames changed for Turbio (Trb) and Turramburra (Trn)
-- 2018/01/19: Corvus and 20.0-1 stream's (Mateu et al. 2018 high-confidence candidates) footprints added 
-- 2018/01/19: New functionality added: Footprints can be initialized with cootype=GC 
-- 2018/01/19: Orinoco and Murrumbidgee footprints corrected. Shortname attribute added. Use shortname option in plots added.
-- 2018/01/17: Label centering changed. Now can be set arbitrarily at log file. Labels checked in gal/equ/GC
-- 2018/01/17: New DES streams (Shipp et al. 2018) and Jet stream (Jethwa et al. 2017) added.
-	      Width option added to end-points constructor and now included for all streams defined this way. 
-- 2017/11/21: Eri/Phe coordinates fixed and reference added to Table.
+The new library includes 105 stream tracks corresponding to 92 distinct stellar streams (updated as of Jan 2022). The procedure use for the track  described in detail XXX-Mateu 2022.
 
 ### REQUIREMENTS
 
-- Python modules required are NUMPY, SCIPY and MATPLOTLIB.
-- This toolkit makes use of the coordinate transformation library bovy_coords.py from the [galpy](http://github.com/jobovy/galpy) package by [Jo Bovy (2015)](http://adsabs.harvard.edu/abs/2015ApJS..216...29B). It is supplied with this bundle.
+- Python modules required are NUMPY, SCIPY, MATPLOTLIB, ASTROPY and GALA.
 
 ----------
 
@@ -67,7 +31,7 @@ In a terminal, run the following command:
 and source your .cshrc
 
 If you do not have root access, you can install in the custom directory path_to_dir.
-First, add the directory's path path_to_dir and path_to_dir/lib/python2.7/site-packages/
+First, add the directory's path path_to_dir and path_to_dir/lib/python??/site-packages/
 to the PYTHONPATH variable in your .cshrc (or .bashrc) file and source it. Then install using the --prefix option::
 
     python setup.py install --prefix=path_to_dir
@@ -81,7 +45,17 @@ A MWstreams object can be easily created as follows:
 
 	mwsts=galstreams.MWStreams(verbose=True)
 
-Running this in verbose mode will print the each of the library’s stream names as they are initialized. The resulting object, mwsts, contains the footprint information for each of the streams and clouds registered in the library.
+Running this in verbose mode will print the each of the library’s stream names as they are initialized. The resulting object, mwsts, contains the footprint information for each of the streams and clouds registered in the library. By default the MWStreams object will only create the default track for each of the distinct stellar streams in the library. To explore all tracks available you can set implement_Off=True.
+
+Each stream track is referenced by it's unique TrackName. You can list the available TrackNames by doing:
+
+  mwsts.keys()
+
+The MWStreams object also has a *summary* attribute, a dictionary summarising properties for all the streams in the library:
+
+  mwsts.summary.head()
+
+
 
 To make a quick plot of the stream’s library stored in the mwsts object use:
 
@@ -89,8 +63,8 @@ To make a quick plot of the stream’s library stored in the mwsts object use:
 	ax=fig.add_subplot(111)
 	cmapp=plt.cm.plasma_r
 	cmapp.set_under('grey')   #If distance info is missing (-1), plot in grey
-        mwsts.plot_stream_compilation(ax,plot_colorbar=True,scat_kwargs=dict(vmin=0.,vmax=80.,cmap=cmapp, alpha=0.3),
-                                      use_shortnames=False, cb_kwargs=dict(label='Heliocentric Distance (kpc)'), 
+  mwsts.plot_stream_compilation(ax,plot_colorbar=True,scat_kwargs=dict(vmin=0.,vmax=80.,cmap=cmapp, alpha=0.3),
+                                      use_shortnames=False, cb_kwargs=dict(label='Heliocentric Distance (kpc)'),
                                       verbose=False)
 
 
@@ -109,18 +83,18 @@ MW globular clusters data from the Harris (1996, 2010 edition) compilation is al
 
 There are several options available to customize these plots, to check them out have a look at the MWStreams doc-string.
 
-Here's also an example on how to use the stream's reference frame attribute. The plot below shows several streams that intersect the GD-1 track, all plotted in GD-1's reference frame. This can be produced with the following code: 
+Here's also an example on how to use the stream's reference frame attribute. The plot below shows several streams that intersect the GD-1 track, all plotted in GD-1's reference frame. This can be produced with the following code:
 
         #import seaborn as sns    #---uncomment these two lines to match the style of the plot shown below---
-        #sns.set_context('talk') 
+        #sns.set_context('talk')
 	plt.figure(1,figsize=(12,5))
 	plt.subplot(111)
 	for ss in ['GD-1','Gaia-5','PS1-D','PS1-E','Orphan']:
          #The reference frame attribute (gcfr) for GD-1 is used to convert each stream's astropy.SkyCoord object
-         #to GD-1's reference frame 
+         #to GD-1's reference frame
 	 scoo = mwsts[ss].sc.transform_to(mwsts['GD-1'].gcfr)   
 	 plt.plot(scoo.phi1,scoo.phi2,'.',label=ss)
-	
+
 	plt.legend(ncol=2,markerscale=2)
 	plt.xlim(-60,60)
 	plt.ylim(-20,20)
@@ -145,120 +119,6 @@ define a stream’s footprint:
 - lib_by_lonlat_range.dat (input: range of RA/DEC or l/b)
 - lib_by_star.log (input: list of star coordinates. this is a log file where the format and location of the star list files are set for each defined stream)  
 
-
-The following table summarizes the streams included in the library. The list of streams is based in the Grillmair & Carlin (2016) review (their Table 4.1) and updated as of 14/Mar/2019. The list of references provided below refers to the sources for the footprint definitions.
-
-
-| Name         | Reference                  |   Name      |  Reference                       |
-|--------------|----------------------------|-------------|----------------------------------|
-| Alpheus      |  Grillmair 2013            |   PAndAS    |  Grillmair & Carlin 2016         |
-| Acheron      |  Grillmair 2009            |   Phoenix   |  Balbinot 2016                   |
-| ACS          |  Grillmair 2006            |   PiscesOv  |  Grillmair & Carlin 2016         |
-| ATLAS        |  Koposov 2014              |   PS1-A     |  Bernard 2016                    |
-| Cetus        |  Newberg 2009              |   PS1-B     |  Bernard 2016                    |
-| Cocytos      |  Grillmair 2009            |   PS1-C     |  Bernard 2016                    |
-| GD-1         |  Price-Whelan & Bonaca 2018|   PS1-D     |  Bernard 2016                    |
-| EBS          |  Grillmair & Carlin 2016   |   PS1-E     |  Bernard 2016                    |
-| Eridanus     |  Myeong2017                |   Sagitarius|  Law & Majewski 2010 (model)     |
-| Eri/Phe      |  Li2016                    |   Sangarius |  Grillmair 2017                  |
-| Hermus       |  Grillmair 2014            |   Scamander |  Grillmair 2017                  |
-| Her-Aq       |  Grillmair & Carlin 2016   |   Styx      |  Grillmair 2009                  |
-| Hyllus       |  Grillmair 2014            |   Tri-And   |  Grillmair & Carlin 2016         |
-| Kwando       |  Grillmair 2017b           |   Tri-And2  |  Grillmair & Carlin 2016         |
-| Lethe        |  Grillmair 2009            |   Tri/Pis   |  Bonaca 2012                     |
-| Molonglo     |  Grillmair 2017b           |   VOD/VSS   |  Vivas et al. 2001               |
-| Monoceros    |  Grillmair & Carlin 2016   |   WG1       |  Agnello 2017                    |
-| Murrumbidgee |  Grillmair 2017b           |   WG2       |  Agnello 2017                    |
-| NGC5466      |  Grillmair & Johnson2006   |   WG3       |  Agnello 2017                    |
-| Ophiucus     |  Bernard 2014              |   WG4       |  Agnello 2017                    |
-| Orphan       |  Newberg 2010              |   Jet       |  Jethwa et al. 2017              |
-| Orinoco      |  Grillmair 2017b           |   Indus     |  Shipp et al. 2018               |
-| Pal5         |  Grillmair 2006            |   Jhelum    |  Shipp et al. 2018               |
-| Pal15        |  Myeong2017                |   Ravi      |  Shipp et al. 2018               |
-| Chenab       |  Shipp et al. 2018         |   Elqui     |  Shipp et al. 2018               |
-| Aliqa Uma    |  Shipp et al. 2018         |   Turbio    |  Shipp et al. 2018               |
-| Willka Yaku  |  Shipp et al. 2018         | Turranburra |  Shipp et al. 2018               |
-| Wambelong    |  Shipp et al. 2018         | Palca       |  Shipp et al. 2018               |
-| Corvus       |  Mateu et al. 2018         | Tucana III  |  Shipp et al. 2018               |
-| 20.0-1       |  Mateu et al. 2018         | Gaia-[1,5]  |  Malhan et al. 2018              |
-| Phlegethon   |  Ibata et al. 2018         | Slidr       |  Ibata et al. 2019               |
-| Sylgr        |  Ibata et al. 2019         | Fjorm       |  Ibata et al. 2019               |
-| Ylgr         |  Ibata et al. 2019         | Gjoll       |  Ibata et al. 2019               | 
-| Fimbulthul   |  Ibata et al. 2019         | Leiptr      |  Ibata et al. 2019               | 
-| Svol         |  Ibata et al. 2019         |             |                                  |
-
-
-----------
-
-# Module: galstreams
-
-## MWstreams Class
-
-The MWstreams class returns a dictionary containing a [Footprint object](#footprint-class) for each of the streams known in the MW, indexed by the stream’s name.
-
-The class can be easily instantiated as follows:
-
-	mwsts=galstreams.MWStreams()
-
-This will read the stream definitions stored in the lib directory to instantiate a Footprint object appropriately for each stream. In this example, you can access the Footprint object's RA and DEC for the Orphan stream as:
-
-  print mwsts['Orphan'].ra, mwsts['Orphan'].dec
-
-
-See the Footprint Class description below for details on object attributes and methods.
-
-## Footprint Class
-
-This class handles a stream’s footprint as a collection of points. A Footprint object can be instantiated by passing it a name string and a pair of longitude-latitude vectors which will be interpreted as RA/DEC or l/b if the coordinate system is indicated as equatorial or galactic respectively (via de cootype keyword), e.g., as follows::
-
-	footprint= galstreams.Footprint(ra,dec,’Amethyst’,cootype=‘equ’)
-
-The heliocentric distance, proper motions and radial velocity can be passed at initialization as optional arguments.
-
-The coordinates in other reference systems of interest are computed by default and set as object attributes.
-
-As an instance of the Footprint class, a footprint object has the following default attributes:
-
-- footprint.ra, footprint.dec    (equatorial coords)
-- footprint.l, footprint.b       (galactic coords)
-- footprint.cra, .cdec, .cl, .cb (footprint’s geometric center coordinates)
-
-If Rhel, the heliocentric distance, is given the following attributes are also created:
-
-- footprint.Rhel
-- footprint.phi, .theta       (galactocentric coords, phi=0 towards the Sun)
-- footprint.Rgal              (galactocentric distance)
-- footprint.xhel,.yhel,.zhel  (cartesian heliocentric coords)
-- footprint.x,.y,.z           (cartesian galactocentric coords)
-
-If proper motions are given:
-
-- footprint.pmra, .pmdec, .pmrastar  (pmrastar=pmra*cos(dec))
-- footprint.pml, .pmb, .pmlstar       (pmlstar=pml*cos(dec))
-
-If radial velocity is given:
-
-- footprint.vrad
-
-If all above are given:
-
-- footprint.vxhel,.vyhel,.vzhel  (cartesian heliocentric vels)
-- footprint.vx,.vy,.vz           (cartesian galactocentric vels)
-
-A convenience method is provided to apply a mask to all array attributes of a Footprint object:
-
-	Footprint.mask_footprint(mask)
-
-For full details, please see the doc-string for the Footprint class.
-
-
-----------
-**Notes about excluded streams**
-
-Streams that are very close to or surround the Sun are excluded. The following (incomplete list) are, therefore, not included:
-
-- S1-S4, C1-C2 (Myeong et al. 2018)
-- Helmi et al. 1999 stream
 
 
 ----------
