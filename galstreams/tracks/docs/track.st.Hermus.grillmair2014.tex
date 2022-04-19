@@ -1,0 +1,7 @@
+The celestial track for Hermus was implemented from the polynomial fit provided by \citet{Grillmair2014} in their Eq.~1 :
+\begin{eqnarray*}
+\alpha &=& 241.571 + 1.37841\delta - 0.148870\delta^2 + 0.00589502\delta^3 \\
+       & &- 1.03927\times 10^{-4}\delta^4 + 7.28133\times 10^{-7}\delta^5
+\end{eqnarray*}
+
+with $\delta \in [5^\circ, 50^\circ ]$ reported as the ends of the stream in their Sec. 3.1. The authors report mean heliocentric distances of 15, 20 and 19~kpc respectively for the northern ($\delta =50^\circ$), central ($\delta =40^\circ$) and southern parts ($\delta =5^\circ$) of the stream. We assume these distances to correspond to the mid-point and ends of the stream and use polynomial interpolation in between, with a high enough order to avoid the kink due to the abrupt change at the mid-point. 

@@ -1,0 +1,16 @@
+The celestial track for Murrumbidgee was implemented from the polynomial fit provided by \citet{Grillmair2017_south}
+in their Eq.~3:
+\begin{eqnarray*}
+\alpha &=& 367.893 -0.4647\delta - 0.00862\delta^2 + 0.000118\delta^3 \\
+       & & +1.2347\times 10^{-6}\delta^4 - 1.13758\times 10^{-7}\delta^5
+\end{eqnarray*}
+
+with $\delta \in [-65^\circ,+16^\circ]$. The declination range for the full stream is not explicitly reported in \citet{Grillmair2017_south}. 
+The author reports the portion of the stream with $b \in [-65^\circ,-30^\circ]$ is detected at a 
+$6\sigma$ significance, but do not explicitly provide the full galactic latitude (or declination) range for the stream. 
+Also, the fiducial point reported in Table 1 and used for orbit fitting is not included in that range. 
+Since the authors report the stream to be $95^\circ$ long, we take the declination range to be 
+$\delta \in [-65^\circ,+16^\circ]$ in order to reproduce this length and for the track to contain the fiducial point
+$(\alpha,\delta)=358\fdg614, 16\fdg274)$.
+
+The authors report a mean heliocentric distance of 20~kpc, adopted here for the full stream's distance track.

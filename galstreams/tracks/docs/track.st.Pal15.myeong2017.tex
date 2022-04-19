@@ -1,0 +1,10 @@
+The celestial track was implemented using end points for the tidal tails computed from the position angle ($\mathrm{PA}$) and length $l$ of the tails reported in \citet{Myeong2017}. Equatorial coordinates $(\alpha_i,\delta_i)$ for the end points were computed as:
+\begin{eqnarray*}
+\Delta\alpha_i &=& l_i\sin{\mathrm{PA}_i}/\cos{\delta_c} \\
+\Delta\delta_i &=& l_i\cos{\mathrm{PA}_i} 
+\end{eqnarray*}
+
+where $(\alpha_c,\delta_c)=(255\fdg 01,-0\fdg 5419)$ are the cluster's central coordinates, from the \citet{Harris1996} catalogue.
+
+We implement the track as a linear interpolation of the end points and cluster coordinates. This is a good approximation given the small extent of the tails (59' and 29') and their linear appearance in Fig.~2 of \citet{Myeong2017}.
+The authors do not provide a distance or distance gradient estimate, so we adopt a mean distance for the track of 43.5~kpc as cited by the authors from the \citet{Harris1996} compilation.

@@ -1,0 +1,10 @@
+This version of the GD-1 track is based on \citet{PriceWhelanBonaca2018_gd1}. The sky and proper motion tracks are found by fitting a fifth degree polynomial to the stream members selected by \citet{PriceWhelanBonaca2018_gd1} using Gaia DR2 and PanSTARRS-1 \footnote{Data available at \url{https://doi.org/10.5281/zenodo.1295543}}, and using the color-magnitud diagram, proper motion and stream track masks provided by the authors.
+
+For the distance track, as the stream is too distant for Gaia~DR2 parallaxes to be useful, we have assumed the distance gradient proposed by the authors:
+\begin{eqnarray*}
+d (\kpc) = 0.05\phi_1(^\circ) +10
+\end{eqnarray*}
+
+with $\phi_1$ being the along-stream coordinate in the GD-1 coordinate frame from \citet{Koposov2010}, which we adopt here
+as the stream's reference frame.
+

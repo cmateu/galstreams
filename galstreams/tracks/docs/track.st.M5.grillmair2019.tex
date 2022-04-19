@@ -1,0 +1,8 @@
+The M5 stream's celestial track was implemented from the polynomial fit provided by \citet{Grillmair2019} in their Eq. 1:
+\begin{eqnarray*}
+\delta = 37.4026 + 0.2096\alpha -0.001578\alpha^2
+\end{eqnarray*}
+
+with $\alpha \in [190^\circ,225^\circ]$, as explicitly reported by the author. 
+
+The proper motion tracks were obtained by fitting a third order polynomial to the 50 highest weigthed candidates provided in their Table 1. Neither the table nor any of the figures include distance \emph{measurements}, which were not necessary given the methodology used. Setting the mean distance to the cluster (7.5~kpc) for the full length of the track should \emph{not} provide a good approximation. The orbit prediction, shown in their Fig.~1, is that the heliocentric distance increases from  7.3 kpc at $\alpha\sim217^\circ$ to $\sim15$ kpc at $\alpha\sim134^\circ$. Since the distance track is a required attribute in the library, we use linear interpolation between these values from the orbit prediction and caution the users that they \emph{do not correspond to observed values}. The InfoFlag for the distance in this case is thus set to 0 to reflect the \emph{observed} distance track is not available.

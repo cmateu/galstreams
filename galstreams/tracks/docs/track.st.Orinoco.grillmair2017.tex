@@ -1,0 +1,11 @@
+Orinoco's celestial track was implemented from the polynomial fit provided by \citet{Grillmair2017_south} in their Eq. 4:
+\begin{eqnarray*}
+\delta &=& -25.5146 + 0.1672\alpha + -0.003827\alpha^2 -0.0002835\alpha^3 \\
+       & & -5.3133\times 10^{-6}\alpha^4
+\end{eqnarray*}
+
+with $\alpha>324^\circ$ or $\alpha<23^\circ$. This range in right ascension is not explicitly reported by the authors,
+it was inferred from their Fig.~1 to match the extent of the stream shown (A. Drlica-Wagner private comm.).
+The authors report a FWHM of 40 arcmin corresponding to a physical width of 240~pc, which corresponds to a heliocentric distance of 20.6~kpc, adopted here for the full track.
+
+\citet{Grillmair2017_south} also mention a putative western extension of Orinoco that is not well approximated by their Eq.~4. This is not included in the implemented track.

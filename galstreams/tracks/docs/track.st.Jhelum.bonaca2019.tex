@@ -1,0 +1,14 @@
+This realisation of the Jhelum stream was implemented in two separate branches, Jhelum-a and Jhelum-b, based on the sky tracks provided by \citet{Bonaca2019}. The main component's track (Jhelum-a) is given by their Eq.~1:
+\begin{eqnarray*}
+\phi_2^a = 0.000546\phi_1^2 -0.00217\phi_1 + 0.583
+\end{eqnarray*}
+
+with $\phi_1 \in [-5\degr,+25\degr]$. The secondary component's (Jhelum-b) track is described 
+by: 
+\begin{eqnarray*}
+\phi_2^b = \phi_2^a - 0\fdg9
+\end{eqnarray*}
+
+The two tracks are implemented using the same coordinate frame defined by the rotation matrix provided in \citet[][their Sec.~2]{Bonaca2019}.
+
+The proper motion tracks were implemented by fitting a polynomial to points read-off of their Fig.~4 in the stream's coordinate frame. These proper motions have not been corrected for the solar reflex motion. \citet{Bonaca2019} note that despite the two components having a systematic and constant offset in the sky, their proper motions are very similar, being 'kinematically indistinguishable' at the current precision.

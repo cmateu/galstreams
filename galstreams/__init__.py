@@ -124,7 +124,7 @@ def compute_angular_momentum_track(track, return_cartesian = False):
 #---------MW Streams class--------------------------------------------------------------------------------
 class MWStreams(dict):
     
-  def __init__(self, verbose=True, implement_Off=False):
+  def __init__(self, verbose=False, implement_Off=False):
 
     #A MWStreams object is a dictionary in which each entry is a Footprint object, indexed by each stream's name.
     #There's also a mandatory summary entry, which is a Pandas DataFrame with summary attributes for the full library
@@ -156,6 +156,7 @@ class MWStreams(dict):
     lengths = np.array([])*u.deg
 
     print("Initializing galstreams library from master_log... ")
+    nid = 1
     for ii in np.arange(lmaster.TrackRefs.size):
 
        #Create the names of the files containing the knots and summary attributes to initialize each stream
@@ -175,11 +176,16 @@ class MWStreams(dict):
                        track_file=track_file, track_discovery_references=lmaster_discovery.loc[lmaster.Name[ii],'DiscoveryRefs'] ,
                        summary_file=summary_file)
 
-       self[lmaster.TrackName[ii]] = track
+#       self[lmaster.TrackName[ii]] = track
        if implement_Off:
-          self[lmaster.TrackName[ii]] = track
+           self[lmaster.TrackName[ii]] = track
+           self[lmaster.TrackName[ii]].ID = nid
+           nid = nid+1
        else:
-          if lmaster.On[ii]: self[lmaster.TrackName[ii]] = track
+          if lmaster.On[ii]: 
+              self[lmaster.TrackName[ii]] = track
+              self[lmaster.TrackName[ii]].ID = nid
+              nid = nid+1
           elif verbose: print(f"Skipping Off track {lmaster.TrackName[ii]}...")
 
        #Store summary attributes
@@ -190,7 +196,7 @@ class MWStreams(dict):
 
        info_flags.append(track.InfoFlags)
        lengths = np.append(lengths, track.length)
-       #discovery_refs = np.append(discovery_refs, lmaster_discovery.loc[lmaster.Name[ii],'DiscoveryRefs'] )
+       discovery_refs = np.append(discovery_refs, lmaster_discovery.loc[lmaster.Name[ii],'DiscoveryRefs'] )
 
 
     #Add skycoord summary attributes to the library and selected cols to the summary table
@@ -209,7 +215,7 @@ class MWStreams(dict):
     self.summary["dec_o"] = end_o_dic["dec"]
     self.summary["distance_o"] = end_o_dic["distance"]
     self.summary["ra_f"] = end_f_dic["ra"]
-    self.summary["dec_f"] = end_f_dic["ra"]
+    self.summary["dec_f"] = end_f_dic["dec"]
     self.summary["distance_f"] = end_f_dic["distance"]
     #Mid point
     self.summary["ra_mid"] = mid_point_dic["ra"]
@@ -220,15 +226,36 @@ class MWStreams(dict):
     self.summary["dec_pole"] = mid_pole_dic["dec"]
     #Info
     self.summary["InfoFlags"] = np.array(info_flags)
-    #self.summary["DiscoveryRefs"] = discovery_refs
-
-    #Create a numeric ID for each track
-    self.summary["ID"] = np.arange(0,self.summary.Name.size,1)+1
+    self.summary["DiscoveryRefs"] = discovery_refs
+    #Index by TrackName
     self.summary.index=self.summary.TrackName
 
-    #Store discovery references in summary table
+    #Create a numeric ID for each track
+    #self.summary["ID"] = np.arange(0,self.summary.Name.size,1)+1
+    self.summary["ID"] = ''
     for ii in self.summary.index:
-        self.summary.loc[ii,'DiscoveryRefs'] = self[ii].ref_discovery
+       if self.summary.loc[ii,'On']:
+        self.summary.loc[ii,'ID'] = self[ii].ID
+  
+
+    #Store discovery references in summary table
+    #for ii in self.summary.index:
+    #    self.summary.loc[ii,'DiscoveryRefs'] = self[ii].ref_discovery
+
+  def all_active_track_names(self):
+       print(self.keys())
+
+  def all_unique_stream_names(self):
+       print(np.unique(self.summary.Name[self.summary.On]))
+
+  def all_track_names(self):
+       print(self.summary.index)       
+
+
+  def plot_stream_compilation(ax, plot_colorbar=True, scat_kwargs=None, use_shortnames=False, 
+                                  cb_kwargs=None, verbose=False):
+
+      return
 
 class Track6D:
 

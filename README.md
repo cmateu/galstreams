@@ -1,12 +1,12 @@
-# galstreams - v2
+# **galstreams**
 
-
+![see plot here](examples/fig_all_streams_lib.png?raw=true "galstreams 04-2022")
 
 ### DESCRIPTION:
 
-A new and improved *galstreams* Library of Stellar Streams in the Milky Way is introduced. Stellar streams are now supported as track (Track6D) objects, rather than the Footprint objects provided in v1. The main features of the new library are:
+A new and improved *galstreams* Library of Stellar Streams in the Milky Way is introduced. Stellar streams are now supported as track SkyCoord objects (Track6D), rather than the Footprint objects provided in v0.1. The main features of the new library are:
 
--  Celestial, distance, proper motion and radial velocity tracks for each stream (pm/vrad when available)
+-  Celestial, distance, proper motion and radial velocity tracks for each stream (pm/vrad when available) stored as astropy SkyCoord objects
 -  Stream's (heliocentric) coordinate frame realised as astropy reference frame
 -  Stream's end-points and mid-point
 - Polygon Footprints
@@ -14,7 +14,7 @@ A new and improved *galstreams* Library of Stellar Streams in the Milky Way is i
 -  Angular momentum track in a heliocentric reference frame at rest with respect to the Galactic centre
 -  Summary object for the full library: Uniformly reported stream length, end points and mid-point, heliocentric and Galactocentric mid-pole, track and discovery references and information flag denoting which of the 6D attributes (sky, distance, proper motions and radial velocity) are available in the track object.
 
-The new library includes 105 stream tracks corresponding to 92 distinct stellar streams (updated as of Jan 2022). The procedure use for the track  described in detail XXX-Mateu 2022.
+The new library includes 125 stream tracks corresponding to 97 distinct stellar streams (updated as of March 2022). The procedure use for the track  described in detail Mateu 2022.
 
 ### REQUIREMENTS
 
@@ -45,13 +45,13 @@ A MWstreams object can be easily created as follows:
 
 	mwsts=galstreams.MWStreams(verbose=True)
 
-Running this in verbose mode will print the each of the library’s stream names as they are initialized. The resulting object, mwsts, contains the footprint information for each of the streams and clouds registered in the library. By default the MWStreams object will only create the default track for each of the distinct stellar streams in the library. To explore all tracks available you can set implement_Off=True.
+Running this in verbose mode will print the each of the library’s stream names as they are initialized (it's getting long, so, perhaps don't). The resulting object, mwsts, contains the footprint information for each of the stream tracks in the library. By default the MWStreams object will only create the default track for each of the distinct stellar streams in the library (see Mateu 2022). To explore all tracks available you can set implement_Off=True.
 
-Each stream track is referenced by it's unique TrackName. You can list the available TrackNames by doing:
+Each stream track is referenced by it's unique TrackName. Since the MWStreams is just a dictionary, you can list the available TrackNames by doing:
 
   mwsts.keys()
 
-The MWStreams object also has a *summary* attribute, a dictionary summarising properties for all the streams in the library:
+The MWStreams object also has a *summary* attribute, a Pandas DataFrame summarising properties for all the stream tracks in the library:
 
   mwsts.summary.head()
 
@@ -104,36 +104,3 @@ Here's also an example on how to use the stream's reference frame attribute. The
 	plt.tight_layout()
 
 ![see plot here](examples/quickex_gd1_ref_system.png?raw=true "Example plot for galstreams")
-
-
-
-----------
-
-# The Milky Way Streams Library
-
-The data for the built-in streams library is stored in the *lib* directory, where four main files are found, depending on which constructor is used in galstreams.MWStreams to
-define a stream’s footprint:
-
-- lib_by_pair.dat (input: coordinates of the start and end point)
-- lib_by_pole.dat (input: orbital pole, and optionally center, length and width)
-- lib_by_lonlat_range.dat (input: range of RA/DEC or l/b)
-- lib_by_star.log (input: list of star coordinates. this is a log file where the format and location of the star list files are set for each defined stream)  
-
-
-
-----------
-
-**FILES PROVIDED**
-
-- Libraries:
-	* galstreams.py
-	* gcutils.py
-	* bovy_coords.py
-	* pyutils.py
-	* lib
-
-- Executable programs:
-  * work in progress - stand-alone script to make a quick plot of the MW library in user-selected coords
-
-- Documentation
-   * README.md
