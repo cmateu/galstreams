@@ -231,26 +231,46 @@ class MWStreams(dict):
     self.summary.index=self.summary.TrackName
 
     #Create a numeric ID for each track
-    #self.summary["ID"] = np.arange(0,self.summary.Name.size,1)+1
     self.summary["ID"] = ''
     for ii in self.summary.index:
        if self.summary.loc[ii,'On']:
         self.summary.loc[ii,'ID'] = self[ii].ID
   
-
     #Store discovery references in summary table
     #for ii in self.summary.index:
     #    self.summary.loc[ii,'DiscoveryRefs'] = self[ii].ref_discovery
 
   def all_active_track_names(self):
-       print(self.keys())
+       return self.keys()
 
   def all_unique_stream_names(self):
-       print(np.unique(self.summary.Name[self.summary.On]))
+       return np.unique(self.summary.Name[self.summary.On])
 
   def all_track_names(self):
-       print(self.summary.index)       
+       return np.array(self.summary.index)       
 
+  def get_track_names_for_stream(self, StreamName):
+    '''
+        Parameters
+        ==========
+
+        StreamName : str 
+                     Name of the stream (or part of it)
+  
+        Returns 
+        =======
+
+        array : Array with all the TrackNames for which the stream's name matches the input string  
+
+    '''
+
+    all_track_names = []
+
+    for tn in self.summary.index:
+      if StreamName in self.summary.loc[tn,'Name']: 
+         all_track_names.append(tn)
+
+    return all_track_names
 
   def plot_stream_compilation(ax, plot_colorbar=True, scat_kwargs=None, use_shortnames=False, 
                                   cb_kwargs=None, verbose=False):
