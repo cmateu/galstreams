@@ -4,7 +4,7 @@
 
 ### DESCRIPTION:
 
-A new and improved *galstreams* Library of Stellar Streams in the Milky Way is introduced. Stellar streams are now supported as track SkyCoord objects (Track6D), rather than the Footprint objects provided in v0.1. The main features of the new library are:
+The new and improved *galstreams* Library of Stellar Streams in the Milky Way (v1.0) is introduced. Stellar streams are now supported as track SkyCoord objects (Track6D), rather than the Footprint objects provided in the previoues version (v0.1). The main new features of the library are:
 
 -  Celestial, distance, proper motion and radial velocity tracks for each stream (pm/vrad when available) stored as astropy SkyCoord objects
 -  Stream's (heliocentric) coordinate frame realised as astropy reference frame
@@ -28,7 +28,7 @@ In a terminal, run the following command:
 
     sudo python setup.py install
 
-and source your .cshrc
+and source your .cshrc / .bashrc or equivalent file.
 
 If you do not have root access, you can install in the custom directory path_to_dir.
 First, add the directory's path path_to_dir and path_to_dir/lib/python??/site-packages/
@@ -43,17 +43,24 @@ Add path_to_dir/bin to your PATH in your .csrhc or .bashrc file.
 
 A MWstreams object can be easily created as follows:
 
-	mwsts=galstreams.MWStreams(verbose=True)
+	mwsts=galstreams.MWStreams()
 
-Running this in verbose mode will print the each of the library’s stream names as they are initialized (it's getting long, so, perhaps don't). The resulting object, mwsts, contains the footprint information for each of the stream tracks in the library. By default the MWStreams object will only create the default track for each of the distinct stellar streams in the library (see Mateu 2022). To explore all tracks available you can set implement_Off=True.
+Running this in verbose mode (verbose=True) will print the each of the library’s stream names as they are initialized (it's getting long, so, perhaps don't). The resulting object, mwsts, contains the footprint information for each of the stream tracks in the library. By default the MWStreams object will only create one default track for each of the distinct stellar streams in the library (see Mateu 2022). To explore all tracks available you can set implement_Off=True.
 
 Each stream track is referenced by it's unique TrackName. Since the MWStreams is just a dictionary, you can list the available TrackNames by doing:
 
   mwsts.keys()
 
+You can also query the MWStreams object using the get_track_names_for_stream method to find the TrackNames for all the streams that match a given string. For example:
+
+  mwsts.get_track_names_for_stream('Pal')
+
+this will print a list of all the streams that contain the string 'Pal'.
+
 The MWStreams object also has a *summary* attribute, a Pandas DataFrame summarising properties for all the stream tracks in the library:
 
   mwsts.summary.head()
+
 
 
 
