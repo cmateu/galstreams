@@ -85,5 +85,11 @@ To make a quick plot of the stream’s library stored in the mwsts object use:
 
 ![see plot here](examples/quickex.png?raw=true "Example plot for galstreams") -->
 
-See the notebooks provided in the examples folder for more detailed examples of the library's functionality.
 
+This example shows how the plot is made in galactic coordinates simply by transforming the stream's Track6D track attribute (a SkyCoord object) into the galactic frame. The annotation of the stream ID is made at one of the end points, stored in the stream's end_point attribute, also a SkyCoord object.
+
+To check the available attributes for each Track6D, use the help, for example:
+
+    help(mwsts['Pal5-PW19'])
+
+For more detailed examples of the library's functionality, please see the notebooks provided in the examples folder.

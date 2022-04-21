@@ -310,7 +310,7 @@ class Track6D:
 	track : astropy.coordinates.SkyCoord Object
 	  Contains the track 6D info. By default initialized in icrs frame
 
-        length: angular length measured along the track
+        length: astropy.Quantity Object contains the angular length measured along the track
 
         InfoFlags: string - 4-bits indicate available (or assumed) data. 
   	    bit 0: 0 = great circle by construction
