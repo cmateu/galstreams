@@ -85,4 +85,5 @@ To make a quick plot of the stream’s library stored in the mwsts object use:
 
 ![see plot here](examples/quickex.png?raw=true "Example plot for galstreams") -->
 
+See the notebooks provided in the examples folder for more detailed examples of the library's functionality.
 
