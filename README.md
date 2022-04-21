@@ -49,65 +49,40 @@ Running this in verbose mode (verbose=True) will print the each of the libraryâ€
 
 Each stream track is referenced by it's unique TrackName. Since the MWStreams is just a dictionary, you can list the available TrackNames by doing:
 
-  mwsts.keys()
+    mwsts.keys()
 
 You can also query the MWStreams object using the get_track_names_for_stream method to find the TrackNames for all the streams that match a given string. For example:
 
-  mwsts.get_track_names_for_stream('Pal')
+    mwsts.get_track_names_for_stream('Pal')
 
 this will print a list of all the streams that contain the string 'Pal'.
 
 The MWStreams object also has a *summary* attribute, a Pandas DataFrame summarising properties for all the stream tracks in the library:
 
-  mwsts.summary.head()
-
-
+    mwsts.summary
 
 
 To make a quick plot of the streamâ€™s library stored in the mwsts object use:
 
-	fig=plt.figure(1,figsize=(16,8))
-	ax=fig.add_subplot(111)
-	cmapp=plt.cm.plasma_r
-	cmapp.set_under('grey')   #If distance info is missing (-1), plot in grey
-  mwsts.plot_stream_compilation(ax,plot_colorbar=True,scat_kwargs=dict(vmin=0.,vmax=80.,cmap=cmapp, alpha=0.3),
-                                      use_shortnames=False, cb_kwargs=dict(label='Heliocentric Distance (kpc)'),
-                                      verbose=False)
+    fig = plt.figure(1,figsize=(16,11))
+    ax = fig.add_subplot(111, projection='mollweide')
+
+    for st in mwsts.keys():
+      #Plot the tracks  
+      ax.scatter(mwsts[st].track.galactic.l.wrap_at(180*u.deg).rad,
+                 mwsts[st].track.galactic.b.rad, marker='.', s=30,
+                 label="{ID:.0f}={Name}".format(ID=mwsts[st].ID,Name=mwsts.summary.Name[st]))
+      #Annotate at one of the end points  
+      ax.annotate(mwsts[st].ID, xy=(mwsts[st].end_points.galactic.l.wrap_at(180*u.deg)[0].rad,mwsts[st].end_points.galactic.b[0].rad),
+                  xycoords='data',
+                  arrowprops=dict(arrowstyle="-",color='k'),
+                  horizontalalignment='center', verticalalignment='center',
+                  xytext=(-10,15),textcoords='offset points',
+                  )
+
+    ax.legend(ncol=8,loc='center', columnspacing=0.5, handletextpad=0.1,
+          bbox_to_anchor=(0.5,-0.28), markerscale=3, fontsize='medium')
+
+![see plot here](examples/quickex.png?raw=true "Example plot for galstreams") -->
 
 
-	ax.set_xlim(0.,360.)
-	ax.set_ylim(-90.,90.)
-	ax.set_xlabel('$l$ (deg)')
-	ax.set_ylabel('$b$ (deg)')
-
-![see plot here](examples/quickex.png?raw=true "Example plot for galstreams")
-
-The plot is made in galactic coordinates by default, but equatorial and galactocentric spherical coordinates can also be used (cootype="equ" or cootype="gc") ![see plots here](examples/quickex_ra_phitheta.png?raw=true). This example shows how you can make changes to the plot by passing arguments to the 'scatter' and 'colorbar' commands through the scat_kwargs and cb_kwargs keyword arguments. Also, axis text and symbol-text (stream names) properties can be modified using the text_kwargs and sym_kwargs. For more details on available MWStreams methods see [here](#mwstreams-class).
-
-MW globular clusters data from the Harris (1996, 2010 edition) compilation is also included in the library. To quickly overplot globular clusters as an extra layer in the previous add:
-
-	galstreams.plot_globular_clusters(ax)
-
-There are several options available to customize these plots, to check them out have a look at the MWStreams doc-string.
-
-Here's also an example on how to use the stream's reference frame attribute. The plot below shows several streams that intersect the GD-1 track, all plotted in GD-1's reference frame. This can be produced with the following code:
-
-        #import seaborn as sns    #---uncomment these two lines to match the style of the plot shown below---
-        #sns.set_context('talk')
-	plt.figure(1,figsize=(12,5))
-	plt.subplot(111)
-	for ss in ['GD-1','Gaia-5','PS1-D','PS1-E','Orphan']:
-         #The reference frame attribute (gcfr) for GD-1 is used to convert each stream's astropy.SkyCoord object
-         #to GD-1's reference frame
-	 scoo = mwsts[ss].sc.transform_to(mwsts['GD-1'].gcfr)   
-	 plt.plot(scoo.phi1,scoo.phi2,'.',label=ss)
-
-	plt.legend(ncol=2,markerscale=2)
-	plt.xlim(-60,60)
-	plt.ylim(-20,20)
-	plt.xlabel('$\phi_1$ ($\degree$)')
-	plt.ylabel('$\phi_2$ ($\degree$)')
-	plt.title("Streams in GD-1's reference system" )
-	plt.tight_layout()
-
-![see plot here](examples/quickex_gd1_ref_system.png?raw=true "Example plot for galstreams")
