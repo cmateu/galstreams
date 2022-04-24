@@ -2,7 +2,6 @@ import numpy as np
 import scipy
 import matplotlib as mpl
 import pylab as plt
-import gcutils 
 import os, os.path
 import sys
 import astropy.table
