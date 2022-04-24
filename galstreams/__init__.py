@@ -241,26 +241,53 @@ class MWStreams(dict):
     #    self.summary.loc[ii,'DiscoveryRefs'] = self[ii].ref_discovery
 
   def all_active_track_names(self):
+       '''
+         Returns an array with all the TrackNames set as 'On' in the library
+
+         Returns
+         =======
+         
+         array 
+       '''
        return self.keys()
 
   def all_unique_stream_names(self):
+       '''
+         Returns all unique instances of the StreamNames in the library (a stream can have multiple tracks)
+
+         Returns
+         =======
+         
+         array 
+       '''
        return np.unique(self.summary.Name[self.summary.On])
 
   def all_track_names(self):
+       '''
+         Returns all the TrackNames available in the library (equivalent to MWStreams.summary['TrackName']) 
+  
+         Returns
+         =======
+         
+         array  
+       '''
+ 
        return np.array(self.summary.index)       
 
   def get_track_names_for_stream(self, StreamName):
     '''
+        Find all the TrackNames for which the StreamName matches the input string (all or part of it)
+
         Parameters
         ==========
 
         StreamName : str 
-                     Name of the stream (or part of it)
+                     Name of the stream for which to search TrackNames (or part of it)
   
         Returns 
         =======
 
-        array : Array with all the TrackNames for which the stream's name matches the input string  
+        array : contains all the TrackNames for which the stream's name matches the input string  
 
     '''
 
@@ -272,8 +299,8 @@ class MWStreams(dict):
 
     return all_track_names
 
-  def plot_stream_compilation(ax, plot_colorbar=True, scat_kwargs=None, use_shortnames=False, 
-                                  cb_kwargs=None, verbose=False):
+  def plot_stream_compilation(MWStreams, ax, plot_colorbar=True, scat_kwargs=None, use_shortnames=False, 
+                                             cb_kwargs=None, verbose=False):
 
       return
 
@@ -290,8 +317,10 @@ class Track6D:
 	track_name : str
 	  Unique identifier for the stream's track realization. Not necesarily identical to stream_name, e.g. if
 	  more than one track for the same stream is available
+
 	track_file : str
 	  Input ecsv file containing knots to initialize 6D track stream realization
+
 	summary_file : str
 	  Input ecsv file containing end point, mid point and pole coordinates (6D, 6D and 3D)
 
@@ -322,7 +351,7 @@ class Track6D:
 	  
         mid_point: astropy.coordinates.SkyCoord Object with stream's mid-point coordinates (phi1=0)
 
-        mid_pole: astropy.coordinates.SkyCoord Object heliocentric pole at phi1=0
+        mid_pole: astropy.coordinates.SkyCoord Object heliocentric pole at mid_point
  
         poly_sc: astropy.coordinates.SkyCoord Object containing vertices for stream's polygon footprint
 	
@@ -454,7 +483,8 @@ class Track6D:
 
   def get_pole_tracks(self, use_gsr_default=True):
 
-     ''' TODO '''
+     ''' Compute pole at each point in the track. This is obtained by computing, at each point, the normal or cross product betwee
+         said point and the contiguous point in the track '''
 
      if use_gsr_default: _ = ac.galactocentric_frame_defaults.set('latest')
 
@@ -509,7 +539,15 @@ class Track6D:
 
     ''' 
       Create the Polygon Footprint from the celestial track. The polygon is created by shifting the track in phi2 by a given width. 
-      Default width for now is 1 deg
+     
+      Parameters
+      ==========
+
+      phi2_offset: astropy.Quantity object
+       The offset in phi2 that will be applied to the track to create the polygon footprint (default 0)
+
+      width: astropy.Quantity object
+       The total width of the polygon footprint to be created around track+phi2_offset
 
     '''  
 
@@ -518,8 +556,8 @@ class Track6D:
 
     #Create poly by shifting the track N/S in phi2 by a given angular width
     sort = np.argsort(tr.phi1)
-    tr_N = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] + width + phi2_offset, frame=self.stream_frame)
-    tr_S = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] - width + phi2_offset, frame=self.stream_frame)
+    tr_N = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] + width/2. + phi2_offset, frame=self.stream_frame)
+    tr_S = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] - width/2. + phi2_offset, frame=self.stream_frame)
 
     #Set poly
     poly_sc = ac.SkyCoord(phi1 = np.append(tr_N.phi1,tr_S.phi1[::-1]) , phi2 = np.append(tr_N.phi2,tr_S.phi2[::-1]), unit=u.deg, frame=self.stream_frame)
@@ -546,7 +584,7 @@ class Track6D:
 
   def resample_stream_track(self, dphi1=0.02*u.deg): 
 
-     ''' TODO '''
+     ''' In construction... '''
 
 
   #-------------method to plot whole MW streams compilation object at once------------------------------------

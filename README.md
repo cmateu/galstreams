@@ -47,7 +47,7 @@ A MWstreams object can be easily created as follows:
 
 Running this in verbose mode (verbose=True) will print the each of the library’s stream names as they are initialized (it's getting long, so, perhaps don't). The resulting object, mwsts, contains the footprint information for each of the stream tracks in the library. By default the MWStreams object will only create one default track for each of the distinct stellar streams in the library (see Mateu 2022). To explore all tracks available you can set implement_Off=True.
 
-Each stream track is referenced by it's unique TrackName. Since the MWStreams is just a dictionary, you can list the available TrackNames by doing:
+Each stream's Track6D is referenced by it's unique TrackName. Since the MWStreams is just a dictionary, you can list the available TrackNames by doing:
 
     mwsts.keys()
 
