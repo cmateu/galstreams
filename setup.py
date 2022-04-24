@@ -16,6 +16,7 @@ setup(
     packages=['galstreams','galstreams/lib','galstreams/tracks'],
     package_data={'galstreams/lib':['*.dat',
                                    '*.log',
+                                   'master*',
                                    'streams_lib_notes.ipynb',
                                    'globular_cluster_params.harris2010.tableI.csv'],
 		  'galstreams/tracks':['*.ecsv']},
@@ -28,6 +29,6 @@ setup(
       "numpy",
       "scipy",
       "astropy",
-      "astro-gala"
+#      "astro-gala"
     ],
 )
