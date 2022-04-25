@@ -20,6 +20,7 @@ setup(
                                    'streams_lib_notes.ipynb',
                                    'globular_cluster_params.harris2010.tableI.csv'],
 		  'galstreams/tracks':['*.ecsv']},
+		  'galstreams/notebooks':['*ipy*']},
 #    scripts=['bin/'],
     url='https://github.com/cmateu/galstreams',
     license='LICENSE',
