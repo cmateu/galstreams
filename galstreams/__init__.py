@@ -85,18 +85,18 @@ def plot_5D_tracks_subplots_row(coo , frame, axs=None, name=None, plot_flag='111
         if scat_kwds is None: scat_kwds=dict(marker='.', alpha=0.5)
         
         ax.scatter( getattr(coo.transform_to(fr), n['lon']).value, getattr(coo.transform_to(fr), n['lat']).value, 
-                   label=name,**scat_kwds)
+                   **scat_kwds)
         
         if plot_flag[1]=='1': 
             axd.scatter( getattr(coo.transform_to(fr), n['lon']).value, getattr(coo.transform_to(fr), n['distance']).value, 
-                    label=name,**scat_kwds)
+                        **scat_kwds)
         if plot_flag[2]=='1': 
                 axpm1.scatter( getattr(coo.transform_to(fr), n['lon']).value, 
                             getattr(coo.transform_to(fr), pm1_name).value,                           
-                            label=name,**scat_kwds)
+                            **scat_kwds)
                 axpm2.scatter( getattr(coo.transform_to(fr), n['lon']).value, 
                             getattr(coo.transform_to(fr), pm2_name).value,                           
-                            label=name,**scat_kwds)
+                            **scat_kwds)
 
         if show_legend: ax.legend()#, bbox_to_anchor=(1.02,0.95))
 
