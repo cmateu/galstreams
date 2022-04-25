@@ -60,6 +60,56 @@ def get_avg_vec(phis,thetas,degree=True,lon0=0.):
 
   return(phisum,thetasum)
 
+def plot_5D_tracks_subplots_row(coo , frame, axs=None, name=None, plot_flag='111', scat_kwds=None, show_ylabels=False, 
+                                show_xlabel=True, show_legend=False):    
+
+
+        fr = frame    
+ 
+        #Get representation names for selected frame and flip around
+        l = coo.transform_to(fr).representation_component_names
+        n = dict((v,k) for k,v in l.items())
+        pm1_name = 'pm_{lon}_cos{lat}'.format(lon=n['lon'],lat=n['lat'])
+        pm2_name = 'pm_{lat}'.format(lat=n['lat'])
+    
+        if axs is None: 
+            fig, axs = plt.subplots(1,4, figsize=(12,3))
+            plt.tight_layout(pad=1.1, w_pad=1.4)
+            
+    
+        ax = axs[0]
+        axd = axs[1]
+        axpm1 = axs[2]
+        axpm2 = axs[3]
+
+        if scat_kwds is None: scat_kwds=dict(marker='.', alpha=0.5)
+        
+        ax.scatter( getattr(coo.transform_to(fr), n['lon']).value, getattr(coo.transform_to(fr), n['lat']).value, 
+                   label=name,**scat_kwds)
+        
+        if plot_flag[1]=='1': 
+            axd.scatter( getattr(coo.transform_to(fr), n['lon']).value, getattr(coo.transform_to(fr), n['distance']).value, 
+                    label=name,**scat_kwds)
+        if plot_flag[2]=='1': 
+                axpm1.scatter( getattr(coo.transform_to(fr), n['lon']).value, 
+                            getattr(coo.transform_to(fr), pm1_name).value,                           
+                            label=name,**scat_kwds)
+                axpm2.scatter( getattr(coo.transform_to(fr), n['lon']).value, 
+                            getattr(coo.transform_to(fr), pm2_name).value,                           
+                            label=name,**scat_kwds)
+
+        if show_legend: ax.legend()#, bbox_to_anchor=(1.02,0.95))
+
+        if show_xlabel: 
+          for ax_i in [ax,axd,axpm1,axpm2]:  
+            ax_i.set_xlabel("{lon} ({unit})".format(lon=n['lon'], unit=getattr(coo.transform_to(fr), n['lon']).unit))
+            
+        if show_ylabels:
+            ax.set_ylabel("{y} ({unit})".format(y=n['lat'], unit=getattr(coo.transform_to(fr), n['lat']).unit))
+            axpm1.set_ylabel("{y} ({unit})".format(y=pm1_name, unit=getattr(coo.transform_to(fr), pm1_name).unit))
+            axpm2.set_ylabel("{y} ({unit})".format(y=pm2_name, unit=getattr(coo.transform_to(fr), pm2_name).unit))
+            axd.set_ylabel("D (kpc)")
+
 def get_mask_in_poly_footprint(poly_sc, coo, stream_frame):
 
      ''' Test whether points in input SkyCoords object are inside polygon footprint. 
