@@ -239,16 +239,16 @@ class MWStreams(dict):
     #for ii in self.summary.index:
     #    self.summary.loc[ii,'DiscoveryRefs'] = self[ii].ref_discovery
 
-  def all_active_track_names(self):
-       '''
-         Returns an array with all the TrackNames set as 'On' in the library
-
-         Returns
-         =======
-         
-         array 
-       '''
-       return self.keys()
+#  def all_active_track_names(self):
+#       '''
+#         Returns an array with all the TrackNames set as 'On' in the library
+#
+#         Returns
+#         =======
+#         
+#         array 
+#       '''
+#       return self.keys()
 
   def all_unique_stream_names(self):
        '''
@@ -261,19 +261,27 @@ class MWStreams(dict):
        '''
        return np.unique(self.summary.Name[self.summary.On])
 
-  def all_track_names(self):
+  def all_track_names(self, On_only=False):
        '''
-         Returns all the TrackNames available in the library (equivalent to MWStreams.summary['TrackName']) 
+         Returns TrackNames available in the library (when On_only=False, equivalent to MWStreams.summary['TrackName']) 
   
+         Parameters:
+         ===========
+     
+         On_only: True/False
+                  If True it returns only the names for the active tracks
+
          Returns
          =======
          
          array  
        '''
  
-       return np.array(self.summary.index)       
+       if On_only: return self.keys()  
+       else:
+             return np.array(self.summary.index)       
 
-  def get_track_names_for_stream(self, StreamName):
+  def get_track_names_for_stream(self, StreamName, On_only=False):
     '''
         Find all the TrackNames for which the StreamName matches the input string (all or part of it)
 
@@ -282,7 +290,9 @@ class MWStreams(dict):
 
         StreamName : str 
                      Name of the stream for which to search TrackNames (or part of it)
-  
+        On : book
+             If True, returns only the active track name(s)	
+     
         Returns 
         =======
 
@@ -292,7 +302,10 @@ class MWStreams(dict):
 
     all_track_names = []
 
-    for tn in self.summary.index:
+    if On_only: track_names = self.keys()
+    else: track_names = self.summary.index
+
+    for tn in track_names:
       if StreamName in self.summary.loc[tn,'Name']: 
          all_track_names.append(tn)
 

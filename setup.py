@@ -10,7 +10,7 @@ except ImportError:
 
 setup(
     name='galstreams',
-    version='2.0.0',
+    version='1.0.0',
     author='C. Mateu',
     author_email='cmateu@fisica.edu.uy',
     packages=['galstreams','galstreams/lib','galstreams/tracks'],
@@ -29,6 +29,5 @@ setup(
       "numpy",
       "scipy",
       "astropy",
-#      "astro-gala"
     ],
 )
