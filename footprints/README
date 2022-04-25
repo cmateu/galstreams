@@ -1,8 +1,0 @@
-
-NOTE: These ascii footprints are *not* used to define streams in the library. 
-They are provided as supplementary data for non-Python users.
-
-The galstreams.footprint.ALL.dat can be used in TOPCAT to add a plot layer
-showing all known streams. The galstreams.footprint.ALL.reflabels.dat file
-contains a single point per stream and serves to quickly overplot each
-stream's name using TOPCAT.
