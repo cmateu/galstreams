@@ -60,7 +60,7 @@ def get_avg_vec(phis,thetas,degree=True,lon0=0.):
 
   return(phisum,thetasum)
 
-def plot_5D_tracks_subplots_row(coo , frame, axs=None, name=None, plot_flag='111', scat_kwds=None, show_ylabels=False, 
+def plot_5D_tracks_subplots_row(coo , frame, axs=None, name=None, plot_flag='111', scat_kwds=None, show_ylabels=True, 
                                 show_xlabel=True, show_legend=False):    
 
 
