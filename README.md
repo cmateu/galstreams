@@ -41,4 +41,4 @@ Add path_to_dir/bin to your PATH in your .csrhc or .bashrc file.
 ----------
 # Quick Guide
 
-For a detailed walk-through the library please see the example Python notebooks provided [here](notebooks/).
+For a detailed walk through the library please see the example Python notebooks provided [here](notebooks/).
