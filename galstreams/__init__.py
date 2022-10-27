@@ -87,7 +87,6 @@ def get_adql_query_from_polygon(skycoo, dn=10, base_query=None):
 
       sky_point_list = skycoord_to_string(skycoord_poly)
       polygon_query_base = """{base_query}
-      WHERE 
       1 = CONTAINS(POINT(ra, dec), 
                    POLYGON({sky_point_list}))
       """
@@ -657,7 +656,7 @@ class Track6D:
     tr_S = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] - width/2. + phi2_offset, frame=self.stream_frame)
 
     #Set poly
-    poly_sc = ac.SkyCoord(phi1 = np.append(tr_N.phi1,tr_S.phi1[::-1]) , phi2 = np.append(tr_N.phi2,tr_S.phi2[::-1]), unit=u.deg, frame=self.stream_frame)
+#    poly_sc = ac.SkyCoord(phi1 = np.append(tr_N.phi1,tr_S.phi1[::-1]) , phi2 = np.append(tr_N.phi2,tr_S.phi2[::-1]), unit=u.deg, frame=self.stream_frame)
     # Concatenate N track, S-flipped track and add first point at the end to close the polygon (needed for ADQL)
     poly_sc = ac.SkyCoord(phi1 = np.concatenate((tr_N.phi1,tr_S.phi1[::-1],tr_N.phi1[:1])), 
 			  phi2 = np.concatenate((tr_N.phi2,tr_S.phi2[::-1],tr_N.phi2[:1])), 
