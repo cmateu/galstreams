@@ -60,6 +60,41 @@ def get_avg_vec(phis,thetas,degree=True,lon0=0.):
 
   return(phisum,thetasum)
 
+def skycoord_to_string(skycoord):
+     
+      """ Convert a one-dimenstional list of SkyCoord to string for Gaia's query format (from DataCarpentry)"""
+      corners_list_str = skycoord.to_string()
+      corners_single_str = ' '.join(corners_list_str)
+      return corners_single_str.replace(' ', ', ')
+
+def get_adql_query_from_polygon(skycoo, dn=10, base_query=None):
+ 
+      """ Print part of ADQL that selects points inside input polygon given by SkyCoord object  
+
+          Parameters:
+
+          dn : np.int downsample the input polygon by dn steps (dn=1, use full polygon)
+
+      """
+
+      if dn<1: print ('Invalid N, N=3 is the minimum allowed number of vertices for polygon')
+
+      coo = skycoo.transform_to(ac.ICRS)
+
+      try:
+        skycoord_poly = coo[::dn]
+      except TypeError: print('dn must be an integer >=1') 
+
+      sky_point_list = skycoord_to_string(skycoord_poly)
+      polygon_query_base = """{base_query}
+      WHERE 
+      1 = CONTAINS(POINT(ra, dec), 
+                   POLYGON({sky_point_list}))
+      """
+    
+      return polygon_query_base.format(base_query=base_query,sky_point_list=sky_point_list)
+
+
 def plot_5D_tracks_subplots_row(coo , frame, axs=None, name=None, plot_flag='111', scat_kwds=None, show_ylabels=True, 
                                 show_xlabel=True, show_legend=False):    
 
@@ -623,8 +658,16 @@ class Track6D:
 
     #Set poly
     poly_sc = ac.SkyCoord(phi1 = np.append(tr_N.phi1,tr_S.phi1[::-1]) , phi2 = np.append(tr_N.phi2,tr_S.phi2[::-1]), unit=u.deg, frame=self.stream_frame)
+    # Concatenate N track, S-flipped track and add first point at the end to close the polygon (needed for ADQL)
+    poly_sc = ac.SkyCoord(phi1 = np.concatenate((tr_N.phi1,tr_S.phi1[::-1],tr_N.phi1[:1])), 
+			  phi2 = np.concatenate((tr_N.phi2,tr_S.phi2[::-1],tr_N.phi2[:1])), 
+			  unit=u.deg, frame=self.stream_frame)
 
     return poly_sc
+
+  def get_adql_query_from_polygon(self, dn=1):
+
+     return get_adql_query_from_polygon(self.poly_sc, dn=dn)
 
   def get_mask_in_poly_footprint(self,coo):
 
