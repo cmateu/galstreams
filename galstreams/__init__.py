@@ -67,7 +67,7 @@ def skycoord_to_string(skycoord):
       corners_single_str = ' '.join(corners_list_str)
       return corners_single_str.replace(' ', ', ')
 
-def get_adql_query_from_polygon(skycoo, dn=10, base_query=None):
+def get_adql_query_from_polygon(skycoo, base_query=None):
  
       """ Print part of ADQL that selects points inside input polygon given by SkyCoord object  
 
@@ -79,11 +79,7 @@ def get_adql_query_from_polygon(skycoo, dn=10, base_query=None):
 
       if dn<1: print ('Invalid N, N=3 is the minimum allowed number of vertices for polygon')
 
-      coo = skycoo.transform_to(ac.ICRS)
-
-      try:
-        skycoord_poly = coo[::dn]
-      except TypeError: print('dn must be an integer >=1') 
+      skycoord_poly = skycoo.transform_to(ac.ICRS)
 
       sky_point_list = skycoord_to_string(skycoord_poly)
       polygon_query_base = """{base_query}
@@ -91,6 +87,10 @@ def get_adql_query_from_polygon(skycoo, dn=10, base_query=None):
                    POLYGON({sky_point_list}))
       """
     
+      #Make sure to warn user if the polygon is too large for the Gaia Archive query to take it
+      length =  np.sum(coo[0:-1].separation(coo[1:]))
+      if length > 22.*u.deg: print('WARNING: Gaia Archive ADQL queries do not support polygons longer than 23deg')
+
       return polygon_query_base.format(base_query=base_query,sky_point_list=sky_point_list)
 
 
@@ -144,7 +144,7 @@ def plot_5D_tracks_subplots_row(coo , frame, axs=None, name=None, plot_flag='111
             axpm2.set_ylabel("{y} ({unit})".format(y=pm2_name, unit=getattr(coo.transform_to(fr), pm2_name).unit))
             axd.set_ylabel("D (kpc)")
 
-def create_sky_polygon_footprint_from_track(Track6D, frame=None, width=1.*u.deg, phi2_offset=0.*u.deg):
+def create_sky_polygon_footprint_from_track(SkyCoordTrack, frame, width=1.*u.deg, phi2_offset=0.*u.deg):
 
   ''' 
     Create the Polygon Footprint from the celestial track. The polygon is created by shifting the track in phi2 by a given width. 
@@ -152,13 +152,13 @@ def create_sky_polygon_footprint_from_track(Track6D, frame=None, width=1.*u.deg,
     Inputs:
     =======
 
-    Track6D: Track6D object from a MWStreams library object
-
-    Parameters
-    ==========
+    SkyCoordTrack: track SkyCoord object from a MWStreams library stream (mws[st].track)
 
     frame: None. Astropy coordinate frame to set up the polygon by offsetting the track by a given width. 
            The default is to use the Track6D's own stream frame Track6D.stream_frame
+
+    Parameters
+    ==========
 
     phi2_offset: astropy.Quantity object
      The offset in phi2 that will be applied to the track to create the polygon footprint (default 0)
@@ -168,10 +168,9 @@ def create_sky_polygon_footprint_from_track(Track6D, frame=None, width=1.*u.deg,
 
   '''
 
-  track = Track6D.track
-  if frame is None: 
-   print('in none')
-   frame = Track6D.frame
+  track = SkyCoordTrack
+  #if frame is None: 
+  # frame = Track6D.stream_frame
 
   #Convert to stream's coordinate frame
   tr = track.transform_to(frame)
@@ -681,7 +680,7 @@ class Track6D:
    
   def create_sky_polygon_footprint_from_track(self, width=1.*u.deg, phi2_offset=0.*u.deg):
 
-    poly_sc = create_sky_polygon_footprint_from_track(self, frame=self.stream_frame, width=width, phi2_offset=phi2_offset)
+    poly_sc = create_sky_polygon_footprint_from_track(self.track, frame=self.stream_frame, width=width, phi2_offset=phi2_offset)
 
     return poly_sc
 
