@@ -144,6 +144,52 @@ def plot_5D_tracks_subplots_row(coo , frame, axs=None, name=None, plot_flag='111
             axpm2.set_ylabel("{y} ({unit})".format(y=pm2_name, unit=getattr(coo.transform_to(fr), pm2_name).unit))
             axd.set_ylabel("D (kpc)")
 
+def create_sky_polygon_footprint_from_track(Track6D, frame=None, width=1.*u.deg, phi2_offset=0.*u.deg):
+
+  ''' 
+    Create the Polygon Footprint from the celestial track. The polygon is created by shifting the track in phi2 by a given width. 
+    
+    Inputs:
+    =======
+
+    Track6D: Track6D object from a MWStreams library object
+
+    Parameters
+    ==========
+
+    frame: None. Astropy coordinate frame to set up the polygon by offsetting the track by a given width. 
+           The default is to use the Track6D's own stream frame Track6D.stream_frame
+
+    phi2_offset: astropy.Quantity object
+     The offset in phi2 that will be applied to the track to create the polygon footprint (default 0)
+
+    width: astropy.Quantity object
+     The total width of the polygon footprint to be created around track+phi2_offset
+
+  '''
+
+  track = Track6D.track
+  if frame is None: 
+   print('in none')
+   frame = Track6D.frame
+
+  #Convert to stream's coordinate frame
+  tr = track.transform_to(frame)
+
+  #Create poly by shifting the track N/S in phi2 by a given angular width
+  sort = np.argsort(tr.phi1)
+  tr_N = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] + width/2. + phi2_offset, frame=frame)
+  tr_S = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] - width/2. + phi2_offset, frame=frame)
+
+  #Set poly
+  # Concatenate N track, S-flipped track and add first point at the end to close the polygon (needed for ADQL)
+  poly_sc = ac.SkyCoord(phi1 = np.concatenate((tr_N.phi1,tr_S.phi1[::-1],tr_N.phi1[:1])),
+                        phi2 = np.concatenate((tr_N.phi2,tr_S.phi2[::-1],tr_N.phi2[:1])),
+                        unit=u.deg, frame=frame)
+
+  return poly_sc
+
+
 def get_mask_in_poly_footprint(poly_sc, coo, stream_frame):
 
      ''' Test whether points in input SkyCoords object are inside polygon footprint. 
@@ -432,6 +478,8 @@ class Track6D:
 	stream_shortname: str  
 	  Stream short name  
 
+	stream_frame: astropy coordinate frame  
+
 	track : astropy.coordinates.SkyCoord Object
 	  Contains the track 6D info. By default initialized in icrs frame
 
@@ -633,34 +681,7 @@ class Track6D:
    
   def create_sky_polygon_footprint_from_track(self, width=1.*u.deg, phi2_offset=0.*u.deg):
 
-    ''' 
-      Create the Polygon Footprint from the celestial track. The polygon is created by shifting the track in phi2 by a given width. 
-     
-      Parameters
-      ==========
-
-      phi2_offset: astropy.Quantity object
-       The offset in phi2 that will be applied to the track to create the polygon footprint (default 0)
-
-      width: astropy.Quantity object
-       The total width of the polygon footprint to be created around track+phi2_offset
-
-    '''  
-
-    #Convert to stream's coordinate frame
-    tr = self.track.transform_to(self.stream_frame)
-
-    #Create poly by shifting the track N/S in phi2 by a given angular width
-    sort = np.argsort(tr.phi1)
-    tr_N = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] + width/2. + phi2_offset, frame=self.stream_frame)
-    tr_S = ac.SkyCoord(phi1 = tr.phi1[sort], phi2 = tr.phi2[sort] - width/2. + phi2_offset, frame=self.stream_frame)
-
-    #Set poly
-#    poly_sc = ac.SkyCoord(phi1 = np.append(tr_N.phi1,tr_S.phi1[::-1]) , phi2 = np.append(tr_N.phi2,tr_S.phi2[::-1]), unit=u.deg, frame=self.stream_frame)
-    # Concatenate N track, S-flipped track and add first point at the end to close the polygon (needed for ADQL)
-    poly_sc = ac.SkyCoord(phi1 = np.concatenate((tr_N.phi1,tr_S.phi1[::-1],tr_N.phi1[:1])), 
-			  phi2 = np.concatenate((tr_N.phi2,tr_S.phi2[::-1],tr_N.phi2[:1])), 
-			  unit=u.deg, frame=self.stream_frame)
+    poly_sc = create_sky_polygon_footprint_from_track(self, frame=self.stream_frame, width=width, phi2_offset=phi2_offset)
 
     return poly_sc
 
