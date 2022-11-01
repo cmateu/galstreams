@@ -73,11 +73,11 @@ def get_adql_query_from_polygon(skycoo, base_query=None):
 
           Parameters:
 
-          dn : np.int downsample the input polygon by dn steps (dn=1, use full polygon)
+          base_query : the base ADQL code for your query to have *before* the polygon selection part
 
       """
 
-      if dn<1: print ('Invalid N, N=3 is the minimum allowed number of vertices for polygon')
+      #if dn<1: print ('Invalid N, N=3 is the minimum allowed number of vertices for polygon')
 
       skycoord_poly = skycoo.transform_to(ac.ICRS)
 
@@ -684,9 +684,9 @@ class Track6D:
 
     return poly_sc
 
-  def get_adql_query_from_polygon(self, dn=1):
+  def get_adql_query_from_polygon(self):
 
-     return get_adql_query_from_polygon(self.poly_sc, dn=dn)
+     return get_adql_query_from_polygon(self.poly_sc)
 
   def get_mask_in_poly_footprint(self,coo):
 
