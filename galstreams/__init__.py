@@ -88,7 +88,7 @@ def get_adql_query_from_polygon(skycoo, base_query=None):
       """
     
       #Make sure to warn user if the polygon is too large for the Gaia Archive query to take it
-      length =  np.sum(coo[0:-1].separation(coo[1:]))
+      length =  np.sum(skycoo[0:-1].separation(skycoo[1:]))
       if length > 22.*u.deg: print('WARNING: Gaia Archive ADQL queries do not support polygons longer than 23deg')
 
       return polygon_query_base.format(base_query=base_query,sky_point_list=sky_point_list)
