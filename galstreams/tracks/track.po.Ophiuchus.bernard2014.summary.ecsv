@@ -120,4 +120,4 @@
 #       wrap_angle: *id005
 # schema: astropy-2.0
 StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance
-Ophiuchus,Oph,0000,240.57653623111716,-7.164009145206799,9.50000000000003,0.0,0.0,-0.0,242.9520704062466,-6.717593725485661,9.499999999999966,0.0,0.0,-0.0,241.76486669807554,-6.94227855641896,9.499999999999995,0.0,0.0,-0.0,184.3200000000002,77.25000000000014,1.0
+Ophiuchus,Oph,0000,240.57653623111716,-7.164009145206802,9.500000000000048,0.0,0.0,-0.0,242.9520704062466,-6.71759372548566,9.499999999999977,0.0,0.0,-0.0,241.76486669807554,-6.94227855641896,9.499999999999995,0.0,0.0,-0.0,184.3200000000002,77.25000000000014,1.0
