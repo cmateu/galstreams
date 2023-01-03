@@ -572,7 +572,7 @@ class Track6D:
       self.mid_pole = ac.SkyCoord(**x)
 
       #Set up stream's coordinate frame
-      self.stream_frame = gc.GreatCircleICRSFrame(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)
+      self.stream_frame = gc.GreatCircleICRSFrame(pole=self.mid_pole, center=self.mid_point.icrs)
 
       #Compute and store polygon vertices
       self.poly_sc = self.create_sky_polygon_footprint_from_track(width=1*u.deg)
