@@ -9,6 +9,7 @@ import astropy.coordinates as ac
 import astropy.units as u
 import gala.coordinates as gc
 import gala.dynamics as gd
+import pandas as pd
 
 #---------------------------------
 def get_random_spherical_angles(n,az=[0.,2*np.pi],lat=[-np.pi/2.,np.pi/2],degree=False):
@@ -280,6 +281,11 @@ class MWStreams(dict):
     mid_point_dic = {k: np.array([])*uu  for k,uu in zip(attributes,units) }
     mid_pole_dic  = {k: np.array([])*uu  for k,uu in zip(attributes,units) }
     info_flags = []
+    #separate info_flags (easier to filter)
+    has_empirical_track = np.array([])
+    has_D = np.array([])
+    has_pm = np.array([])
+    has_vrad = np.array([])
     discovery_refs = []
     lengths = np.array([])*u.deg
 
@@ -304,7 +310,6 @@ class MWStreams(dict):
                        track_file=track_file, track_discovery_references=lmaster_discovery.loc[lmaster.Name[ii],'DiscoveryRefs'] ,
                        summary_file=summary_file)
 
-#       self[lmaster.TrackName[ii]] = track
        if implement_Off:
            self[lmaster.TrackName[ii]] = track
            self[lmaster.TrackName[ii]].ID = nid
@@ -323,6 +328,10 @@ class MWStreams(dict):
        for k in attributes[:2]: mid_pole_dic[k]  = np.append(mid_pole_dic[k] , getattr(track.mid_pole, k) )
 
        info_flags.append(track.InfoFlags)
+       has_empirical_track = np.append(has_empirical_track, track.InfoFlags[0])
+       has_D               = np.append(has_D    , track.InfoFlags[1]) 
+       has_pm              = np.append(has_pm   , track.InfoFlags[2])  
+       has_vrad            = np.append(has_vrad , track.InfoFlags[3])  
        lengths = np.append(lengths, track.length)
        discovery_refs = np.append(discovery_refs, lmaster_discovery.loc[lmaster.Name[ii],'DiscoveryRefs'] )
 
@@ -352,9 +361,14 @@ class MWStreams(dict):
     #Pole
     self.summary["ra_pole"] = mid_pole_dic["ra"]
     self.summary["dec_pole"] = mid_pole_dic["dec"]
-    #Info
+    #Info (InfoFlags and has_* columns is the same, but to have it on separate columns is more practical for filtering)
     self.summary["InfoFlags"] = np.array(info_flags)
+    self.summary["has_empirical_track"] = has_empirical_track
+    self.summary["has_D"]    = has_D              
+    self.summary["has_pm"]   = has_pm             
+    self.summary["has_vrad"] = has_vrad           
     self.summary["DiscoveryRefs"] = discovery_refs
+
     #Index by TrackName
     self.summary.index=self.summary.TrackName
 
@@ -364,20 +378,9 @@ class MWStreams(dict):
        if self.summary.loc[ii,'On']:
         self.summary.loc[ii,'ID'] = self[ii].ID
   
-    #Store discovery references in summary table
-    #for ii in self.summary.index:
-    #    self.summary.loc[ii,'DiscoveryRefs'] = self[ii].ref_discovery
+    # 
+    self.print_topcat_friendly_compilation(output_root=f'{tdir}/tracks/galtreams.unique_streams')
 
-#  def all_active_track_names(self):
-#       '''
-#         Returns an array with all the TrackNames set as 'On' in the library
-#
-#         Returns
-#         =======
-#         
-#         array 
-#       '''
-#       return self.keys()
 
   def all_unique_stream_names(self):
        '''
@@ -439,6 +442,43 @@ class MWStreams(dict):
          all_track_names.append(tn)
 
     return all_track_names
+
+  def print_topcat_friendly_compilation(self, output_root='galtreams.unique_streams'):
+
+        modes = ['track','end_point','mid_point']
+	
+        for mode in modes:
+            
+            print(f"mode {mode}")
+            
+            full = dict(ra=np.array([]), dec=np.array([]), distance=np.array([]), pm_ra_cosdec=np.array([]), pm_dec=np.array([]), 
+                    radial_velocity=np.array([]), ID=np.array([]), StreamName=np.array([]), TrackName=np.array([]))
+            
+            for st in np.sort(list(self.keys())):
+             if self.summary.loc[st,"On"]:
+            
+                if 'track' in mode: x = self[st].track
+                elif 'end' in mode: x = self[st].end_points
+                elif 'mid' in mode: x = self[st].mid_point
+                N=np.size(x.ra)
+            
+                full['ra']  = np.append(full['ra'], x.ra.deg)
+                full['dec'] = np.append(full['dec'], x.dec.deg)
+                full['distance'] = np.append(full['distance'], x.distance.value)
+                full['pm_ra_cosdec'] = np.append(full['pm_ra_cosdec'], x.pm_ra_cosdec.value)
+                full['pm_dec'] = np.append(full['pm_dec'], x.pm_dec.value)
+                full['radial_velocity'] = np.append(full['radial_velocity'], x.radial_velocity.value)
+                full['ID'] = np.append(full['ID'], self.summary.loc[st,"ID"] + np.zeros(N, dtype=int))
+                full['TrackName'] = np.append(full['TrackName'], [self[st].track_name,]*N)
+                full['StreamName']= np.append(full['StreamName'], [self[st].stream_name,]*N)
+            
+            full_pd = pd.DataFrame.from_dict(full)
+            print(f"Printing {output_root}.tracks/end_points/mid_points.csv")
+            full_pd.to_csv(f'{output_root}.{mode}s.csv')    
+        #Print summary table
+        print(f"Printing {output_root}.summary.csv")
+        self.summary.to_csv(f'{output_root}.summary.csv')
+
 
   def plot_stream_compilation(MWStreams, ax, plot_colorbar=True, scat_kwargs=None, use_shortnames=False, 
                                              cb_kwargs=None, verbose=False):
