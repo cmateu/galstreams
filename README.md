@@ -1,6 +1,6 @@
 # **galstreams**
 
-![see plot here](examples/fig_all_streams_lib.png?raw=true "galstreams 04-2022")
+![see plot here](notebooks/fig_all_streams_lib?raw=true "galstreams 04-2022")
 
 ### DESCRIPTION:
 
