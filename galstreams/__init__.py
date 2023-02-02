@@ -328,10 +328,10 @@ class MWStreams(dict):
        for k in attributes[:2]: mid_pole_dic[k]  = np.append(mid_pole_dic[k] , getattr(track.mid_pole, k) )
 
        info_flags.append(track.InfoFlags)
-       has_empirical_track = np.append(has_empirical_track, track.InfoFlags[0])
-       has_D               = np.append(has_D    , track.InfoFlags[1]) 
-       has_pm              = np.append(has_pm   , track.InfoFlags[2])  
-       has_vrad            = np.append(has_vrad , track.InfoFlags[3])  
+       has_empirical_track = np.append(has_empirical_track, np.int32(track.InfoFlags[0]))
+       has_D               = np.append(has_D    , np.int32(track.InfoFlags[1])) 
+       has_pm              = np.append(has_pm   , np.int32(track.InfoFlags[2]))  
+       has_vrad            = np.append(has_vrad , np.int32(track.InfoFlags[3]))  
        lengths = np.append(lengths, track.length)
        discovery_refs = np.append(discovery_refs, lmaster_discovery.loc[lmaster.Name[ii],'DiscoveryRefs'] )
 
