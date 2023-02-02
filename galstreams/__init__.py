@@ -449,8 +449,6 @@ class MWStreams(dict):
 	
         for mode in modes:
             
-            print(f"mode {mode}")
-            
             full = dict(ra=np.array([]), dec=np.array([]), distance=np.array([]), pm_ra_cosdec=np.array([]), pm_dec=np.array([]), 
                     radial_velocity=np.array([]), ID=np.array([]), StreamName=np.array([]), TrackName=np.array([]))
             
@@ -473,10 +471,10 @@ class MWStreams(dict):
                 full['StreamName']= np.append(full['StreamName'], [self[st].stream_name,]*N)
             
             full_pd = pd.DataFrame.from_dict(full)
-            print(f"Printing {output_root}.tracks/end_points/mid_points.csv")
+            print(f"Creating TOPCAT-friendly library files:\n {output_root}.tracks/end_points/mid_points.csv")
             full_pd.to_csv(f'{output_root}.{mode}s.csv')    
         #Print summary table
-        print(f"Printing {output_root}.summary.csv")
+        print(f" {output_root}.summary.csv")
         self.summary.to_csv(f'{output_root}.summary.csv')
 
 
