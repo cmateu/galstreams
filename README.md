@@ -18,7 +18,7 @@ The new library includes 126 stream tracks corresponding to 95 distinct stellar 
 
 ### LATEST CHANGES
 
-- TOPCAT-friendly csv files containing all stream tracks, end-points, mid-points and the library summary table can now printed when the libraryis instantiated. They are stored by default in galstreams/tracks, but can be saved at any user-defined location if using the print_topcat_friendly_compilation method
+- 2023/02 TOPCAT-friendly csv files containing all stream tracks, end-points, mid-points and the library summary table can now printed when the libraryis instantiated. They are stored by default in galstreams/tracks, but can be saved at any user-defined location if using the print_topcat_friendly_compilation method
 
 ### REQUIREMENTS
 
