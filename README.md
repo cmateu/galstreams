@@ -16,6 +16,10 @@ The new and improved *galstreams* Library of Stellar Streams in the Milky Way (v
 
 The new library includes 126 stream tracks corresponding to 95 distinct stellar streams (updated as of March 2022). The library is described in detail in [Mateu (2023)](https://arxiv.org/abs/2204.10326).
 
+### LATEST CHANGES
+
+- TOPCAT-friendly csv files containing all stream tracks, end-points, mid-points and the library summary table can now printed when the libraryis instantiated. They are stored by default in galstreams/tracks, but can be saved at any user-defined location if using the print_topcat_friendly_compilation method
+
 ### REQUIREMENTS
 
 - Python modules required are NUMPY, SCIPY, MATPLOTLIB, ASTROPY and GALA. 

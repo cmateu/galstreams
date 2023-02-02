@@ -253,7 +253,7 @@ def compute_angular_momentum_track(track, return_cartesian = False):
 #---------MW Streams class--------------------------------------------------------------------------------
 class MWStreams(dict):
     
-  def __init__(self, verbose=False, implement_Off=False):
+  def __init__(self, verbose=False, implement_Off=False, print_topcat_friendly_files=False):
 
     #A MWStreams object is a dictionary in which each entry is a Footprint object, indexed by each stream's name.
     #There's also a mandatory summary entry, which is a Pandas DataFrame with summary attributes for the full library
@@ -378,8 +378,10 @@ class MWStreams(dict):
        if self.summary.loc[ii,'On']:
         self.summary.loc[ii,'ID'] = self[ii].ID
   
-    # 
-    self.print_topcat_friendly_compilation(output_root=f'{tdir}/tracks/galtreams.unique_streams')
+    #If chosen by the user, when the library is instantiated, save in default location TOPCAT-friendly csv files with 
+    # the library's tracks, end-points, mid-points and summary table 
+    if print_topcat_friendly_files:
+     self.print_topcat_friendly_compilation(output_root=f'{tdir}/tracks/galtreams.unique_streams')
 
 
   def all_unique_stream_names(self):
