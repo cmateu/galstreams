@@ -12,7 +12,6 @@ C-4		   -
 C-5		   - 
 C-7		   - 
 C-8		   - 
-C-9		   - 
 Cetus		   -  
 Cetus-New	   -  
 Cetus-Palca	   -  
@@ -99,7 +98,6 @@ Triangulum 	   Pisces_(martin2013)
 TucanaIII	   -                  
 Turbio		   - 
 Turranburra	   - 
-Vid		   - 
 Wambelong	   - 
 Willka_Yaku	   -
 Ylgr		   - 

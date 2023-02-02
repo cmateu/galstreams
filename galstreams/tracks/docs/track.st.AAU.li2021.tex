@@ -3,29 +3,10 @@ identified ATLAS \citep{Koposov2014} and AliqaUma streams \citep{Shipp2018}. The
 shows it is discontinuous in the sky, but continuous in distance, proper motion and radial velocity.
 
 Because of the sharp discontinuity in the sky, we have implemented it as two separate tracks: AAU-ATLAS and AAU-AliqaUMA.
-The sky track is given by Eq. 3 by \citet{Li2021} as:
-\begin{eqnarray*}
-\phi_2 = \Delta -0.5((\phi_1-3\degr)/10\degr)^2
-\end{eqnarray*}
+The sky tracks are given by Eq. 3 by \citet{Li2021}, the distance modulus track is given by their Eq.~2 and the radial velocity and proper motion tracks are given in their Eq. 1. The radial velocity was converted back from GSR to LSR assuming the solar and LSR 
+used by the authors and provided in their Sec.1. The proper motions given by their Eq.~1 do not include the solar reflex motion correction.
 
-with $\Delta=1\fdg5$ for the ATLAS branch ($\phi_1<11\fdg5$) and $\Delta=0\fdg75$ for the AliqaUMa branch ($\phi_1>11\fdg5$).
-
-The radial velocity and proper motion tracks are given in their Eq. 1:
-\begin{eqnarray*}
-x &=& \phi_1/10\degr \\
-V_{GSR} &=& -131.33 + 0.07x + 5.68x^2 \\
-\mu_\alpha\cos{\delta} &=& -0.10-0.34x-0.09x^2 \\
-\mu_\delta &=& -0.96 -0.07x +0.07x^2
-\end{eqnarray*}
-
-The radial velocity track was converted back from GSR to LSR assuming the solar and LSR parameters 
-from \citet{Schoenrich2010}. The proper motions given by their Eq.~1 do not include the solar reflex motion correction.
-
-The \emph{apparent} distance modulus (in the DECAM $g$-band) is given by their Eq.~2:
-
-\begin{eqnarray*}
-m-M = 16.66 -0.28x + 0.045x^2 
-\end{eqnarray*}
-
-We implement the distance track by converting this distance modulus to distance after correcting for the median $g$-band extinction from the \citet{SFD98} dust map along each of the tracks. We use the extinction law coefficient ($A_g/E(B-V)=3.237$) for the DECam $g$-band from \citet{SF11}. In this region extinction is fairly low, 0.05 and 0.084 mag for ATLAS and Aliqa UMa respectively; it has a very low dispersion (0.009 mag) in the ATLAS branch and along most of the ATLAS branch, as well, except for an increase of $\sim0.12$~mag around $\alpha\sim5^\circ$ ($\phi_1\sim0^\circ$).
-
+\neww{
+The coordinate frame for the stream (for the two branches) is implemented using the rotation matrix provided by \citet{Li2021},
+but note the resulting $\phi_1$ is flipped with respect to \citet{Li2021} (i.e. $\phi_1=-\phi_1^{L21}$).
+}

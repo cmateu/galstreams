@@ -14,7 +14,7 @@ The new and improved *galstreams* Library of Stellar Streams in the Milky Way (v
 -  Angular momentum track in a heliocentric reference frame at rest with respect to the Galactic centre
 -  Summary object for the full library: Uniformly reported stream length, end points and mid-point, heliocentric and Galactocentric mid-pole, track and discovery references and information flag denoting which of the 6D attributes (sky, distance, proper motions and radial velocity) are available in the track object.
 
-The new library includes 125 stream tracks corresponding to 97 distinct stellar streams (updated as of March 2022). The library is described in detail in [Mateu (2022)](https://arxiv.org/abs/2204.10326).
+The new library includes 126 stream tracks corresponding to 95 distinct stellar streams (updated as of March 2022). The library is described in detail in [Mateu (2023)](https://arxiv.org/abs/2204.10326).
 
 ### REQUIREMENTS
 

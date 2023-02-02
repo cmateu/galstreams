@@ -1,109 +1,107 @@
-#Name           	 DiscoveryRefs	  
-20.0-1			Mateu2018	          
-300S			NiedersteOstholt2009,Simon2011
-AAU-ATLAS		Koposov2014		          
-AAU-AliqaUma		Shipp2018	          
-ACS			Ramos2021		          
-Acheron			Grillmair2009
-Alpheus			Grillmair2013	  
-Aquarius        	Williams2011         
-C-19			Ibata2021	          
-C-4			Ibata2021	          
-C-5			Ibata2021	          
-C-7			Ibata2021	          
-C-8			Ibata2021	          
-C-9			Ibata2021	          
-Cetus			Yanny2009,Newberg2009		          
-Cetus-New		Yuan2021 	          
-Cetus-Palca		Yanny2009,Newberg2009,Shipp2018,Thomas2021		          
-Chenab  		Shipp2018
-Cocytos			Grillmair2009	  
-Corvus			Mateu2018	          
-Elqui			Shipp2018	          
-Eridanus		Myeong2017	          
-Fimbulthul	        Ibata2019	          
-Fjorm   		Ibata2019		          
-GD-1     		Grillmair2006_gd1 		          
-Gaia-1			Malhan2018	          
-Gaia-10	        	Ibata2019	          
-Gaia-11			Ibata2021	          
-Gaia-12	        	Ibata2019	          
-Gaia-2			Malhan2018	          
-Gaia-3			Malhan2018	          
-Gaia-4			Malhan2018	          
-Gaia-5			Malhan2018	          
-Gaia-6	        	Ibata2019	          
-Gaia-7	        	Ibata2019	          
-Gaia-8			Ibata2021	          
-Gaia-9			Ibata2021	          
-Gunnthra		Ibata2021	          
-Gjoll		        Ibata2019
-Hermus			Grillmair2014	  
-Hrid			Ibata2021	          
-Hyllus			Grillmair2014	  
-Indus			Shipp2018	          
-Jet			Jethwa2018	          
-Jhelum          	Shipp2018	          
-Jhelum-a        	Shipp2018	          
-Jhelum-b        	Bonaca2019	          
-Kshir			Ibata2021	          
-Kwando			Grillmair2017_south	  
-LMS-1           	Yuan2020             
-Leiptr			Ibata2019	          
-Lethe			Grillmair2009	  
-M2              	Grillmair1995        
-M30             	Sollima2020                    
-M5    			Grillmair2019		          
-M68   		        Palau2019		          
-M68-Fjorm   		Palau2019,Ibata2019		          
-M92			Sollima2020,Thomas2020,Ibata2021                 
-Molonglo		Grillmair2017_south		          
-Monoceros		Ramos2021		          
-Murrumbidgee		Grillmair2017_south
-NGC1261         	Ibata2021,Shipp2018                    
-NGC1851         	Ibata2021,Shipp2018                    
-NGC2298         	Balbinot2011,Sollima2020,Ibata2021             
-NGC2808         	Ibata2021                    
-NGC288          	Grillmair1995,Shipp2018,Sollima2020,Ibata2021        
-NGC3201-Gjoll		Palau2021,Ibata2019
-NGC3201		        Palau2021,Ibata2019
-NGC5466			Belokurov2006_5466,Grillmair2006_5466		          
-NGC6101         	Ibata2021            
-NGC6362         	Sollima2020          
-NGC6397			Ibata2021	          
-OmegaCen-Fimbulthul	Ibata2019_OCen,Ibata2019	          
-OmegaCen	        Ibata2019_OCen	          
-Ophiuchus		Bernard2014	  
-Orinoco			Grillmair2017_south		          
-Orphan  		Grillmair2006_orphan
-Orphan-Chenab  		Grillmair2006_orphan,Shipp2018,Koposov2019
-PS1-A			Bernard2016	  
-PS1-B			Bernard2016	  
-PS1-C			Bernard2016	  
-PS1-D			Bernard2016	  
-PS1-E			Bernard2016	  
-Pal13			Shipp2018	          
-Pal15			Myeong2017		          
-Pal5    		Odenkirchen2001	  
-Palca			Shipp2018	          
-Parallel		Sohn2016		          
-Pegasus			Perottoni2019	  
-Perpendicular		Weiss2018		          
-Phlegethon		Ibata2019	          
-Phoenix			Balbinot2016	  
-Ravi			Shipp2018,Mateu2018	          
-Sagittarius		Mateo1996,Mateo1998,Ibata2001,Majewski2003		          
-Sangarius		Grillmair2017	  
-Scamander		Grillmair2017	  
-Slidr			Ibata2019	          
-Styx			Grillmair2009	  
-Svol			Ibata2019	          
-Sylgr			Ibata2019	          
-Tri-Pis  		Bonaca2012,Martin2013	          
-TucanaIII		Drlicawagner2015     
-Turbio			Shipp2018	          
-Turranburra		Shipp2018	          
-Vid			Ibata2021	          
-Wambelong		Shipp2018	          
-Willka_Yaku		Shipp2018	          
-Ylgr			Ibata2019	          
+#Name           	DiscoveryYear     DiscoveryRefs	  
+20.0-1			2018	          Mateu2018	          
+300S			2009              NiedersteOstholt2009,Simon2011
+AAU-ATLAS		2014	          Koposov2014		          
+AAU-AliqaUma		2018	          Shipp2018	          
+ACS			2006              Grillmair2006_acs		          
+Acheron			2009              Grillmair2009
+Alpheus			2013	          Grillmair2013	  
+Aquarius        	2011              Williams2011         
+C-19			2021	          Ibata2021	          
+C-4			2021	          Ibata2021	          
+C-5			2021	          Ibata2021	          
+C-7			2021	          Ibata2021	          
+C-8			2021	          Ibata2021	          
+Cetus			2009              Yanny2009,Newberg2009		          
+Cetus-New		2021 	          Yuan2021 	          
+Cetus-Palca		2009              Yanny2009,Newberg2009,Shipp2018,Thomas2021		          
+Chenab  		2018              Shipp2018
+Cocytos			2009	          Grillmair2009	  
+Corvus			2018	          Mateu2018	          
+Elqui			2018	          Shipp2018	          
+Eridanus		2017	          Myeong2017	          
+Fimbulthul	        2019	          Ibata2019	          
+Fjorm   		2019	          Ibata2019		          
+GD-1     	        2006              Grillmair2006_gd1 		          
+Gaia-1			2018	          Malhan2018	          
+Gaia-10	        	2019	          Ibata2019	          
+Gaia-11			2021	          Ibata2021	          
+Gaia-12	        	2019	          Ibata2019	          
+Gaia-2			2018	          Malhan2018	          
+Gaia-3			2018	          Malhan2018	          
+Gaia-4			2018	          Malhan2018	          
+Gaia-5			2018	          Malhan2018	          
+Gaia-6	        	2019	          Ibata2019	          
+Gaia-7	        	2019	          Ibata2019	          
+Gaia-8			2021	          Ibata2021	          
+Gaia-9			2021	          Ibata2021	          
+Gunnthra		2021	          Ibata2021	          
+Gjoll		        2019              Ibata2019
+Hermus			2014	          Grillmair2014	  
+Hrid			2021	          Ibata2021	          
+Hyllus			2014	          Grillmair2014	  
+Indus			2018	          Shipp2018	          
+Jet			2018	          Jethwa2018	          
+Jhelum          	2018	          Shipp2018	          
+Jhelum-a        	2018	          Shipp2018	          
+Jhelum-b        	2019	          Bonaca2019	          
+Kshir			2021	          Ibata2021	          
+Kwando			2017              Grillmair2017_south	  
+LMS-1           	2020              Yuan2020             
+Leiptr			2019	          Ibata2019	          
+Lethe			2009	          Grillmair2009	  
+M2              	1995              Grillmair1995        
+M30             	2020              Sollima2020                    
+M5    			2019	          Grillmair2019		          
+M68   		        2019	          Palau2019		          
+M68-Fjorm   		2019              Palau2019,Ibata2019		          
+M92			2020              Sollima2020,Thomas2020,Ibata2021                 
+Molonglo		2017              Grillmair2017_south		          
+Monoceros		2002	          Newberg2002		          
+Murrumbidgee		2017              Grillmair2017_south
+NGC1261         	2021              Ibata2021,Shipp2018                    
+NGC1851         	2021              Ibata2021,Shipp2018                    
+NGC2298         	2011              Balbinot2011,Sollima2020,Ibata2021             
+NGC2808         	2021              Ibata2021                    
+NGC288          	2018              Grillmair1995,Shipp2018,Sollima2020,Ibata2021        
+NGC3201-Gjoll		2021              Palau2021,Ibata2019
+NGC3201		        2021              Palau2021,Ibata2019
+NGC5466			2006              Belokurov2006_5466,Grillmair2006_5466		          
+NGC6101         	2021              Ibata2021            
+NGC6362         	2020              Sollima2020          
+NGC6397			2021	          Ibata2021	          
+OmegaCen-Fimbulthul	2019              Ibata2019_OCen,Ibata2019	          
+OmegaCen	        2019              Ibata2019_OCen	          
+Ophiuchus		2014	          Bernard2014	  
+Orinoco			2017              Grillmair2017_south		          
+Orphan  		2006              Grillmair2006_orphan
+Orphan-Chenab  		2006              Grillmair2006_orphan,Shipp2018,Koposov2019
+PS1-A			2016	          Bernard2016	  
+PS1-B			2016	          Bernard2016	  
+PS1-C			2016	          Bernard2016	  
+PS1-D			2016	          Bernard2016	  
+PS1-E			2016	          Bernard2016	  
+Pal13			2018	          Shipp2018	          
+Pal15			2017	          Myeong2017		          
+Pal5    		2001              Odenkirchen2001	  
+Palca			2018	          Shipp2018	          
+Parallel		2016	          Sohn2016		          
+Pegasus			2019	          Perottoni2019	  
+Perpendicular		2018	          Weiss2018		          
+Phlegethon		2019	          Ibata2019	          
+Phoenix			2016	          Balbinot2016	  
+Ravi			2018              Shipp2018,Mateu2018	          
+Sagittarius		1996              Mateo1996,Mateo1998,Ibata2001,Majewski2003		          
+Sangarius		2017	          Grillmair2017	  
+Scamander		2017	          Grillmair2017	  
+Slidr			2019	          Ibata2019	          
+Styx			2009	          Grillmair2009	  
+Svol			2019	          Ibata2019	          
+Sylgr			2019	          Ibata2019	          
+Tri-Pis  		2012              Bonaca2012,Martin2013	          
+TucanaIII		2015              Drlicawagner2015     
+Turbio			2018	          Shipp2018	          
+Turranburra		2018	          Shipp2018	          
+Wambelong		2018	          Shipp2018	          
+Willka_Yaku		2018	          Shipp2018	          
+Ylgr			2019	          Ibata2019	          
