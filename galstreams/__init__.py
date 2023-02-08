@@ -96,7 +96,7 @@ def get_adql_query_from_polygon(skycoo, base_query=None):
 
 
 def plot_5D_tracks_subplots_row(coo , frame, axs=None, name=None, plot_flag='111', scat_kwds=None, show_ylabels=True, 
-                                show_xlabel=True, show_legend=False):    
+                                show_xlabel=True, show_legend=False, InfoFlags='1111'):    
 
 
         fr = frame    
@@ -122,10 +122,10 @@ def plot_5D_tracks_subplots_row(coo , frame, axs=None, name=None, plot_flag='111
         ax.scatter( getattr(coo.transform_to(fr), n['lon']).value, getattr(coo.transform_to(fr), n['lat']).value, 
                    **scat_kwds)
         
-        if plot_flag[1]=='1': 
+        if plot_flag[1]=='1' and InfoFlags[1]!='0': #if distance info not available (set to 0), don't plot it
             axd.scatter( getattr(coo.transform_to(fr), n['lon']).value, getattr(coo.transform_to(fr), n['distance']).value, 
                         **scat_kwds)
-        if plot_flag[2]=='1': 
+        if plot_flag[2]=='1' and InfoFlags[2]!='0': #if pm info not available (set to 0), don't plot it
                 axpm1.scatter( getattr(coo.transform_to(fr), n['lon']).value, 
                             getattr(coo.transform_to(fr), pm1_name).value,                           
                             **scat_kwds)
@@ -479,6 +479,46 @@ class MWStreams(dict):
         print(f" {output_root}.summary.csv")
         self.summary.to_csv(f'{output_root}.summary.csv')
 
+  def get_track_names_in_sky_window(self, lon_range, lat_range, frame, On_only=True, wrap_angle=0.*u.deg):
+    ''' 
+       Get a list of track names for streams in a sky window with limits given by 
+       lon_range,lat_range in a given coordinate frame 
+
+       Parameters
+       ==========
+
+       lon_range :
+ 
+       lat_range :
+
+       frame : AstroPy coordinate frame
+    '''
+        
+    #This is just so I can get the representation_component_names (don't know how to do it 
+    #without creating a frame instance, so, there, let's move on
+    coo = ac.SkyCoord(lon_range, lat_range,frame=frame, unit=u.deg)
+    n = dict((v,k) for k,v in coo.frame.representation_component_names.items())
+        
+    if np.any(lon_range<0.): 
+        wrap_angle = 180.*u.deg
+        #print(f"Warning: negative longitudes - setting wrap_angle to 180. assuming this is not a mistake")
+        
+    llon = ac.Angle(lon_range).wrap_at(wrap_angle).deg
+    llat = ac.Angle(lat_range).deg
+
+    track_names = [] 
+    for st in self.summary.TrackName:
+        if On_only:
+            if ~self.summary["On"][st]: continue
+        #same for current track  
+        lon = getattr(self[st].track.transform_to(frame), n['lon']).wrap_at(wrap_angle).deg
+        lat = getattr(self[st].track.transform_to(frame), n['lat']).deg
+
+        mask =  (np.min(llon)<= lon) & (lon <= np.max(llon)) & (np.min(llat)<= lat) & (lat <= np.max(llat))
+
+        if (mask.sum()>0): track_names.append(st)
+
+    return track_names
 
   def plot_stream_compilation(MWStreams, ax, plot_colorbar=True, scat_kwargs=None, use_shortnames=False, 
                                              cb_kwargs=None, verbose=False):
@@ -746,6 +786,7 @@ class Track6D:
      return get_mask_in_poly_footprint(poly_sc=self.poly_sc, coo=coo, stream_frame=self.stream_frame)
 
 
+
   def resample_stream_track(self, dphi1=0.02*u.deg): 
 
      ''' In construction... '''
@@ -757,7 +798,7 @@ class Track6D:
                               scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,cootype='gal',verbose=False,
                               exclude_streams=[],include_only=[]): 
 
-   '''plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,
+   '''In construction... plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,
                               use_shortnames=False,plot_colorbar=False,
                               scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,cootype='gal',verbose=False,
                               exclude_streams=[],include_only=[])  '''
