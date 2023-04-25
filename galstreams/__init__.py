@@ -793,9 +793,9 @@ class Track6D:
 
 
   #-------------method to plot whole MW streams compilation object at once------------------------------------
-  def plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,
+  def plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9], frame=ac.ICRS,plot_names=True,
                               use_shortnames=False,plot_colorbar=False,
-                              scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,cootype='gal',verbose=False,
+                              scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,verbose=False,
                               exclude_streams=[],include_only=[]): 
 
    '''In construction... plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,

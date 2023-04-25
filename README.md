@@ -18,6 +18,7 @@ The new library includes 126 stream tracks corresponding to 95 distinct stellar 
 
 ### LATEST CHANGES
 
+- 2023/04 Pandas (v1.3) unit handling error in summary attribute fixed (this fixes errors that came up in the newest pandas versions when accesing mws.summary using .loc)
 - 2023/02 get_track_names_in_sky_window method added for convenience. It provides a list of the stream tracks present in a sky window with limits provided by the user in an arbitrary coordinate frame
 - 2023/02 TOPCAT-friendly csv files containing all stream tracks, end-points, mid-points and the library summary table can now printed when the libraryis instantiated. They are stored by default in galstreams/tracks, but can be saved at any user-defined location if using the print_topcat_friendly_compilation method
 
