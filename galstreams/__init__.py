@@ -282,12 +282,12 @@ class MWStreams(dict):
     mid_pole_dic  = {k: np.array([])*uu  for k,uu in zip(attributes,units) }
     info_flags = []
     #separate info_flags (easier to filter)
-    has_empirical_track = np.array([])
-    has_D = np.array([])
-    has_pm = np.array([])
-    has_vrad = np.array([])
+    has_empirical_track = np.array([],dtype=np.int32)
+    has_D = np.array([],dtype=np.int32)
+    has_pm = np.array([],dtype=np.int32)
+    has_vrad = np.array([],dtype=np.int32)
     discovery_refs = []
-    lengths = np.array([])*u.deg
+    lengths = np.array([])#*u.deg
 
     print("Initializing galstreams library from master_log... ")
     nid = 1
@@ -332,7 +332,7 @@ class MWStreams(dict):
        has_D               = np.append(has_D    , np.int32(track.InfoFlags[1])) 
        has_pm              = np.append(has_pm   , np.int32(track.InfoFlags[2]))  
        has_vrad            = np.append(has_vrad , np.int32(track.InfoFlags[3]))  
-       lengths = np.append(lengths, track.length)
+       lengths = np.append(lengths, track.length.deg)
        discovery_refs = np.append(discovery_refs, lmaster_discovery.loc[lmaster.Name[ii],'DiscoveryRefs'] )
 
 
@@ -343,24 +343,24 @@ class MWStreams(dict):
     self.mid_pole  = ac.SkyCoord(ra=mid_pole_dic["ra"], dec=mid_pole_dic["dec"], frame='icrs')
 
     #Store master table as an attribute (inherits structure of lmaster dataframe)
-    self.summary = lmaster
+    self.summary = lmaster.copy()
 
     #Stream Length
     self.summary["length"] = np.array(lengths)
     #End points
-    self.summary["ra_o"] = end_o_dic["ra"]
-    self.summary["dec_o"] = end_o_dic["dec"]
-    self.summary["distance_o"] = end_o_dic["distance"]
-    self.summary["ra_f"] = end_f_dic["ra"]
-    self.summary["dec_f"] = end_f_dic["dec"]
-    self.summary["distance_f"] = end_f_dic["distance"]
+    self.summary["ra_o"] = end_o_dic["ra"].deg
+    self.summary["dec_o"] = end_o_dic["dec"].deg
+    self.summary["distance_o"] = end_o_dic["distance"].value
+    self.summary["ra_f"] = end_f_dic["ra"].deg
+    self.summary["dec_f"] = end_f_dic["dec"].deg
+    self.summary["distance_f"] = end_f_dic["distance"].value
     #Mid point
-    self.summary["ra_mid"] = mid_point_dic["ra"]
-    self.summary["dec_mid"] = mid_point_dic["dec"]
-    self.summary["distance_mid"] = mid_point_dic["distance"]
+    self.summary["ra_mid"] = mid_point_dic["ra"].deg
+    self.summary["dec_mid"] = mid_point_dic["dec"].deg
+    self.summary["distance_mid"] = mid_point_dic["distance"].value
     #Pole
-    self.summary["ra_pole"] = mid_pole_dic["ra"]
-    self.summary["dec_pole"] = mid_pole_dic["dec"]
+    self.summary["ra_pole"] = mid_pole_dic["ra"].deg
+    self.summary["dec_pole"] = mid_pole_dic["dec"].deg
     #Info (InfoFlags and has_* columns is the same, but to have it on separate columns is more practical for filtering)
     self.summary["InfoFlags"] = np.array(info_flags)
     self.summary["has_empirical_track"] = has_empirical_track
@@ -373,10 +373,10 @@ class MWStreams(dict):
     self.summary.index=self.summary.TrackName
 
     #Create a numeric ID for each track
-    self.summary["ID"] = ''
-    for ii in self.summary.index:
-       if self.summary.loc[ii,'On']:
-        self.summary.loc[ii,'ID'] = self[ii].ID
+    #self.summary["ID"] = -1
+    #for ii in self.summary.index:
+    #   if self.summary.loc[ii,'On']:
+    #    self.summary.loc[ii,'ID'] = self[ii].ID
   
     #If chosen by the user, when the library is instantiated, save in default location TOPCAT-friendly csv files with 
     # the library's tracks, end-points, mid-points and summary table 
