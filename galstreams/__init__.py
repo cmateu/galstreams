@@ -373,10 +373,10 @@ class MWStreams(dict):
     self.summary.index=self.summary.TrackName
 
     #Create a numeric ID for each track
-    #self.summary["ID"] = -1
-    #for ii in self.summary.index:
-    #   if self.summary.loc[ii,'On']:
-    #    self.summary.loc[ii,'ID'] = self[ii].ID
+    self.summary["ID"] = ''
+    for ii in self.summary.index:
+       if self.summary.loc[ii,'On']:
+        self.summary.loc[ii,'ID'] = self[ii].ID
   
     #If chosen by the user, when the library is instantiated, save in default location TOPCAT-friendly csv files with 
     # the library's tracks, end-points, mid-points and summary table 
