@@ -526,76 +526,89 @@ class MWStreams(dict):
 
   def plot_stream_compilation(self, ax=None, frame=ac.ICRS, C_attribute=None, plot_names='ID',
                               plot_colorbar=False, invert_axis=True, show_legend=True,
-                              mlabels_kwds=None, plabels_kwds=None,
-                              scat_kwds=None, text_kwds=None, annot_kwds=None, legend_kwds=None, cb_kwds=None,
- 			      verbose=False,
-                              exclude_streams=[],include_only=[]): 
-  ''' 
+                              basemap_kwds = dict(projection='moll',lon_0=180., resolution='l'), 
+                              mlabels_kwds = dict(meridians=np.arange(0.,360.,30.), color=(0.65,0.65,0.65),linewidth=1., laxmax=90.),
+                              plabels_kwds = dict(circles=np.arange(-75,75,15.), color=(0.65,0.65,0.65),linewidth=1.,
+                                                  labels=[0,1,1,0], labelstyle='+/-' ),
+                              scat_kwds = None,
+                              annot_kwds = dict(xytext=(15,15),
+                                                textcoords='offset points',
+                                                arrowprops=dict(arrowstyle="-",color='k'),
+                                                horizontalalignment='center', verticalalignment='center'), 
+			      legend_kwds = dict(ncol=8,loc='center', columnspacing=0.5, handletextpad=0.1,
+ 			                         bbox_to_anchor=(0.5,-0.28), markerscale=3, fontsize='medium'),
+                              cb_kwds = None,
+                              exclude_streams=[],include_only=[], verbose=False): 
+   ''' 
 
-    Plot a Mollweide sky projection map of the current MWStreams library object in the selected coordinate frame.
-    Note: requires Basemap library
+     Plot a Mollweide sky projection map of the current MWStreams library object in the selected coordinate frame.
+     Note: requires Basemap library
 
-    Parameters
-    ==========
+     Parameters
+     ==========
 
-            track : SkyCoord object
+             track : SkyCoord object
 
 
-	ax=None 
+         ax=None 
 
-	frame : Astropy astropy.coordinates.baseframe instance
-                Coordinate frame to be used in sky plot
+         frame : Astropy astropy.coordinates.baseframe instance
+                 Coordinate frame to be used in sky plot
 
-	C_attribute : name of SkyCoord object attribute (in selected reference frame) to pass plt.scatter as auxiliary column c  
-                      e.g. 'distance', 'pm_ra_cosdec' if frame=ac.ICRS, 'pm_l_cosb' 'pm_b' if frame=ac.ICRS
+         C_attribute : name of SkyCoord object attribute (in selected reference frame) 
+                       to pass plt.scatter as auxiliary column c  
+                       e.g. 'distance', 'pm_b' if frame=ac.Galactic
 
-	plot_names : str ['ID','track_name','stream_name','stream_shortname']
-	
-        plot_colorbar: Bool
-                       If C_attribute is passed, plot_colorbar=True by default	
+         plot_names : str ['ID','track_name','stream_name','stream_shortname']
+         
+         plot_colorbar: Bool
+                        If C_attribute is passed, plot_colorbar=True by default	
 
-        invert_axis : Bool
-                      Invert longitude axis, set to True by default to follow usual plotting convention for l/ra
-	
-        show_legend: Bool
-                     Show legend at the bottom of the plot. Legend attributes can be passed via the legend_kwds dict
+         invert_axis : Bool
+                       Invert longitude axis, set to True by default to follow usual plotting convention for l/ra
+         
+         show_legend: Bool
+                      Show legend at the bottom of the plot. Legend attributes can be passed via the legend_kwds dict
+         
+         basemap_kwds : dict
+                        Keywords to instantiate Basemap projection. Default, Molweide projection
 
-	mlabels_kwds: dict 
-                      Meridian labelling keyword attributes to be passed to Basemap
+         mlabels_kwds: dict  - default=dict(meridians=np.arange(0.,360.,30.), color=(0.65,0.65,0.65),linewidth=1., laxmax=90.)
+                       Meridian labelling keyword attributes to be passed to Basemap
 
-	plabels_kwds: dict
-                      Parallel labelling keyword attributes to be passed to Basemap
+         plabels_kwds: dict - default=dict(circles=np.arange(-75,75,15.), color=(0.65,0.65,0.65),linewidth=1.,
+                          labels=[0,1,1,0], labelstyle='+/-' )
+                       Parallel labelling keyword attributes to be passed to Basemap
 
-	scat_kwds : dict
-                    Plotting keyword attributes to be passed to plt.scatter
+         scat_kwds : dict - default scat_kwds=dict(marker='.', s=30, alpha=0.8) [defaults change if C_attribute is passed]
+                     Plotting keyword attributes to be passed to plt.scatter
 
-        text_kwds: dict
+         annot_kwds : dict
+                      Text and arrow attributes to be passed to annotate
 
-        annot_kwds : dict
-                     Text and arrow attributes to be passed to annotate
+         legend_kwds : dict
+                       Legend attributes to be passed to plt.legend
 
-        legend_kwds : dict
-                      Legend attributes to be passed to plt.legend
+         cb_kwds : dict - default = dict(label=C_attribute,  shrink=0.5)
+                   Colorbar attributes to be passed to plt.colorbar 
+         
+         exclude_streams: list of stream TrackNames
+                          TrackNames for streams *not* to be included in the plot        
 
-        cb_kwds : dict
-                  Colorbar attributes to be passed to plt.colorbar
-	
-        verbose: False
-	
-        exclude_streams: list of stream TrackNames
-                         TrackNames for streams *not* to be included in the plot        
+         include_only: list of stream TrackNames
+                       Only the TrackNames provided in this list will be plotted
 
-        include_only: list of stream TrackNames
-                      Only the TrackNames provided in this list will be plotted
+         verbose: False
+                  Not doing anything right now if set to True
 
-    Returns
-    =======
+     Returns
+     =======
 
-    	ax
+     	ax
 
-    	ax : Current axes object
+     	ax : Current axes object
 
-  '''
+   '''
 
    if ax is None:
      fig = plt.figure(1,figsize=(16.5,11))
@@ -608,13 +621,13 @@ class MWStreams(dict):
    if 'Basemap' not in sys.modules:
      from mpl_toolkits.basemap import Basemap
      
-   m = Basemap(projection='moll',lon_0=180., resolution='l')
+   m = Basemap(**basemap_kwds)
    
-   if mlabels_kwds is None:
-     mlabels_kwds = dict(meridians=np.arange(0.,360.,30.), color=(0.65,0.65,0.65),linewidth=1., laxmax=90.)
-   if plabels_kwds is None:
-     plabels_kwds = dict(circles=np.arange(-75,75,15.), color=(0.65,0.65,0.65),linewidth=1.,
-                         labels=[0,1,1,0], labelstyle='+/-' )
+#   if mlabels_kwds is None:
+#     mlabels_kwds = dict(meridians=np.arange(0.,360.,30.), color=(0.65,0.65,0.65),linewidth=1., laxmax=90.)
+#   if plabels_kwds is None:
+#     plabels_kwds = dict(circles=np.arange(-75,75,15.), color=(0.65,0.65,0.65),linewidth=1.,
+#                         labels=[0,1,1,0], labelstyle='+/-' )
 
    m.drawmeridians(**mlabels_kwds)
    m.drawparallels(**plabels_kwds)
@@ -659,18 +672,18 @@ class MWStreams(dict):
       if C_attribute is None:
        scat_kwds=dict(marker='.', s=30, alpha=0.8)
       elif C_attribute is 'distance':
-        scat_kwds=dict(marker='.', s=30, alpha=0.8, vmin=0., vmax=100.)
+        scat_kwds=dict(marker='.', s=30, alpha=0.8, vmin=0., vmax=100.) #reasonable limits for distance plot
       else:
-        scat_kwds=dict(marker='.', s=30, alpha=0.8, vmin=-10., vmax=10.)
+        scat_kwds=dict(marker='.', s=30, alpha=0.8, vmin=-10., vmax=10.) #reasonable limits to plot pms
 
      im = ax.scatter(x,y, c=c,  **scat_kwds, label=label)
 
      #Plot annotations
-     if annot_kwds is None:
-       annot_kwds = dict(xytext=(15,15),
-                 textcoords='offset points',
-                 arrowprops=dict(arrowstyle="-",color='k'),
-                 horizontalalignment='center', verticalalignment='center')
+#     if annot_kwds is None:
+#       annot_kwds = dict(xytext=(15,15),
+#                 textcoords='offset points',
+#                 arrowprops=dict(arrowstyle="-",color='k'),
+#                 horizontalalignment='center', verticalalignment='center')
 
      #Using end_point to place labels
      coo = self[st].mid_point.transform_to(fr)
@@ -681,12 +694,12 @@ class MWStreams(dict):
    ax.grid(ls=':')
 
    if show_legend:
-    if legend_kwds is None:
-       legend_kwds = dict(ncol=8,loc='center', columnspacing=0.5, handletextpad=0.1, 
-                          bbox_to_anchor=(0.5,-0.28), markerscale=3, fontsize='medium')
+#    if legend_kwds is None:
+#       legend_kwds = dict(ncol=8,loc='center', columnspacing=0.5, handletextpad=0.1, 
+#                          bbox_to_anchor=(0.5,-0.28), markerscale=3, fontsize='medium')
     ax.legend(**legend_kwds)
 
-   if cb_kwds is None: 
+   if cb_kwds is None and C_attribute is not None: 
      cb_kwds = dict(label=C_attribute,  shrink=0.5)
 
    if C_attribute is not None and plot_colorbar is None: plot_colorbar=True 

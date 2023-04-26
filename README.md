@@ -14,10 +14,11 @@ The new and improved *galstreams* Library of Stellar Streams in the Milky Way (v
 -  Angular momentum track in a heliocentric reference frame at rest with respect to the Galactic centre
 -  Summary object for the full library: Uniformly reported stream length, end points and mid-point, heliocentric and Galactocentric mid-pole, track and discovery references and information flag denoting which of the 6D attributes (sky, distance, proper motions and radial velocity) are available in the track object.
 
-The new library includes 126 stream tracks corresponding to 95 distinct stellar streams (updated as of March 2022). The library is described in detail in [Mateu (2023)](https://arxiv.org/abs/2204.10326).
+The new library includes 126 stream tracks corresponding to 95 distinct stellar streams (updated as of March 2022). The library is described in detail in [Mateu (2023)](https://ui.adsabs.harvard.edu/link_gateway/2023MNRAS.520.5225M/doi:10.1093/mnras/stad321).
 
 ### LATEST CHANGES
 
+- 2023/04 The quick plot method is back! Check out MWStreams.plot_stream_compilation() in the Quick plots section of the examples notebook
 - 2023/04 Pandas (v1.3) unit handling error in summary attribute fixed (this fixes errors that came up in the newest pandas versions when accesing mws.summary using .loc)
 - 2023/02 get_track_names_in_sky_window method added for convenience. It provides a list of the stream tracks present in a sky window with limits provided by the user in an arbitrary coordinate frame
 - 2023/02 TOPCAT-friendly csv files containing all stream tracks, end-points, mid-points and the library summary table can now printed when the libraryis instantiated. They are stored by default in galstreams/tracks, but can be saved at any user-defined location if using the print_topcat_friendly_compilation method
@@ -25,6 +26,7 @@ The new library includes 126 stream tracks corresponding to 95 distinct stellar 
 ### REQUIREMENTS
 
 - Python modules required are NUMPY, SCIPY, MATPLOTLIB, ASTROPY and GALA. 
+- Installing Basemap is highly recommended (but not needed) for more involved plots. If installing with conda, make sure to update the proj4 library before installing Basemap to avoid errors.
 
 ----------
 
