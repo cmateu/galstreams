@@ -487,11 +487,15 @@ class MWStreams(dict):
        Parameters
        ==========
 
-       lon_range :
+       lon_range : np.array
+                   2-element array containing limits of sky window in "longitude" coordinate (e.g ra, l)                  
  
-       lat_range :
-
+       lat_range : np.array
+                   2-element array containing limits of sky window in "latitude" coordinate (e.g dec, b)                  
+       
        frame : AstroPy coordinate frame
+               Coordinate frame corresponding to lon/lat_range coordinates provided above
+  
     '''
         
     #This is just so I can get the representation_component_names (don't know how to do it 
@@ -520,10 +524,176 @@ class MWStreams(dict):
 
     return track_names
 
-  def plot_stream_compilation(MWStreams, ax, plot_colorbar=True, scat_kwargs=None, use_shortnames=False, 
-                                             cb_kwargs=None, verbose=False):
+  def plot_stream_compilation(self, ax=None, frame=ac.ICRS, C_attribute=None, plot_names='ID',
+                              plot_colorbar=False, invert_axis=True, show_legend=True,
+                              mlabels_kwds=None, plabels_kwds=None,
+                              scat_kwds=None, text_kwds=None, annot_kwds=None, legend_kwds=None, cb_kwds=None,
+ 			      verbose=False,
+                              exclude_streams=[],include_only=[]): 
+  ''' 
 
-      return
+    Plot a Mollweide sky projection map of the current MWStreams library object in the selected coordinate frame.
+    Note: requires Basemap library
+
+    Parameters
+    ==========
+
+            track : SkyCoord object
+
+
+	ax=None 
+
+	frame : Astropy astropy.coordinates.baseframe instance
+                Coordinate frame to be used in sky plot
+
+	C_attribute : name of SkyCoord object attribute (in selected reference frame) to pass plt.scatter as auxiliary column c  
+                      e.g. 'distance', 'pm_ra_cosdec' if frame=ac.ICRS, 'pm_l_cosb' 'pm_b' if frame=ac.ICRS
+
+	plot_names : str ['ID','track_name','stream_name','stream_shortname']
+	
+        plot_colorbar: Bool
+                       If C_attribute is passed, plot_colorbar=True by default	
+
+        invert_axis : Bool
+                      Invert longitude axis, set to True by default to follow usual plotting convention for l/ra
+	
+        show_legend: Bool
+                     Show legend at the bottom of the plot. Legend attributes can be passed via the legend_kwds dict
+
+	mlabels_kwds: dict 
+                      Meridian labelling keyword attributes to be passed to Basemap
+
+	plabels_kwds: dict
+                      Parallel labelling keyword attributes to be passed to Basemap
+
+	scat_kwds : dict
+                    Plotting keyword attributes to be passed to plt.scatter
+
+        text_kwds: dict
+
+        annot_kwds : dict
+                     Text and arrow attributes to be passed to annotate
+
+        legend_kwds : dict
+                      Legend attributes to be passed to plt.legend
+
+        cb_kwds : dict
+                  Colorbar attributes to be passed to plt.colorbar
+	
+        verbose: False
+	
+        exclude_streams: list of stream TrackNames
+                         TrackNames for streams *not* to be included in the plot        
+
+        include_only: list of stream TrackNames
+                      Only the TrackNames provided in this list will be plotted
+
+    Returns
+    =======
+
+    	ax
+
+    	ax : Current axes object
+
+  '''
+
+   if ax is None:
+     fig = plt.figure(1,figsize=(16.5,11))
+     ax = fig.add_subplot(111)
+   
+   #Follow the usual convention for Galactic and ICRS to invert the l/ra axis
+   if invert_axis:
+     ax.invert_xaxis()
+   
+   if 'Basemap' not in sys.modules:
+     from mpl_toolkits.basemap import Basemap
+     
+   m = Basemap(projection='moll',lon_0=180., resolution='l')
+   
+   if mlabels_kwds is None:
+     mlabels_kwds = dict(meridians=np.arange(0.,360.,30.), color=(0.65,0.65,0.65),linewidth=1., laxmax=90.)
+   if plabels_kwds is None:
+     plabels_kwds = dict(circles=np.arange(-75,75,15.), color=(0.65,0.65,0.65),linewidth=1.,
+                         labels=[0,1,1,0], labelstyle='+/-' )
+
+   m.drawmeridians(**mlabels_kwds)
+   m.drawparallels(**plabels_kwds)
+   m.drawmapboundary()
+   
+   fr = frame
+
+   if len(include_only)>0 : keys_to_plot = include_only
+   else: keys_to_plot = self.keys()
+   
+   for st in keys_to_plot:
+
+     if st in exclude_streams: continue
+
+    #if self.summary.loc[st,"On"]:
+
+     #Get representation names for selected frame and flip dict around 
+     l = self[st].track.transform_to(fr).representation_component_names
+     n = dict((v,k) for k,v in l.items())
+ 
+     if plot_names is None: 
+       label, alabel = None, None
+     elif 'ID' not in plot_names:     
+      label = "{Name}".format(Name = getattr(self[st],plot_names) )
+      alabel = label
+     else:
+         label="{ID:.0f}={Name}".format(ID=self[st].ID,Name=self[st].track_name)
+         alabel="{ID:.0f}".format(ID=self[st].ID)
+      
+
+     #Transform the current stream's track to selected frame
+     coo = self[st].track.transform_to(fr)
+     x,y = m( getattr(coo,n['lon']).value , getattr(coo, n['lat']).value )
+
+     #Extra attribute to plot
+     if C_attribute is not None: 
+       try: c = getattr(coo, C_attribute).value
+       except AttributeError: print('Select a valid attribute for the track SkyCoord object')
+     else: c = None
+
+     if scat_kwds is None: 
+      if C_attribute is None:
+       scat_kwds=dict(marker='.', s=30, alpha=0.8)
+      elif C_attribute is 'distance':
+        scat_kwds=dict(marker='.', s=30, alpha=0.8, vmin=0., vmax=100.)
+      else:
+        scat_kwds=dict(marker='.', s=30, alpha=0.8, vmin=-10., vmax=10.)
+
+     im = ax.scatter(x,y, c=c,  **scat_kwds, label=label)
+
+     #Plot annotations
+     if annot_kwds is None:
+       annot_kwds = dict(xytext=(15,15),
+                 textcoords='offset points',
+                 arrowprops=dict(arrowstyle="-",color='k'),
+                 horizontalalignment='center', verticalalignment='center')
+
+     #Using end_point to place labels
+     coo = self[st].mid_point.transform_to(fr)
+     xl,yl = m( getattr(coo,n['lon']).value , getattr(coo, n['lat']).value )
+     xy_stream = xl, yl  
+     ax.annotate(alabel, xy=xy_stream,  xycoords='data', **annot_kwds)
+
+   ax.grid(ls=':')
+
+   if show_legend:
+    if legend_kwds is None:
+       legend_kwds = dict(ncol=8,loc='center', columnspacing=0.5, handletextpad=0.1, 
+                          bbox_to_anchor=(0.5,-0.28), markerscale=3, fontsize='medium')
+    ax.legend(**legend_kwds)
+
+   if cb_kwds is None: 
+     cb_kwds = dict(label=C_attribute,  shrink=0.5)
+
+   if C_attribute is not None and plot_colorbar is None: plot_colorbar=True 
+   if plot_colorbar:
+     plt.colorbar(im, ax=ax, **cb_kwds)
+ 
+   return ax
 
 class Track6D:
 
@@ -791,18 +961,7 @@ class Track6D:
 
      ''' In construction... '''
 
-
-  #-------------method to plot whole MW streams compilation object at once------------------------------------
-  def plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9], frame=ac.ICRS,plot_names=True,
-                              use_shortnames=False,plot_colorbar=False,
-                              scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,verbose=False,
-                              exclude_streams=[],include_only=[]): 
-
-   '''In construction... plot_stream_compilation(self,ax,Rstat='mean',Rrange=[0.,9e9],plot_stream_type='all',plot_names=True,
-                              use_shortnames=False,plot_colorbar=False,
-                              scat_kwargs=None,text_kwargs=None,sym_kwargs=None,cb_kwargs=None,cootype='gal',verbose=False,
-                              exclude_streams=[],include_only=[])  '''
-
+   
 
 #-----------------------------------------------------------------------------------------------
 
