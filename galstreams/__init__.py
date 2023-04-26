@@ -637,11 +637,13 @@ class MWStreams(dict):
    if len(include_only)>0 : keys_to_plot = include_only
    else: keys_to_plot = self.keys()
    
+   msg_flag = 0
+
    for st in keys_to_plot:
 
-     if st in exclude_streams: continue
+    if st in exclude_streams: continue
 
-    #if self.summary.loc[st,"On"]:
+    if self.summary.loc[st,"On"]:
 
      #Get representation names for selected frame and flip dict around 
      l = self[st].track.transform_to(fr).representation_component_names
@@ -661,12 +663,6 @@ class MWStreams(dict):
      coo = self[st].track.transform_to(fr)
      x,y = m( getattr(coo,n['lon']).value , getattr(coo, n['lat']).value )
 
-     #Extra attribute to plot
-     if C_attribute is not None: 
-       try: c = getattr(coo, C_attribute).value
-       except AttributeError: print('Select a valid attribute for the track SkyCoord object')
-     else: c = None
-
      if scat_kwds is None: 
       if C_attribute is None:
        scat_kwds=dict(marker='.', s=30, alpha=0.8)
@@ -674,6 +670,16 @@ class MWStreams(dict):
         scat_kwds=dict(marker='.', s=30, alpha=0.8, vmin=0., vmax=100.) #reasonable limits for distance plot
       else:
         scat_kwds=dict(marker='.', s=30, alpha=0.8, vmin=-10., vmax=10.) #reasonable limits to plot pms
+
+     #Extra attribute to plot
+     if C_attribute is not None: 
+       try: c = getattr(coo, C_attribute).value
+       except AttributeError:
+          c = None
+          if msg_flag==0:
+            print('WARNING: Invalid attribute selected. If not a spelling error, you are probably trying to plot an attribute in a different coord frame as the one selected. This is currently not supported. Plotting without C_attribute aux column for now...')
+          msg_flag = 1
+     else: c = None
 
      im = ax.scatter(x,y, c=c,  **scat_kwds, label=label)
 
