@@ -525,7 +525,7 @@ class MWStreams(dict):
     return track_names
 
   def plot_stream_compilation(self, ax=None, frame=ac.ICRS, C_attribute=None, plot_names='ID',
-                              plot_colorbar=False, invert_axis=True, show_legend=True,
+                              plot_colorbar = None, invert_axis=True, show_legend=True,
                               basemap_kwds = dict(projection='moll',lon_0=180., resolution='l'), 
                               mlabels_kwds = dict(meridians=np.arange(0.,360.,30.), color=(0.65,0.65,0.65),linewidth=1., laxmax=90.),
                               plabels_kwds = dict(circles=np.arange(-75,75,15.), color=(0.65,0.65,0.65),linewidth=1.,
@@ -538,7 +538,9 @@ class MWStreams(dict):
 			      legend_kwds = dict(ncol=8,loc='center', columnspacing=0.5, handletextpad=0.1,
  			                         bbox_to_anchor=(0.5,-0.28), markerscale=3, fontsize='medium'),
                               cb_kwds = None,
-                              exclude_streams=[],include_only=[], verbose=False): 
+                              exclude_streams=[], include_only=[], 
+                              return_basemap_m = False,
+  			      verbose=False): 
    ''' 
 
      Plot a Mollweide sky projection map of the current MWStreams library object in the selected coordinate frame.
@@ -598,6 +600,9 @@ class MWStreams(dict):
          include_only: list of stream TrackNames
                        Only the TrackNames provided in this list will be plotted
 
+         return_basemap_m : False
+                            Return Basemap projection function 
+ 
          verbose: False
                   Not doing anything right now if set to True
 
@@ -623,12 +628,6 @@ class MWStreams(dict):
      
    m = Basemap(**basemap_kwds)
    
-#   if mlabels_kwds is None:
-#     mlabels_kwds = dict(meridians=np.arange(0.,360.,30.), color=(0.65,0.65,0.65),linewidth=1., laxmax=90.)
-#   if plabels_kwds is None:
-#     plabels_kwds = dict(circles=np.arange(-75,75,15.), color=(0.65,0.65,0.65),linewidth=1.,
-#                         labels=[0,1,1,0], labelstyle='+/-' )
-
    m.drawmeridians(**mlabels_kwds)
    m.drawparallels(**plabels_kwds)
    m.drawmapboundary()
@@ -678,12 +677,6 @@ class MWStreams(dict):
 
      im = ax.scatter(x,y, c=c,  **scat_kwds, label=label)
 
-     #Plot annotations
-#     if annot_kwds is None:
-#       annot_kwds = dict(xytext=(15,15),
-#                 textcoords='offset points',
-#                 arrowprops=dict(arrowstyle="-",color='k'),
-#                 horizontalalignment='center', verticalalignment='center')
 
      #Using end_point to place labels
      coo = self[st].mid_point.transform_to(fr)
@@ -694,9 +687,6 @@ class MWStreams(dict):
    ax.grid(ls=':')
 
    if show_legend:
-#    if legend_kwds is None:
-#       legend_kwds = dict(ncol=8,loc='center', columnspacing=0.5, handletextpad=0.1, 
-#                          bbox_to_anchor=(0.5,-0.28), markerscale=3, fontsize='medium')
     ax.legend(**legend_kwds)
 
    if cb_kwds is None and C_attribute is not None: 
@@ -706,7 +696,10 @@ class MWStreams(dict):
    if plot_colorbar:
      plt.colorbar(im, ax=ax, **cb_kwds)
  
-   return ax
+   if return_basemap_m:
+      return ax, m
+   else:
+      return ax
 
 class Track6D:
 
