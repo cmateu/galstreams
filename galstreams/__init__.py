@@ -288,6 +288,7 @@ class MWStreams(dict):
     has_vrad = np.array([],dtype=np.int32)
     discovery_refs = []
     lengths = np.array([])#*u.deg
+    track_widths = dict(phi2=np.array([]), pm_phi1_cosphi2=np.array([]), pm_phi2=np.array([]))
 
     print("Initializing galstreams library from master_log... ")
     nid = 1
@@ -310,6 +311,7 @@ class MWStreams(dict):
                        track_file=track_file, track_discovery_references=lmaster_discovery.loc[lmaster.Name[ii],'DiscoveryRefs'] ,
                        summary_file=summary_file)
 
+
        if implement_Off:
            self[lmaster.TrackName[ii]] = track
            self[lmaster.TrackName[ii]].ID = nid
@@ -326,6 +328,9 @@ class MWStreams(dict):
        for k in attributes: end_f_dic[k] = np.append(end_f_dic[k], getattr(track.end_points, k)[1] )
        for k in attributes: mid_point_dic[k] = np.append(mid_point_dic[k], getattr(track.mid_point, k) )
        for k in attributes[:2]: mid_pole_dic[k]  = np.append(mid_pole_dic[k] , getattr(track.mid_pole, k) )
+
+       for k in track_widths.keys():
+            track_widths[k] = np.append(track_widths[k], track.track_width['width_'+k].value)
 
        info_flags.append(track.InfoFlags)
        has_empirical_track = np.append(has_empirical_track, np.int32(track.InfoFlags[0]))
@@ -361,6 +366,9 @@ class MWStreams(dict):
     #Pole
     self.summary["ra_pole"] = mid_pole_dic["ra"].deg
     self.summary["dec_pole"] = mid_pole_dic["dec"].deg
+    #Track widths in phi2,pm_phi1/phi2
+    for k in track_widths.keys():
+     self.summary["width_"+k] = track_widths[k]
     #Info (InfoFlags and has_* columns is the same, but to have it on separate columns is more practical for filtering)
     self.summary["InfoFlags"] = np.array(info_flags)
     self.summary["has_empirical_track"] = has_empirical_track
@@ -487,10 +495,10 @@ class MWStreams(dict):
        Parameters
        ==========
 
-       lon_range : np.array
+       lon_range : np.array or list
                    2-element array containing limits of sky window in "longitude" coordinate (e.g ra, l)                  
  
-       lat_range : np.array
+       lat_range : np.array or list
                    2-element array containing limits of sky window in "latitude" coordinate (e.g dec, b)                  
        
        frame : AstroPy coordinate frame
@@ -500,7 +508,7 @@ class MWStreams(dict):
         
     #This is just so I can get the representation_component_names (don't know how to do it 
     #without creating a frame instance, so, there, let's move on
-    coo = ac.SkyCoord(lon_range, lat_range,frame=frame, unit=u.deg)
+    coo = ac.SkyCoord(np.array(lon_range), np.array(lat_range),frame=frame, unit=u.deg)
     n = dict((v,k) for k,v in coo.frame.representation_component_names.items())
         
     if np.any(lon_range<0.): 
@@ -832,6 +840,11 @@ class Track6D:
       #Make sure to set the pole's distance attribute to 1 (zero causes problems, when transforming to stream frame coords)
       x["distance"] = 1.*u.kpc   #it shouldn't matter, but if it's zero it does crazy things
       self.mid_pole = ac.SkyCoord(**x)
+
+      #Width attributes
+      self.track_width = dict()
+      for k in ['width_phi2','width_pm_phi1_cosphi2','width_pm_phi2']:
+        self.track_width[k] = sfile[k][0] 
 
       #Set up stream's coordinate frame
       self.stream_frame = gc.GreatCircleICRSFrame(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)

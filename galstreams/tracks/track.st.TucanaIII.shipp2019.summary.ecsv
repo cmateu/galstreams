@@ -25,6 +25,9 @@
 # - {name: pole.ra, unit: deg, datatype: float64}
 # - {name: pole.dec, unit: deg, datatype: float64}
 # - {name: pole.distance, datatype: float64}
+# - {name: width_phi2, unit: deg, datatype: float64}
+# - {name: width_pm_phi1_cosphi2, unit: mas / yr, datatype: float64}
+# - {name: width_pm_phi2, unit: mas / yr, datatype: float64}
 # delimiter: ','
 # meta: !!omap
 # - __serialized_columns__:
@@ -118,6 +121,18 @@
 #       unit: *id001
 #       value: !astropy.table.SerializedColumn {name: pole.ra}
 #       wrap_angle: *id005
+#     width_phi2:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: width_phi2}
+#     width_pm_phi1_cosphi2:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: mas / yr}
+#       value: !astropy.table.SerializedColumn {name: width_pm_phi1_cosphi2}
+#     width_pm_phi2:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: mas / yr}
+#       value: !astropy.table.SerializedColumn {name: width_pm_phi2}
 # schema: astropy-2.0
-StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance
-TucanaIII,Tuc,1010,354.5845653065028,-59.757859008709865,23.37356005234441,-0.4505660603536972,-1.7861348492051021,-1.8875304463724035e-07,2.9968894050877366,-59.49725291915099,26.91423486405955,0.03666031933701366,-1.4666625679140193,-2.9811433890500264e-07,359.15479674757336,-59.59783105085612,25.296731920307263,-0.04568616925984295,-1.5745917983864643,6.726426259824151e-08,354.2299906308372,30.289987100993308,1.0
+StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance,width_phi2,width_pm_phi1_cosphi2,width_pm_phi2
+TucanaIII,Tuc,1010,354.5845653065028,-59.757859008709865,23.37356005234441,-0.4505660603536972,-1.7861348492051021,-1.8875304463724035e-07,2.9968894050877366,-59.49725291915099,26.91423486405955,0.03666031933701366,-1.4666625679140193,-2.9811433890500264e-07,359.15479674757336,-59.59783105085612,25.296731920307263,-0.04568616925984295,-1.5745917983864643,6.726426259824151e-08,354.2299906308372,30.289987100993308,1.0,0.11528498442143932,0.07801984156716837,0.12552248761471427
