@@ -268,8 +268,6 @@ class MWStreams(dict):
     lmaster = astropy.table.Table.read(filepath,format='ascii.commented_header').to_pandas()
     filepath = "{path}/{filen}".format(path=tdir+"/lib/",filen='master_log.discovery_refs.txt')
     lmaster_discovery = astropy.table.Table.read(filepath,format='ascii.commented_header').to_pandas(index='Name')
-    filepath = "{path}/{filen}".format(path=tdir+"/lib/",filen='master_log.comments.txt')
-    lmaster_comments = astropy.table.Table.read(filepath,format='ascii.commented_header').to_pandas(index='Name')
 
     lmaster["On"] = lmaster["On"].astype('bool') #this attribute controls whether a given track is included or not
 
