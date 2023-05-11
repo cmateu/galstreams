@@ -270,6 +270,7 @@ class MWStreams(dict):
     lmaster_discovery = astropy.table.Table.read(filepath,format='ascii.commented_header').to_pandas(index='Name')
 
     lmaster["On"] = lmaster["On"].astype('bool') #this attribute controls whether a given track is included or not
+    lmaster["from-Members"] = lmaster["from-Members"].astype('bool') #this attribute controls whether a given track is included or not
 
     #SkyCoords objects will be created for each of these dicts after the full library has been created
     attributes = ['ra','dec','distance','pm_ra_cosdec','pm_dec','radial_velocity']
@@ -366,7 +367,12 @@ class MWStreams(dict):
     self.summary["dec_pole"] = mid_pole_dic["dec"].deg
     #Track widths in phi2,pm_phi1/phi2
     for k in track_widths.keys():
-     self.summary["width_"+k] = track_widths[k]
+     if 'pm' not in k:
+       #Keep info in the master file, unless set to be computed from track members
+       mask = self.summary["width_phi2_Ref"] == "from-Members"
+       self.summary.loc[mask,"width_phi2"] = np.round(track_widths[k][mask],decimals=2)
+     else:
+      self.summary["width_"+k] = np.round(track_widths[k],decimals=1)
     #Info (InfoFlags and has_* columns is the same, but to have it on separate columns is more practical for filtering)
     self.summary["InfoFlags"] = np.array(info_flags)
     self.summary["has_empirical_track"] = has_empirical_track

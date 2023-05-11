@@ -135,4 +135,4 @@
 #       value: !astropy.table.SerializedColumn {name: width_pm_phi2}
 # schema: astropy-2.0
 StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance,width_phi2,width_pm_phi1_cosphi2,width_pm_phi2
-M92,M92,1000,250.28337694840346,39.28458415009291,8.29999999999999,0.0,0.0,0.0,271.3302973811864,38.57764165456872,8.300000000000013,0.0,0.0,0.0,259.26160931550004,43.00131689709643,8.3,0.0,0.0,0.0,70.60697547455761,46.58557903465862,1.0,0.00011516153636798853,0.0,0.0
+M92,M92,1000,250.28337694840351,39.284584150092975,8.300000000000017,0.0,0.0,0.0,271.3302973811864,38.57764165456873,8.299999999999994,0.0,0.0,0.0,259.2616089217904,43.001316884802065,8.300000000000002,0.0,0.0,0.0,70.60697547455761,46.58557903465862,1.0,0.00011516153636895339,0.0,0.0
