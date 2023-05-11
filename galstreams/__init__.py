@@ -367,13 +367,8 @@ class MWStreams(dict):
     self.summary["dec_pole"] = mid_pole_dic["dec"].deg
     #Track widths in phi2,pm_phi1/phi2
     for k in track_widths.keys():
-     if 'pm' not in k:
-       #Keep info in the master file, unless set to be computed from track members
-       mask = self.summary["width_phi2"] == -1
-       self.summary.loc[mask,"width_phi2"] = np.round(track_widths[k][mask],decimals=2) #some streams have widths ~0.05deg
-     else:
        mask = self.summary["width_"+k] == -1
-       self.summary["width_"+k] = np.round(track_widths[k],decimals=1)
+       self.summary.loc[mask,"width_"+k] = np.round(track_widths[k][mask],decimals=1) #some streams have widths ~0.05deg
     #Info (InfoFlags and has_* columns is the same, but to have it on separate columns is more practical for filtering)
     self.summary["InfoFlags"] = np.array(info_flags)
     self.summary["has_empirical_track"] = has_empirical_track
