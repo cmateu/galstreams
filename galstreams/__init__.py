@@ -667,7 +667,7 @@ class MWStreams(dict):
      if scat_kwds is None: 
       if C_attribute is None:
        scat_kwds=dict(marker='.', s=30, alpha=0.8)
-      elif C_attribute is 'distance':
+      elif C_attribute == 'distance':
         scat_kwds=dict(marker='.', s=30, alpha=0.8, vmin=0., vmax=100.) #reasonable limits for distance plot
       else:
         scat_kwds=dict(marker='.', s=30, alpha=0.8, vmin=-10., vmax=10.) #reasonable limits to plot pms
