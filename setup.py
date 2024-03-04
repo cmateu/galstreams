@@ -12,7 +12,7 @@ setup(
     name='galstreams',
     version='1.0.0',
     author='C. Mateu',
-    author_email='cmateu@fisica.edu.uy',
+    author_email='cmateu@fcien.edu.uy',
     packages=['galstreams','galstreams/lib','galstreams/tracks'],
     package_data={'galstreams/lib':['*.dat',
                                    '*.log',

@@ -7,6 +7,7 @@ import sys
 import astropy.table
 import astropy.coordinates as ac
 import astropy.units as u
+import gala
 import gala.coordinates as gc
 import gala.dynamics as gd
 import pandas as pd
@@ -834,15 +835,19 @@ class Track6D:
       self.mid_pole = ac.SkyCoord(**x)
 
       #Set up stream's coordinate frame
-%<<<<<<< patch-1
-%      self.stream_frame = gc.GreatCircleICRSFrame.from_pole_ra0(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)
-%=======
-      self.stream_frame = gc.GreatCircleICRSFrame.from_pole_ra0(
-         pole=self.mid_pole,
-         ra0=self.mid_point.icrs.ra,
-         origin_disambiguate=self.mid_point.icrs
-      )
-%>>>>>>> master
+#<<<<<<< patch-1
+#      self.stream_frame = gc.GreatCircleICRSFrame.from_pole_ra0(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)
+#=======
+      #for now
+      if np.float(gala.__version__[:3]):
+         self.stream_frame = gc.GreatCircleICRSFrame(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)  
+      else:  
+         self.stream_frame = gc.GreatCircleICRSFrame.from_pole_ra0(
+            pole=self.mid_pole,
+            ra0=self.mid_point.icrs.ra,
+            origin_disambiguate=self.mid_point.icrs
+         )
+#>>>>>>> master
 
       #Compute and store polygon vertices
       self.poly_sc = self.create_sky_polygon_footprint_from_track(width=1*u.deg)

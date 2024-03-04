@@ -18,6 +18,7 @@ The new library includes 126 stream tracks corresponding to 95 distinct stellar 
 
 ### LATEST CHANGES
 
+- 2023/05 Widths in phi2, pmphi1_cosphi2/phi2 are now implemented: median widths available in summary table.
 - 2023/04 The quick plot method is back! Check out MWStreams.plot_stream_compilation() in the Quick plots section of the examples notebook
 - 2023/04 Pandas (v1.3) unit handling error in summary attribute fixed (this fixes errors that came up in the newest pandas versions when accesing mws.summary using .loc)
 - 2023/02 get_track_names_in_sky_window method added for convenience. It provides a list of the stream tracks present in a sky window with limits provided by the user in an arbitrary coordinate frame
