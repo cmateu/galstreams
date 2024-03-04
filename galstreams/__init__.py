@@ -839,7 +839,7 @@ class Track6D:
 #      self.stream_frame = gc.GreatCircleICRSFrame.from_pole_ra0(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)
 #=======
       #for now
-      if np.float(gala.__version__[:3]):
+      if np.float(gala.__version__[:3])<=1.4:
          self.stream_frame = gc.GreatCircleICRSFrame(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)  
       else:  
          self.stream_frame = gc.GreatCircleICRSFrame.from_pole_ra0(
