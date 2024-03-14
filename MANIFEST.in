@@ -1,2 +1,0 @@
-recursive-include examples *png *.ipynb
-#include galstreams/lib/*dat galstreams/lib/*.log galstreams/lib/*.ipynb galstreams/lib/*csv galstreams/tracks/*.ecsv
