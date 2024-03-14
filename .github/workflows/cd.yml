@@ -27,7 +27,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: hynek/build-and-inspect-python-package@v2
+      # NOTE: For simplicity, we only want to ship the sdist, and this action runs
+      # check-wheel-contents, which falsely thinks there are duplicate files:
+      # - uses: hynek/build-and-inspect-python-package@v2
+      - name: Build sdist
+        run: |
+          python -m pip install --upgrade build
+          python -m build --sdist .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Packages
+          path: dist/*
 
   # Upload to Test PyPI on every commit on main.
   test-publish:
