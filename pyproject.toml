@@ -13,14 +13,14 @@ readme = "README.md"
 license.file = "LICENSE"
 requires-python = ">=3.9"
 dynamic = ["version"]
-dependencies = ["numpy", "scipy", "astropy"]
+dependencies = ["numpy", "scipy", "astropy", "gala", "matplotlib", "pandas"]
 
 [project.optional-dependencies]
-# test = [
-#   "pytest >=6",
-#   "pytest-cov >=3",
-#   "pytest-astropy",
-# ]
+test = [
+  "pytest >=6",
+  "pytest-cov >=3",
+  "pytest-astropy",
+]
 
 [project.urls]
 Homepage = "https://github.com/cmateu/galstreams"

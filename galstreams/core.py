@@ -1,7 +1,7 @@
 import numpy as np
 import scipy
 import matplotlib as mpl
-import pylab as plt
+import matplotlib.pyplot as plt
 import os, os.path
 import sys
 import astropy.table
@@ -10,7 +10,7 @@ import astropy.units as u
 import gala
 import gala.coordinates as gc
 import gala.dynamics as gd
-import pandas as pd
+
 
 #---------------------------------
 def get_random_spherical_angles(n,az=[0.,2*np.pi],lat=[-np.pi/2.,np.pi/2],degree=False):
@@ -447,7 +447,7 @@ class MWStreams(dict):
     return all_track_names
 
   def print_topcat_friendly_compilation(self, output_root='galtreams.unique_streams'):
-
+        import pandas as pd
         modes = ['track','end_point','mid_point']
 	
         for mode in modes:
