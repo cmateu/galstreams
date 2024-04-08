@@ -33,19 +33,9 @@ The new library includes 126 stream tracks corresponding to 95 distinct stellar 
 
 ### INSTALLATION
 
-In a terminal, run the following command:
+You can install the latest version using pip:
 
-    sudo python setup.py install
-
-and source your .cshrc / .bashrc or equivalent file.
-
-If you do not have root access, you can install in the custom directory path_to_dir.
-First, add the directory's path path_to_dir and path_to_dir/lib/python??/site-packages/
-to the PYTHONPATH variable in your .cshrc (or .bashrc) file and source it. Then install using the --prefix option::
-
-    python setup.py install --prefix=path_to_dir
-
-Add path_to_dir/bin to your PATH in your .csrhc or .bashrc file.
+    pip install galstreams
 
 ----------
 # Quick Guide
