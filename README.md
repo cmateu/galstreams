@@ -33,11 +33,15 @@ The new library includes 126 stream tracks corresponding to 95 distinct stellar 
 
 ### INSTALLATION
 
-You can install the latest version using pip:
+To install the latest development version of galstreams, use `pip` by running the
+following command in a terminal:
 
-    pip install galstreams
+    pip install git+https://github.com/cmateu/galstreams
 
-(or consult the INSTALL file included in this repo)
+Or, download or clone the source code, change directory into the galstreams repository
+folder and run:
+
+    pip install .
 
 ----------
 # Quick Guide
