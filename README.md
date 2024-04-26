@@ -37,6 +37,8 @@ You can install the latest version using pip:
 
     pip install galstreams
 
+(or consult the INSTALL file included in this repo)
+
 ----------
 # Quick Guide
 
