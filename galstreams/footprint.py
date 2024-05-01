@@ -5,7 +5,7 @@ import numpy as np
 from spherical_geometry.polygon import SingleSphericalPolygon
 
 from .config import config
-from .random import get_uniform_spherical_angles
+from .random_angles import get_uniform_spherical_angles
 
 class StreamFootprint:
 
@@ -60,11 +60,12 @@ class StreamFootprint:
 
     def from_corners(self, corners):
         """ TODO: """
-        pass
+        raise NotImplementedError("from_corners() has not been implemented yet")
 
     def from_galactocentric(self, name, poly_c, frame=None):
         """ TODO: """
-        pass
+        raise NotImplementedError(
+                "from_galactocentric() has not been implemented yet")
 
     def get_polygon(self, frame=None):
         """Get a ``SingleSphericalPolygon`` object in the specified coordinate
@@ -162,7 +163,7 @@ class StreamFootprint:
                                                lat_lim=lat_lim,
                                                random_state=random_state)
             c = co.SkyCoord(rep, frame=frame)
-            mask = self.contains_coord(c)
+            mask = self.contains_coords(c)
             reps.append(rep[mask])
             N += mask.sum()
 
@@ -203,14 +204,11 @@ class StreamFootprint:
             rep = c.spherical
 
         if c.isscalar:
-            return poly.contains_lonlat(rep.lon.degree,
-                                        rep.lat.degree)
+            return poly.contains_lonlat(rep.lon.degree, rep.lat.degree)
 
-        else:
-            mask = [poly.contains_lonlat(x, y)
-                    for x, y in zip(rep.lon.degree,
-                                    rep.lat.degree)]
-            return np.array(mask)
+        mask = [poly.contains_lonlat(x, y)
+                for x, y in zip(rep.lon.degree, rep.lat.degree)]
+        return np.array(mask)
 
     def plot_polygon(self, frame=None, ax=None,
                      wrap_angle=360*u.deg, autolim=True, **kwargs):
@@ -237,7 +235,7 @@ class StreamFootprint:
         -------
         fig : `~matplotlib.figure.Figure`
         ax : `~matplotlib.axes.Axes`
-        
+
         """
         import matplotlib as mpl
 
