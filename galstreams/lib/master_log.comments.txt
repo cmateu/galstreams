@@ -51,6 +51,7 @@ LMS-1              -
 Leiptr		   - 
 Lethe		   -     
 M2                 NGC7089
+M3                 Svol
 M30	 	   NGC7099
 M5                 NGC5904
 M68    		   NGC4590,Fjorm
@@ -92,7 +93,7 @@ Sangarius	   -
 Scamander	   -     
 Slidr		   - 
 Styx		   -     
-Svol		   - 
+Svol		   M3
 Sylgr		   - 
 Triangulum 	   Pisces_(martin2013)   
 TucanaIII	   -                  

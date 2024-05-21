@@ -57,6 +57,7 @@ st     0  LMS1-M21             LMS-1                     malhan2021           Ma
 st     1  LMS1-Y20             LMS-1                     yuan2020             Yuan2020                                - 
 st     0  M2-G22               M2                        grillmair2022        Grillmair2022,Baumgardt2021             -               
 st     1  M2-I21               M2                        ibata2021            Ibata2021                               - 
+st     1  M3-Y23               M3-Svol                   yang2023             Yang2023                                - 
 st     1  M30-S20              M30                       sollima2020          Sollima2020,Harris1996                  -            
 st     1  M5-G19	       M5    		         grillmair2019        Grillmair2019                           - 
 st     0  M5-I21	       M5    		         ibata2021            Ibata2021                               - 
