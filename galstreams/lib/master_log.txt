@@ -115,6 +115,7 @@ ep     1  Ravi-S18	       Ravi		         shipp2018            Shipp2018,Shipp201
 st     1  Sagittarius-A20      Sagittarius	         antoja2020           Antoja2020,Ramos2020                    -           
 po     1  Sangarius-G17        Sangarius	         grillmair2017        Grillmair2017                           - 
 po     1  Scamander-G17	       Scamander	         grillmair2017        Grillmair2017                           - 
+st     1  Spectre-C22	       Spectre		         chandra2022          Chandra2022                             - 
 st     1  Slidr-I21	       Slidr		         ibata2021            Ibata2021                               - 
 ep     1  Styx-G09	       Styx		         grillmair2009        Grillmair2009                           - 
 st     1  Svol-I21	       Svol		         ibata2021            Ibata2021                               - 
