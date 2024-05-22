@@ -67,6 +67,7 @@ NGC2808         	2021              Ibata2021
 NGC288          	2018              Grillmair1995,Shipp2018,Sollima2020,Ibata2021        
 NGC3201-Gjoll		2021              Palau2021,Ibata2019
 NGC3201		        2021              Palau2021,Ibata2019
+NGC5053			2006              Lauchner2006		          
 NGC5466			2006              Belokurov2006_5466,Grillmair2006_5466		          
 NGC6101         	2021              Ibata2021            
 NGC6362         	2020              Sollima2020          

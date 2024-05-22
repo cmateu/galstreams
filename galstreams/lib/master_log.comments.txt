@@ -65,6 +65,7 @@ NGC2298            -
 NGC2808            -
 NGC288             -
 NGC3201    	   Gjoll
+NGC5053            -
 NGC5466		   -     
 NGC6101            -
 NGC6362            -
