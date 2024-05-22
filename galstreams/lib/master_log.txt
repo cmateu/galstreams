@@ -81,7 +81,7 @@ st     0  NGC288-S20           NGC288                    sollima2020          So
 st     0  NGC3201-I21	       NGC3201                   ibata2021            Ibata2021                               - 
 st     1  NGC3201-P21	       NGC3201-Gjoll   	         palau2021            Palau2021                               - 
 st     0  Gjoll-I21	       NGC3201-Gjoll             ibata2021            Ibata2021                               - 
-st     1  NGC5053-L06	       NGC5053		         lauchner2006         Lauchner2006                            -      
+ep     1  NGC5053-L06	       NGC5053		         lauchner2006         Lauchner2006                            -      
 st     0  NGC5466-G06	       NGC5466		         grillmair2006        Grillmair2006_5466                      -      
 st     0  NGC5466-I21          NGC5466                   ibata2021            Ibata2021                               - 
 st     1  NGC5466-J21	       NGC5466		         jensen2021           Jensen2021                              -      
