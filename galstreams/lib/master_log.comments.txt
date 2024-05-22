@@ -15,7 +15,7 @@ C-8		   -
 Cetus		   -  
 Cetus-New	   -  
 Cetus-Palca	   -  
-Chenab		   - 
+Chenab		   Orphan-Chenab
 Cocytos		   -     
 Corvus		   - 
 Elqui		   - 
@@ -72,7 +72,7 @@ NGC6397		   -
 OmegaCen           -
 Ophiuchus	   -   
 Orinoco		   -     
-Orphan    	   - 
+Orphan    	   Orphan-Chenab 
 PS1-A		   -   
 PS1-B		   -   
 PS1-C		   -   

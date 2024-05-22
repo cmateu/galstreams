@@ -94,7 +94,8 @@ st     1  Ophiuchus-C20	       Ophiuchus	         caldwell2020         Caldwell2
 st     1  Orinoco-G17	       Orinoco		         grillmair2017        Grillmair2017_south                     -       
 st     0  Chenab-S19	       Orphan-Chenab		 shipp2019            Shipp2019,Shipp2018                     -           
 st     0  Orphan-I21	       Orphan-Chenab    	 ibata2021            Ibata2021                               - 
-st     1  Orphan-K19	       Orphan-Chenab    	 koposov2019          Koposov2019                             - 
+st     0  Orphan-K19	       Orphan-Chenab    	 koposov2019          Koposov2019                             - 
+st     1  Orphan-K23	       Orphan-Chenab    	 koposov2023          Koposov2023                             - 
 ep     1  Pal13-S20	       Pal13		         shipp2020            Shipp2020                               - 
 st     1  Pal15-M17	       Pal15		         myeong2017           Myeong2017,Harris1996                   -            
 st     0  Pal5-I21	       Pal5    		         ibata2021            Ibata2021                               - 
