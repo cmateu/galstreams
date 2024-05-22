@@ -1,0 +1,8 @@
+The celestial track for Yangtze was implemented from the polynomial fit provided by \citet{Yang2023b} in their Eq.~3:
+\begin{eqnarray*}
+\alpha = -2.44373567\times10^{-5})\delta^3 -1.62880413\times10^{-3})\delta^2  - 0.138532434\delta + 3.04632126
+\end{eqnarray*}
+
+with $\delta \in [-61^\circ,3^\circ]$. The authors report a mean distances of 9.5~kpc, used to implement the distance track.
+Note, however, that for such a long stream this is probably just an approximation. 
+The proper motion track is implemented assuming the mean proper motions of $\mu_\alpha^*,\mu_\delta=(-2.0,2.5)$~mas/yr reported by the authors for the full track (the corresponding InfoFlag bit is set to 2 as a warning). 
