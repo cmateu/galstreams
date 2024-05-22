@@ -51,7 +51,7 @@ LMS-1           	2020              Yuan2020
 Leiptr			2019	          Ibata2019	          
 Lethe			2009	          Grillmair2009	  
 M2              	1995              Grillmair1995        
-M3-Svol                 2023              Yang2023
+M3-Svol                 2023              Yang2023a
 M30             	2020              Sollima2020                    
 M5    			2019	          Grillmair2019		          
 M68   		        2019	          Palau2019		          
@@ -96,8 +96,9 @@ Ravi			2018              Shipp2018,Mateu2018
 Sagittarius		1996              Mateo1996,Mateo1998,Ibata2001,Majewski2003		          
 Sangarius		2017	          Grillmair2017	  
 Scamander		2017	          Grillmair2017	  
-Spectre                 2022              Chandra2022
+SGP-S                   2022              Yangtze2022
 Slidr			2019	          Ibata2019	          
+Spectre                 2022              Chandra2022
 Styx			2009	          Grillmair2009	  
 Svol			2019	          Ibata2019	          
 Sylgr			2019	          Ibata2019	          
@@ -107,4 +108,5 @@ Turbio			2018	          Shipp2018
 Turranburra		2018	          Shipp2018	          
 Wambelong		2018	          Shipp2018	          
 Willka_Yaku		2018	          Shipp2018	          
+Yangtze                 2023              Yangtze2023a
 Ylgr			2019	          Ibata2019	          

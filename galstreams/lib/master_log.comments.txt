@@ -92,8 +92,9 @@ Ravi		   -
 Sagittarius	   -  
 Sangarius	   -     
 Scamander	   -     
-Spectre            -
+SGP-S              -
 Slidr		   - 
+Spectre            -
 Styx		   -     
 Svol		   M3
 Sylgr		   - 
@@ -103,4 +104,5 @@ Turbio		   -
 Turranburra	   - 
 Wambelong	   - 
 Willka_Yaku	   -
+Yangtze            Pal1,ACS?
 Ylgr		   - 
