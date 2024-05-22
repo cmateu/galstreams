@@ -96,7 +96,7 @@ Ravi			2018              Shipp2018,Mateu2018
 Sagittarius		1996              Mateo1996,Mateo1998,Ibata2001,Majewski2003		          
 Sangarius		2017	          Grillmair2017	  
 Scamander		2017	          Grillmair2017	  
-SGP-S                   2022              Yangtze2022
+SGP-S                   2022              Yang2022
 Slidr			2019	          Ibata2019	          
 Spectre                 2022              Chandra2022
 Styx			2009	          Grillmair2009	  

@@ -129,5 +129,5 @@ ep     1  Turbio-S18	       Turbio		         shipp2018            Shipp2018,Ship
 st     1  Turranburra-S19      Turranburra	         shipp2019            Shipp2019,Shipp2018                     -           
 ep     1  Wambelong-S18	       Wambelong	         shipp2018            Shipp2018,Shipp2019                     -           
 ep     1  Willka_Yaku-S18      Willka_Yaku	         shipp2018            Shipp2018,Shipp2019                     -           
-st     1  Yangtze-Y23	       Yangtze		         yangtze2023          Yangtze2023a                            - 
+st     1  Yangtze-Y23	       Yangtze		         yang2023             Yang2023a                            - 
 st     1  Ylgr-I21	       Ylgr		         ibata2021            Ibata2021                               - 
