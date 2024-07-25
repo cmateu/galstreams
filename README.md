@@ -4,7 +4,7 @@
 
 ### DESCRIPTION:
 
-The new and improved *galstreams* Library of Stellar Streams in the Milky Way (v1.0) is introduced. Stellar streams are now supported as track SkyCoord objects (Track6D), rather than the Footprint objects provided in the previoues version (v0.1). The main new features of the library are:
+The new and improved *galstreams* Library of Stellar Streams in the Milky Way (v1.0) is introduced. Stellar streams are now supported as track SkyCoord objects (Track6D), rather than the Footprint objects provided in the previous version (v0.1). The main new features of the library are:
 
 -  Celestial, distance, proper motion and radial velocity tracks for each stream (pm/vrad when available) stored as astropy SkyCoord objects
 -  Stream's (heliocentric) coordinate frame realised as astropy reference frame
