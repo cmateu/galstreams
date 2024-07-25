@@ -57,6 +57,7 @@ st     0  LMS1-M21             LMS-1                     malhan2021           Ma
 st     1  LMS1-Y20             LMS-1                     yuan2020             Yuan2020                                - 
 st     0  M2-G22               M2                        grillmair2022        Grillmair2022,Baumgardt2021             -               
 st     1  M2-I21               M2                        ibata2021            Ibata2021                               - 
+st     1  M3-Y23               M3-Svol                   yang2023             Yang2023b                               - 
 st     1  M30-S20              M30                       sollima2020          Sollima2020,Harris1996                  -            
 st     1  M5-G19	       M5    		         grillmair2019        Grillmair2019                           - 
 st     0  M5-I21	       M5    		         ibata2021            Ibata2021                               - 
@@ -80,6 +81,7 @@ st     0  NGC288-S20           NGC288                    sollima2020          So
 st     0  NGC3201-I21	       NGC3201                   ibata2021            Ibata2021                               - 
 st     1  NGC3201-P21	       NGC3201-Gjoll   	         palau2021            Palau2021                               - 
 st     0  Gjoll-I21	       NGC3201-Gjoll             ibata2021            Ibata2021                               - 
+ep     1  NGC5053-L06	       NGC5053		         lauchner2006         Lauchner2006                            -      
 st     0  NGC5466-G06	       NGC5466		         grillmair2006        Grillmair2006_5466                      -      
 st     0  NGC5466-I21          NGC5466                   ibata2021            Ibata2021                               - 
 st     1  NGC5466-J21	       NGC5466		         jensen2021           Jensen2021                              -      
@@ -93,7 +95,8 @@ st     1  Ophiuchus-C20	       Ophiuchus	         caldwell2020         Caldwell2
 st     1  Orinoco-G17	       Orinoco		         grillmair2017        Grillmair2017_south                     -       
 st     0  Chenab-S19	       Orphan-Chenab		 shipp2019            Shipp2019,Shipp2018                     -           
 st     0  Orphan-I21	       Orphan-Chenab    	 ibata2021            Ibata2021                               - 
-st     1  Orphan-K19	       Orphan-Chenab    	 koposov2019          Koposov2019                             - 
+st     0  Orphan-K19	       Orphan-Chenab    	 koposov2019          Koposov2019                             - 
+st     1  Orphan-K23	       Orphan-Chenab    	 koposov2023          Koposov2023                             - 
 ep     1  Pal13-S20	       Pal13		         shipp2020            Shipp2020                               - 
 st     1  Pal15-M17	       Pal15		         myeong2017           Myeong2017,Harris1996                   -            
 st     0  Pal5-I21	       Pal5    		         ibata2021            Ibata2021                               - 
@@ -114,7 +117,9 @@ ep     1  Ravi-S18	       Ravi		         shipp2018            Shipp2018,Shipp201
 st     1  Sagittarius-A20      Sagittarius	         antoja2020           Antoja2020,Ramos2020                    -           
 po     1  Sangarius-G17        Sangarius	         grillmair2017        Grillmair2017                           - 
 po     1  Scamander-G17	       Scamander	         grillmair2017        Grillmair2017                           - 
+st     1  SGP-S-Y22	       SGP-S		         yang2022             Yang2022                                - 
 st     1  Slidr-I21	       Slidr		         ibata2021            Ibata2021                               - 
+st     1  Spectre-C22	       Spectre		         chandra2022          Chandra2022                             - 
 ep     1  Styx-G09	       Styx		         grillmair2009        Grillmair2009                           - 
 st     1  Svol-I21	       Svol		         ibata2021            Ibata2021                               - 
 st     1  Sylgr-I21	       Sylgr		         ibata2021            Ibata2021                               - 
@@ -124,4 +129,5 @@ ep     1  Turbio-S18	       Turbio		         shipp2018            Shipp2018,Ship
 st     1  Turranburra-S19      Turranburra	         shipp2019            Shipp2019,Shipp2018                     -           
 ep     1  Wambelong-S18	       Wambelong	         shipp2018            Shipp2018,Shipp2019                     -           
 ep     1  Willka_Yaku-S18      Willka_Yaku	         shipp2018            Shipp2018,Shipp2019                     -           
+st     1  Yangtze-Y23	       Yangtze		         yang2023             Yang2023a                            - 
 st     1  Ylgr-I21	       Ylgr		         ibata2021            Ibata2021                               - 

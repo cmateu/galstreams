@@ -15,7 +15,7 @@ C-8		   -
 Cetus		   -  
 Cetus-New	   -  
 Cetus-Palca	   -  
-Chenab		   - 
+Chenab		   Orphan-Chenab
 Cocytos		   -     
 Corvus		   - 
 Elqui		   - 
@@ -51,6 +51,7 @@ LMS-1              -
 Leiptr		   - 
 Lethe		   -     
 M2                 NGC7089
+M3                 Svol
 M30	 	   NGC7099
 M5                 NGC5904
 M68    		   NGC4590,Fjorm
@@ -64,6 +65,7 @@ NGC2298            -
 NGC2808            -
 NGC288             -
 NGC3201    	   Gjoll
+NGC5053            -
 NGC5466		   -     
 NGC6101            -
 NGC6362            -
@@ -71,7 +73,7 @@ NGC6397		   -
 OmegaCen           -
 Ophiuchus	   -   
 Orinoco		   -     
-Orphan    	   - 
+Orphan    	   Orphan-Chenab 
 PS1-A		   -   
 PS1-B		   -   
 PS1-C		   -   
@@ -90,9 +92,11 @@ Ravi		   -
 Sagittarius	   -  
 Sangarius	   -     
 Scamander	   -     
+SGP-S              -
 Slidr		   - 
+Spectre            -
 Styx		   -     
-Svol		   - 
+Svol		   M3
 Sylgr		   - 
 Triangulum 	   Pisces_(martin2013)   
 TucanaIII	   -                  
@@ -100,4 +104,5 @@ Turbio		   -
 Turranburra	   - 
 Wambelong	   - 
 Willka_Yaku	   -
+Yangtze            Pal1,ACS?
 Ylgr		   - 
