@@ -539,7 +539,7 @@ class MWStreams(dict):
 			      legend_kwds = dict(ncol=8,loc='center', columnspacing=0.5, handletextpad=0.1,
  			                         bbox_to_anchor=(0.5,-0.28), markerscale=3, fontsize='medium'),
                               cb_kwds = None,
-                              exclude_streams=[], include_only=[], 
+                              exclude_streams=[], include_only=[], plot_On_only=False,
                               return_basemap_m = False,
   			      verbose=False): 
    ''' 
@@ -601,6 +601,10 @@ class MWStreams(dict):
          include_only: list of stream TrackNames
                        Only the TrackNames provided in this list will be plotted
 
+         plot_On_only: False
+                       Plot only a single (default) track for each stream (i.e. On attribute == True). The default is to plot
+		       everything in the current library object
+
          return_basemap_m : False
                             Return Basemap projection function 
  
@@ -644,7 +648,8 @@ class MWStreams(dict):
 
     if st in exclude_streams: continue
 
-    if self.summary.loc[st,"On"]:
+    #short way to ensure if plot_On_only=True plots everything, if False only On tracks are plotted
+    if ~plot_On_only or self.summary.loc[st,"On"]:
 
      #Get representation names for selected frame and flip dict around 
      l = self[st].track.transform_to(fr).representation_component_names
