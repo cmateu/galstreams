@@ -488,10 +488,10 @@ class MWStreams(dict):
        Parameters
        ==========
 
-       lon_range : np.array
+       lon_range : np.array or list
                    2-element array containing limits of sky window in "longitude" coordinate (e.g ra, l)                  
  
-       lat_range : np.array
+       lat_range : np.array or list
                    2-element array containing limits of sky window in "latitude" coordinate (e.g dec, b)                  
        
        frame : AstroPy coordinate frame
@@ -501,7 +501,7 @@ class MWStreams(dict):
         
     #This is just so I can get the representation_component_names (don't know how to do it 
     #without creating a frame instance, so, there, let's move on
-    coo = ac.SkyCoord(lon_range, lat_range,frame=frame, unit=u.deg)
+    coo = ac.SkyCoord(np.array(lon_range), np.array(lat_range),frame=frame, unit=u.deg)
     n = dict((v,k) for k,v in coo.frame.representation_component_names.items())
         
     if np.any(lon_range<0.): 
@@ -654,8 +654,6 @@ class MWStreams(dict):
      if st in exclude_streams: continue
 
      #short way to ensure if plot_On_only=True plots everything, if False only On tracks are plotted
-     #if ~plot_On_only or self.summary.loc[st,"On"]:
-     #if (plot_On_only and self.summary.loc[st,"On"]) or ~plot_On_only:
 
      #Get representation names for selected frame and flip dict around 
      l = self[st].track.transform_to(fr).representation_component_names
