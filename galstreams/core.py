@@ -640,16 +640,22 @@ class MWStreams(dict):
    fr = frame
 
    if len(include_only)>0 : keys_to_plot = include_only
-   else: keys_to_plot = self.keys()
-   
+   else:  
+     if plot_On_only:   
+       keys_to_plot = self.summary["TrackName"][self.summary.loc[:,"On"]]
+       print(f"Plotting On-only streams ({len(keys_to_plot)})")
+     else:    
+       keys_to_plot = self.keys()
+
    msg_flag = 0
 
    for st in keys_to_plot:
 
-    if st in exclude_streams: continue
+     if st in exclude_streams: continue
 
-    #short way to ensure if plot_On_only=True plots everything, if False only On tracks are plotted
-    if ~plot_On_only or self.summary.loc[st,"On"]:
+     #short way to ensure if plot_On_only=True plots everything, if False only On tracks are plotted
+     #if ~plot_On_only or self.summary.loc[st,"On"]:
+     #if (plot_On_only and self.summary.loc[st,"On"]) or ~plot_On_only:
 
      #Get representation names for selected frame and flip dict around 
      l = self[st].track.transform_to(fr).representation_component_names
