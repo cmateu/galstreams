@@ -1,4 +1,4 @@
-# %ECSV 0.9
+# %ECSV 1.0
 # ---
 # datatype:
 # - {name: StreamName, datatype: string}
@@ -25,6 +25,9 @@
 # - {name: pole.ra, unit: deg, datatype: float64}
 # - {name: pole.dec, unit: deg, datatype: float64}
 # - {name: pole.distance, datatype: float64}
+# - {name: width_phi2, unit: deg, datatype: float64}
+# - {name: width_pm_phi1_cosphi2, unit: mas / yr, datatype: float64}
+# - {name: width_pm_phi2, unit: mas / yr, datatype: float64}
 # delimiter: ','
 # meta: !!omap
 # - __serialized_columns__:
@@ -118,6 +121,18 @@
 #       unit: *id001
 #       value: !astropy.table.SerializedColumn {name: pole.ra}
 #       wrap_angle: *id005
+#     width_phi2:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: width_phi2}
+#     width_pm_phi1_cosphi2:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: mas / yr}
+#       value: !astropy.table.SerializedColumn {name: width_pm_phi1_cosphi2}
+#     width_pm_phi2:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: mas / yr}
+#       value: !astropy.table.SerializedColumn {name: width_pm_phi2}
 # schema: astropy-2.0
-StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance
-M30,M30,1000,320.8350880434942,-25.43041442803955,8.458000000000009,0.0,0.0,0.0,328.2685812988224,-20.559467922701998,8.458000000000004,0.0,0.0,0.0,325.08924267006734,-23.16359014843174,8.458000000000002,0.0,0.0,0.0,302.3082501441336,65.10325578917764,1.0
+StreamName,StreamShortName,InfoFlags,end_o.ra,end_o.dec,end_o.distance,end_o.pm_ra_cosdec,end_o.pm_dec,end_o.radial_velocity,end_f.ra,end_f.dec,end_f.distance,end_f.pm_ra_cosdec,end_f.pm_dec,end_f.radial_velocity,mid.ra,mid.dec,mid.distance,mid.pm_ra_cosdec,mid.pm_dec,mid.radial_velocity,pole.ra,pole.dec,pole.distance,width_phi2,width_pm_phi1_cosphi2,width_pm_phi2
+M30,M30,1000,320.8350880434941,-25.43041442803958,8.458000000000027,0.0,0.0,0.0,328.2685812988224,-20.55946792270201,8.457999999999997,0.0,0.0,0.0,325.0892423240081,-23.163590168852078,8.458000000000002,0.0,0.0,0.0,302.30825014413637,65.10325578917809,1.0,0.10992290189439437,0.0,0.0
