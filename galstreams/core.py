@@ -289,6 +289,7 @@ class MWStreams(dict):
     has_vrad = np.array([],dtype=np.int32)
     discovery_refs = []
     lengths = np.array([])#*u.deg
+    track_widths = dict(phi2=np.array([]), pm_phi1_cosphi2=np.array([]), pm_phi2=np.array([]))
 
     print("Initializing galstreams library from master_log... ")
     nid = 1
@@ -328,6 +329,9 @@ class MWStreams(dict):
        for k in attributes: mid_point_dic[k] = np.append(mid_point_dic[k], getattr(track.mid_point, k) )
        for k in attributes[:2]: mid_pole_dic[k]  = np.append(mid_pole_dic[k] , getattr(track.mid_pole, k) )
 
+       #XXX---for k in track_widths.keys(): track_widths[k] = np.append(track_widths[k], track.track_width['width_'+k].value)
+
+
        info_flags.append(track.InfoFlags)
        has_empirical_track = np.append(has_empirical_track, np.int32(track.InfoFlags[0]))
        has_D               = np.append(has_D    , np.int32(track.InfoFlags[1])) 
@@ -362,6 +366,9 @@ class MWStreams(dict):
     #Pole
     self.summary["ra_pole"] = mid_pole_dic["ra"].deg
     self.summary["dec_pole"] = mid_pole_dic["dec"].deg
+    #Widths-XXX
+    #for k in track_widths.keys():
+    #     self.summary["width_"+k] = track_widths[k]
     #Info (InfoFlags and has_* columns is the same, but to have it on separate columns is more practical for filtering)
     self.summary["InfoFlags"] = np.array(info_flags)
     self.summary["has_empirical_track"] = has_empirical_track
@@ -843,11 +850,13 @@ class Track6D:
       x["distance"] = 1.*u.kpc   #it shouldn't matter, but if it's zero it does crazy things
       self.mid_pole = ac.SkyCoord(**x)
 
+      #XXX-----Width attributes
+      #self.track_width_apparent = dict()
+      #for k in ['width_phi2','width_pm_phi1_cosphi2','width_pm_phi2']:
+      #  self.track_width_apparent[k] = sfile[k][0] 
+
+
       #Set up stream's coordinate frame
-#<<<<<<< patch-1
-#      self.stream_frame = gc.GreatCircleICRSFrame.from_pole_ra0(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)
-#=======
-      #for now
       if np.float64(gala.__version__[:3])<=1.4:
          self.stream_frame = gc.GreatCircleICRSFrame(pole=self.mid_pole, ra0=self.mid_point.icrs.ra)  
       else:  
@@ -856,7 +865,6 @@ class Track6D:
             ra0=self.mid_point.icrs.ra,
             origin_disambiguate=self.mid_point.icrs
          )
-#>>>>>>> master
 
       #Compute and store polygon vertices
       self.poly_sc = self.create_sky_polygon_footprint_from_track(width=1*u.deg)
