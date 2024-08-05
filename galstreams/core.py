@@ -365,9 +365,7 @@ class MWStreams(dict):
     #Pole
     self.summary["ra_pole"] = mid_pole_dic["ra"].deg
     self.summary["dec_pole"] = mid_pole_dic["dec"].deg
-    #Widths-XXX
-#    for k in track_widths.keys():
-#         self.summary["width_"+k] = track_widths[k]
+    #Widths
     #Track widths in phi2,pm_phi1/phi2
     for k in track_widths.keys():
        mask = self.summary["width_"+k] == -1
@@ -854,7 +852,6 @@ class Track6D:
       x["distance"] = 1.*u.kpc   #it shouldn't matter, but if it's zero it does crazy things
       self.mid_pole = ac.SkyCoord(**x)
 
-      #XXX-----Width attributes
       #Width attributes       
       self.track_width = dict()
       for k in ['width_phi2','width_pm_phi1_cosphi2','width_pm_phi2']:
