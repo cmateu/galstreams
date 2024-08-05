@@ -328,8 +328,7 @@ class MWStreams(dict):
        for k in attributes: end_f_dic[k] = np.append(end_f_dic[k], getattr(track.end_points, k)[1] )
        for k in attributes: mid_point_dic[k] = np.append(mid_point_dic[k], getattr(track.mid_point, k) )
        for k in attributes[:2]: mid_pole_dic[k]  = np.append(mid_pole_dic[k] , getattr(track.mid_pole, k) )
-
-       #XXX---for k in track_widths.keys(): track_widths[k] = np.append(track_widths[k], track.track_width['width_'+k].value)
+       for k in track_widths.keys(): track_widths[k] = np.append(track_widths[k], track.track_width['width_'+k].value)
 
 
        info_flags.append(track.InfoFlags)
@@ -367,8 +366,13 @@ class MWStreams(dict):
     self.summary["ra_pole"] = mid_pole_dic["ra"].deg
     self.summary["dec_pole"] = mid_pole_dic["dec"].deg
     #Widths-XXX
-    #for k in track_widths.keys():
-    #     self.summary["width_"+k] = track_widths[k]
+#    for k in track_widths.keys():
+#         self.summary["width_"+k] = track_widths[k]
+    #Track widths in phi2,pm_phi1/phi2
+    for k in track_widths.keys():
+       mask = self.summary["width_"+k] == -1
+       self.summary.loc[mask,"width_"+k] = np.round(track_widths[k][mask],decimals=2) #some streams have widths ~0.05deg
+
     #Info (InfoFlags and has_* columns is the same, but to have it on separate columns is more practical for filtering)
     self.summary["InfoFlags"] = np.array(info_flags)
     self.summary["has_empirical_track"] = has_empirical_track
@@ -851,9 +855,10 @@ class Track6D:
       self.mid_pole = ac.SkyCoord(**x)
 
       #XXX-----Width attributes
-      #self.track_width_apparent = dict()
-      #for k in ['width_phi2','width_pm_phi1_cosphi2','width_pm_phi2']:
-      #  self.track_width_apparent[k] = sfile[k][0] 
+      #Width attributes       
+      self.track_width = dict()
+      for k in ['width_phi2','width_pm_phi1_cosphi2','width_pm_phi2']:
+        self.track_width[k] = sfile[k][0]         
 
 
       #Set up stream's coordinate frame
