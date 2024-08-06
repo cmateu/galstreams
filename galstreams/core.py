@@ -546,7 +546,7 @@ class MWStreams(dict):
                                                 arrowprops=dict(arrowstyle="-",color='k'),
                                                 horizontalalignment='center', verticalalignment='center'), 
 			      legend_kwds = dict(ncol=8,loc='center', columnspacing=0.5, handletextpad=0.1,
- 			                         bbox_to_anchor=(0.5,-0.28), markerscale=3, fontsize='medium'),
+ 			                         bbox_to_anchor=(0.5,-0.35), markerscale=3, fontsize='medium'),
                               cb_kwds = None,
                               exclude_streams=[], include_only=[], plot_On_only=False,
                               return_basemap_m = False,
@@ -630,7 +630,7 @@ class MWStreams(dict):
    '''
 
    if ax is None:
-     fig = plt.figure(1,figsize=(16.5,11))
+     fig = plt.figure(1,figsize=(17,12))
      ax = fig.add_subplot(111)
    
    #Follow the usual convention for Galactic and ICRS to invert the l/ra axis
