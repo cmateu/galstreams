@@ -633,9 +633,6 @@ class MWStreams(dict):
      fig = plt.figure(1,figsize=(17,12))
      ax = fig.add_subplot(111)
    
-   #Follow the usual convention for Galactic and ICRS to invert the l/ra axis
-   if invert_axis:
-     ax.invert_xaxis()
    
    if 'Basemap' not in sys.modules:
      from mpl_toolkits.basemap import Basemap
@@ -721,6 +718,10 @@ class MWStreams(dict):
    if plot_colorbar:
      plt.colorbar(im, ax=ax, **cb_kwds)
  
+   #Follow the usual convention for Galactic and ICRS to invert the l/ra axis
+   if invert_axis:
+     ax.invert_xaxis()
+
    if return_basemap_m:
       return ax, m
    else:
