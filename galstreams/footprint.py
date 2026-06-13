@@ -7,8 +7,8 @@ from spherical_geometry.polygon import SingleSphericalPolygon
 from .config import config
 from .random import get_uniform_spherical_angles
 
-class StreamFootprint:
 
+class StreamFootprint:
     def __init__(self, name, poly, frame=None):
         """Represents the sky footprint of a given stellar stream.
 
@@ -30,33 +30,36 @@ class StreamFootprint:
         if not isinstance(poly, SingleSphericalPolygon):
             poly = u.Quantity(poly)
             if poly.ndim != 2 or poly.shape[1] != 2:
-                raise ValueError("Invalid shape for polygon vertices {}. "
-                                 "Expected something like (N, 2) where N is "
-                                 "the number of vertices.".format(poly.shape))
+                raise ValueError(
+                    "Invalid shape for polygon vertices {}. "
+                    "Expected something like (N, 2) where N is "
+                    "the number of vertices.".format(poly.shape)
+                )
             poly = SingleSphericalPolygon.from_lonlat(
-                poly[:, 0].to_value(u.deg), poly[:, 1].to_value(u.deg),
-                degrees=True)
+                poly[:, 0].to_value(u.deg), poly[:, 1].to_value(u.deg), degrees=True
+            )
 
         self.poly = poly
 
         # If no frame is specified, assume that the input polygon is in a frame
         # specified in the configuration.
         if frame is None:
-            frame = config['default_frame']
+            frame = config["default_frame"]
 
-        elif hasattr(frame, 'frame'): # if a SkyCoord instance
+        elif hasattr(frame, "frame"):  # if a SkyCoord instance
             frame = frame.frame
 
         if not isinstance(frame, co.BaseCoordinateFrame):
-            raise ValueError("Input coordinate frame must be an astropy "
-                             "coordinates frame subclass *instance*, not a "
-                             "'{}'".format(frame.__class__.__name__))
+            raise ValueError(
+                "Input coordinate frame must be an astropy "
+                "coordinates frame subclass *instance*, not a "
+                "'{}'".format(frame.__class__.__name__)
+            )
         self.frame = frame
 
         # Store an internal ICRS representation of the footprint
         lon, lat = self.poly.to_lonlat()
-        self._poly_c = co.SkyCoord(lon * u.deg, lat * u.deg,
-                                   frame=self.frame)
+        self._poly_c = co.SkyCoord(lon * u.deg, lat * u.deg, frame=self.frame)
 
     def from_corners(self, corners):
         """ TODO: """
@@ -82,12 +85,12 @@ class StreamFootprint:
 
         """
         if frame is None:
-            frame = config['default_frame']
+            frame = config["default_frame"]
 
         poly_c = self._poly_c.transform_to(frame)
         poly = SingleSphericalPolygon.from_lonlat(
-            poly_c.spherical.lon.degree,
-            poly_c.spherical.lat.degree)
+            poly_c.spherical.lon.degree, poly_c.spherical.lat.degree
+        )
 
         return poly
 
@@ -110,13 +113,20 @@ class StreamFootprint:
         """
         poly = self.get_polygon(frame)
 
-        midpt = co.CartesianRepresentation(*np.mean(poly.points, axis=0)*u.kpc)\
-            .represent_as(co.UnitSphericalRepresentation)
+        midpt = co.CartesianRepresentation(
+            *np.mean(poly.points, axis=0) * u.kpc
+        ).represent_as(co.UnitSphericalRepresentation)
 
         return co.SkyCoord(midpt, frame=frame)
 
-    def get_random_points(self, size=1024, frame=None, random_state=None,
-                          wrap_angle=360*u.deg, max_niter=128):
+    def get_random_points(
+        self,
+        size=1024,
+        frame=None,
+        random_state=None,
+        wrap_angle=360 * u.deg,
+        max_niter=128,
+    ):
         """Generate uniform random points throughout the stream footprint
 
         Parameters
@@ -142,25 +152,27 @@ class StreamFootprint:
 
         """
         if frame is None:
-            frame = config['default_frame']
+            frame = config["default_frame"]
 
         poly = self.get_polygon(frame=frame)
         verts = np.stack(poly.to_lonlat()).T
-        verts[:, 0] = co.Angle(verts[:, 0]*u.deg).wrap_at(wrap_angle).degree
+        verts[:, 0] = co.Angle(verts[:, 0] * u.deg).wrap_at(wrap_angle).degree
 
         lon_lim = [verts[:, 0].min(), verts[:, 0].max()] * u.deg
         lat_lim = [verts[:, 1].min(), verts[:, 1].max()] * u.deg
 
-        random_size = 4 * size # MAGIC NUMBER
+        random_size = 4 * size  # MAGIC NUMBER
         N = 0
         niter = 0
         reps = []
         while niter < max_niter:
             random_size = 2 * random_size
-            rep = get_uniform_spherical_angles(size=random_size,
-                                               lon_lim=lon_lim,
-                                               lat_lim=lat_lim,
-                                               random_state=random_state)
+            rep = get_uniform_spherical_angles(
+                size=random_size,
+                lon_lim=lon_lim,
+                lat_lim=lat_lim,
+                random_state=random_state,
+            )
             c = co.SkyCoord(rep, frame=frame)
             mask = self.contains_coord(c)
             reps.append(rep[mask])
@@ -170,10 +182,12 @@ class StreamFootprint:
                 break
 
         else:
-            raise ValueError("Exceeded maximum number of iterations when "
-                             "generating points. Try increasing `max_niter` to "
-                             "something like max_niter=1024 (but note this "
-                             "might take a while to run!).")
+            raise ValueError(
+                "Exceeded maximum number of iterations when "
+                "generating points. Try increasing `max_niter` to "
+                "something like max_niter=1024 (but note this "
+                "might take a while to run!)."
+            )
 
         rep = co.concatenate_representations(reps)
         return co.SkyCoord(rep[:size], frame=frame)
@@ -203,17 +217,18 @@ class StreamFootprint:
             rep = c.spherical
 
         if c.isscalar:
-            return poly.contains_lonlat(rep.lon.degree,
-                                        rep.lat.degree)
+            return poly.contains_lonlat(rep.lon.degree, rep.lat.degree)
 
         else:
-            mask = [poly.contains_lonlat(x, y)
-                    for x, y in zip(rep.lon.degree,
-                                    rep.lat.degree)]
+            mask = [
+                poly.contains_lonlat(x, y)
+                for x, y in zip(rep.lon.degree, rep.lat.degree)
+            ]
             return np.array(mask)
 
-    def plot_polygon(self, frame=None, ax=None,
-                     wrap_angle=360*u.deg, autolim=True, **kwargs):
+    def plot_polygon(
+        self, frame=None, ax=None, wrap_angle=360 * u.deg, autolim=True, **kwargs
+    ):
         """Plot the footprint polygon
 
         Parameters
@@ -237,16 +252,17 @@ class StreamFootprint:
         -------
         fig : `~matplotlib.figure.Figure`
         ax : `~matplotlib.axes.Axes`
-        
+
         """
         import matplotlib as mpl
 
         poly = self.get_polygon(frame=frame)
         verts = np.stack(poly.to_lonlat()).T
-        verts[:, 0] = co.Angle(verts[:, 0]*u.deg).wrap_at(wrap_angle).degree
+        verts[:, 0] = co.Angle(verts[:, 0] * u.deg).wrap_at(wrap_angle).degree
 
         if ax is None:
             import matplotlib.pyplot as plt
+
             ax = plt.gca()
 
         fig = ax.figure
@@ -262,14 +278,14 @@ class StreamFootprint:
         ax.add_patch(poly_patch)
 
         if autolim:
-            h = 0.05 # make limits 5% larger than span
+            h = 0.05  # make limits 5% larger than span
             xlim = (verts[:, 0].min(), verts[:, 0].max())
-            span = xlim[1]-xlim[0]
-            xlim = (xlim[1] + h*span, xlim[0] - h*span)
+            span = xlim[1] - xlim[0]
+            xlim = (xlim[1] + h * span, xlim[0] - h * span)
 
             ylim = (verts[:, 1].min(), verts[:, 1].max())
-            span = ylim[1]-ylim[0]
-            ylim = (ylim[0] - h*span, ylim[1] + h*span)
+            span = ylim[1] - ylim[0]
+            ylim = (ylim[0] - h * span, ylim[1] + h * span)
 
             ax.set_xlim(xlim)
             ax.set_ylim(ylim)
