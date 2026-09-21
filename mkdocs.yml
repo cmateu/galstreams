@@ -1,0 +1,13 @@
+site_name: Galstreams
+
+nav:
+  - Home: index.md
+  - API Reference: api.md
+
+theme:
+  name: readthedocs
+
+plugins:
+  - search
+  - mkdocstrings
+  - autorefs

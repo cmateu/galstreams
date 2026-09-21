@@ -237,7 +237,7 @@ class StreamFootprint:
         -------
         fig : `~matplotlib.figure.Figure`
         ax : `~matplotlib.axes.Axes`
-        
+
         """
         import matplotlib as mpl
 
