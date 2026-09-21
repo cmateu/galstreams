@@ -4,11 +4,9 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    branches:
-      - main
+    branches: [ main ]
   release:
-    types:
-      - published
+    types: [ published ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -35,7 +33,7 @@ jobs:
           python -m pip install --upgrade build
           python -m build --sdist .
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: Packages
           path: dist/*
@@ -54,7 +52,7 @@ jobs:
 
     steps:
       - name: Download packages built by build-and-inspect-python-package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: Packages
           path: dist
@@ -75,7 +73,7 @@ jobs:
 
     steps:
       - name: Download packages built by build-and-inspect-python-package
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: Packages
           path: dist
