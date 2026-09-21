@@ -54,3 +54,6 @@ log_cli_level = "INFO"
 # testpaths = [
 #   "tests",
 # ]
+
+[tool.ruff]
+line-length = 92
